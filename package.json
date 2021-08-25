@@ -101,6 +101,6 @@
     "@lingui/macro": "^3.10.2"
   },
   "pre-commit": [
-    "eslint"
+    "lint"
   ]
 }
