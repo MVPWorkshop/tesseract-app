@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
-import WalletService from "../services/wallet.service";
+import WalletService from "../shared/services/wallet.service";
 
 export function useEagerConnect(): boolean {
   const { activate, active } = useWeb3React();

@@ -1,11 +1,11 @@
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
-import { EChainId, EConnectorType } from "../shared/types/web3.types";
+import { EChainId, EConnectorType } from "../types/web3.types";
 import {
   POLYGON_MAINNET_RPC_URL,
   POLYGON_MUMBAI_RPC_URL,
   PROVIDER_POLLING_INTERVAL
-} from "../shared/constants/config.constants";
+} from "../constants/config.constants";
 
 class WalletService {
   private static _injectedProvider =

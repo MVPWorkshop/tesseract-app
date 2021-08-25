@@ -1,6 +1,6 @@
 import { useWeb3React } from "@web3-react/core";
 import { useEffect } from "react";
-import WalletService from "../services/wallet.service";
+import WalletService from "../shared/services/wallet.service";
 
 interface IUseInactiveListenerParams {
   suppress?: boolean;
