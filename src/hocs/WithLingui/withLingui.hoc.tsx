@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { I18nProvider } from "@lingui/react";
 import { i18n } from "@lingui/core";
 import { useSelector } from "react-redux";
-import { RootState } from '../../redux/redux.types';
+import { RootState } from "../../redux/redux.types";
 import { ESupportedLocales } from "../../shared/types/locale.types";
 
 const WithLingui: React.FC = (props) => {
