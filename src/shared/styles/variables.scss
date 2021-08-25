@@ -1,0 +1,21 @@
+$colors: (
+  'white': #FFFFFF,
+  'rhytm': #6E79A3,
+  'blueBell': #9FA6C9,
+  'purpleNavy': #484F7F,
+  'tiffanyBlue': #13BFBA,
+  'yankesBlue': #232743,
+  'yankeesBlueLighter': #272C47,
+  'spaceCadet': #272B4A,
+  'jacarta': #313759,
+  'americanBlue': #3F466D,
+  'darkJungleGreen': #14182B
+);
+
+$accents: (
+  'primary': map-get($colors, 'tiffanyBlue'),
+  'secondary': map-get($colors, 'yankesBlue')
+);
+
+$defaultFontSize: 16px;
+$backgroundColor: map-get($colors, 'lightGray')
