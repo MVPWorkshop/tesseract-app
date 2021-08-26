@@ -9,27 +9,27 @@ const initialState: UiReduxReducerState = {
 
 const uiReduxReducer: Reducer<UiReduxReducerState, UiReduxActions> = (state = initialState, action) => {
   switch (action.type) {
-  case EUiReduxActions.TOGGLE_MODAL: {
+    case EUiReduxActions.TOGGLE_MODAL: {
 
-    const { state: modalState, name: modalName } = action.payload;
+      const { state: modalState, name: modalName } = action.payload;
 
-    return {
-      ...state,
-      modals: {
-        ...state.modals,
-        [modalName]: modalState
-      }
-    };
-  }
-  case EUiReduxActions.CHANGE_LOCALE: {
-    return {
-      ...state,
-      locale: action.payload.locale
-    };
-  }
-  default: {
-    return state;
-  }
+      return {
+        ...state,
+        modals: {
+          ...state.modals,
+          [modalName]: modalState
+        }
+      };
+    }
+    case EUiReduxActions.CHANGE_LOCALE: {
+      return {
+        ...state,
+        locale: action.payload.locale
+      };
+    }
+    default: {
+      return state;
+    }
   }
 };
 
