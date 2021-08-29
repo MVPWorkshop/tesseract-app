@@ -8,15 +8,20 @@ export function useEagerConnect(): boolean {
   const [tried, setTried] = useState(false);
 
   useEffect(() => {
-    const injected = WalletService.injected;
+    const activateConnector = async () => {
+      const injected = WalletService.injected;
+      const isAuthorized = await injected.isAuthorized();
 
-    injected.isAuthorized().then((isAuthorized: boolean) => {
       if (isAuthorized) {
-        activate(injected, undefined, true).catch(() => {
+        try {
+          await activate(injected, undefined, true);
+        } catch(error) {
           setTried(true);
-        });
+        }
       }
-    });
+    };
+
+    activateConnector().then();
   }, [activate]);
 
   useEffect(() => {

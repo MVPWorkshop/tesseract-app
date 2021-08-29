@@ -8,7 +8,7 @@ class BaseError extends Error {
     super(message);
 
     this.type = errorType;
-    this.message = message || errorMessages[errorType];
+    this.message = message || errorMessages[errorType].long;
   }
 }
 

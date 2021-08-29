@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "./separator.module.scss";
-import { ISeparatorProps } from "./separator.types";
+import styles from "./separator.atom.module.scss";
+import { ISeparatorProps } from "./separator.atom.types";
 import { classes } from "../../../shared/utils/styles.util";
 
 const Separator: React.FC<ISeparatorProps> = (props) => {

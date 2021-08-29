@@ -1,5 +1,5 @@
 import { Contract, utils } from "ethers";
-import { Provider } from "@ethersproject/providers";
+import { Provider, JsonRpcSigner } from "@ethersproject/providers";
 import type { VaultAbi, VaultAbiInterface } from "./types/vault.contract.abi";
 
 import vaultAbi from "./abi/vault.abi.json";
@@ -7,8 +7,18 @@ import erc20Abi from "./abi/erc20.abi.json";
 import { EContractType } from "../types/contract.types";
 import { Erc20Abi, Erc20AbiInterface } from "./types/erc20.contract.abi";
 
-class ContractFactory {
-  constructor(contractType: EContractType) {
+type CreateInterface<T extends EContractType> =
+  T extends EContractType.ERC20 ? Erc20AbiInterface :
+  T extends EContractType.VAULT ? VaultAbiInterface :
+    never;
+
+type CreateContract<T extends EContractType> =
+  T extends EContractType.ERC20 ? Erc20Abi :
+  T extends EContractType.VAULT ? VaultAbi :
+    never;
+
+class ContractFactory<T extends EContractType> {
+  constructor(contractType: T) {
     this._contractType = contractType;
   }
 
@@ -23,26 +33,12 @@ class ContractFactory {
     return ContractFactory._abiByType[this._contractType];
   }
 
-  public createInterface() {
-    switch (this._contractType) {
-      case EContractType.ERC20: {
-        return new utils.Interface(this.abi as any) as Erc20AbiInterface;
-      }
-      case EContractType.VAULT: {
-        return new utils.Interface(this.abi as any) as VaultAbiInterface;
-      }
-    }
+  public createInterface(): CreateInterface<T> {
+    return new utils.Interface(this.abi as any) as CreateInterface<T>;
   }
 
-  public createContract(address: string, provider: Provider) {
-    switch (this._contractType) {
-      case EContractType.ERC20: {
-        return new Contract(address, this.abi as any, provider) as Erc20Abi;
-      }
-      case EContractType.VAULT: {
-        return new Contract(address, this.abi as any, provider) as VaultAbi;
-      }
-    }
+  public createContract(address: string, provider: Provider | JsonRpcSigner): CreateContract<T> {
+    return new Contract(address, this.abi as any, provider) as CreateContract<T>;
   }
 }
 

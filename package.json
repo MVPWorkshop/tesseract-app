@@ -76,25 +76,27 @@
       "no-sparse-arrays": "off",
       "no-unreachable": "warn",
       "indent": [
-        "error",
+        "warn",
         2,
         { "SwitchCase": 1 }
       ],
       "quotes": [
-        "error",
+        "warn",
         "double"
       ],
       "semi": [
-        "error",
+        "warn",
         "always"
       ],
+      "@typescript-eslint/no-empty-interface": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "linebreak-style": [
         "error",
         "unix"
       ],
-      "@typescript-eslint/adjacent-overload-signatures": "off"
+      "@typescript-eslint/adjacent-overload-signatures": "off",
+      "@typescript-eslint/no-non-null-assertion": "off"
     }
   },
   "browserslist": {

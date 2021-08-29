@@ -6,7 +6,61 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: ia\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
 
-#: src/components/pages/Vaults/vaults.page.tsx:8
+#: src/shared/constants/error.constants.ts:12
+msgid "API Errored"
+msgstr ""
+
+#: src/components/molecules/ConnectWalletButton/connectWalletButton.molecule.tsx:32
+msgid "Connect wallet"
+msgstr ""
+
+#: src/components/pages/Vaults/vaults.page.tsx:37
 msgid "Hi!"
 msgstr "Test"
+
+#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:36
+msgid "Install Metamask"
+msgstr ""
+
+#: src/shared/constants/error.constants.ts:15
+msgid "No ethereum provider found, please install it"
+msgstr ""
+
+#: src/shared/constants/error.constants.ts:16
+msgid "No provider"
+msgstr ""
+
+#: src/shared/constants/error.constants.ts:24
+msgid "Request rejected"
+msgstr ""
+
+#: src/shared/constants/error.constants.ts:23
+msgid "Request was rejected, please try again"
+msgstr ""
+
+#: src/shared/constants/error.constants.ts:11
+msgid "Something went wrong on the API"
+msgstr ""
+
+#: src/shared/constants/error.constants.ts:7
+msgid "Sorry, an unknown error occurred"
+msgstr ""
+
+#: src/shared/constants/error.constants.ts:8
+msgid "Unknown error"
+msgstr ""
+
+#: src/shared/constants/error.constants.ts:20
+msgid "Unsupported chain"
+msgstr ""
+
+#: src/shared/constants/error.constants.ts:19
+msgid "Unsupported chain, please switch to supported one"
+msgstr ""

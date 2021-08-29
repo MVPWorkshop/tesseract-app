@@ -10,7 +10,7 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <WithLingui>
-        <WithWeb3>
+        <WithWeb3 useWeb3Listener={true}>
           <AppRouter/>
           <Modals/>
         </WithWeb3>
