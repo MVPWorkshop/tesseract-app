@@ -18,8 +18,9 @@ const VaultsPage: React.FC = () => {
     dispatch(changeLocale(lang));
   };
 
-  const depositToVault = async () => {
+  const setDepositLimit = async () => {
     if (library && account) {
+      // @TODO Implement Registry contract and get addresses from there
       const contractInstance = new ContractFactory(EContractType.VAULT).createContract(
         "0xf135af4294a1ca7ad7de0260033418de2cf20696",
         library.getSigner(account).connectUnchecked()
@@ -33,7 +34,7 @@ const VaultsPage: React.FC = () => {
     <PageOrganism>
       <button onClick={changeLang(ESupportedLocales.ENGLISH)}>change to en</button>
       <button onClick={changeLang(ESupportedLocales.INTERSLAVIC)}>change to en</button>
-      <button onClick={depositToVault}>aaa</button>
+      <button onClick={setDepositLimit}>Tryout contract</button>
       <Trans>Hi!</Trans>
     </PageOrganism>
   );
