@@ -21,6 +21,10 @@ $fontSizes: 64;
   font-family: 'Titillium Web';
 }
 
+.fw-300 {
+  font-weight: 300;
+}
+
 .fw-400 {
   font-weight: 400;
 }
@@ -28,8 +32,8 @@ $fontSizes: 64;
   font-weight: 600;
 }
 
-.fw-900 {
-  font-weight: 900;
+.fw-700 {
+  font-weight: 700;
 }
 
 @each $name, $glyph in $accents {

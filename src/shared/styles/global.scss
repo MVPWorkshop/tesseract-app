@@ -1,4 +1,5 @@
 @import './variables';
+@import './util';
 
 html, body {
   font-family: 'Titillium Web';
@@ -9,4 +10,28 @@ html, body, #root {
   height: 100%;
   width: 100%;
   display: flex;
+}
+
+h1 {
+  font-size: pxToRem(57.33px);
+}
+
+h2 {
+  font-size: pxToRem(47.78px);
+}
+
+h3 {
+  font-size: pxToRem(39.81px);
+}
+
+h4 {
+  font-size: pxToRem(33.18px);
+}
+
+h5 {
+  font-size: pxToRem(27.65px);
+}
+
+h6 {
+  font-size: pxToRem(23.04px);
 }

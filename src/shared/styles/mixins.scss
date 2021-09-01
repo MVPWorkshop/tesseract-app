@@ -9,3 +9,24 @@
   background: none;
   outline: none;
 }
+
+
+@mixin textMain {
+  font-size: pxToRem(21px);
+  line-height: pxToRem(24px);
+  color: map-get($colors, 'white');
+
+  .type-small {
+    font-size: pxToRem(18px);
+  }
+}
+
+@mixin textBody {
+  font-size: pxToRem(19.2px);
+  line-height: pxToRem(24px);
+  color: map-get($colors, 'white');
+
+  .type-small {
+    font-size: pxToRem(16px);
+  }
+}
