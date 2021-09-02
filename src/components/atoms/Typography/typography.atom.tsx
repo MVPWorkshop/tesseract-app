@@ -1,5 +1,5 @@
 import React from "react";
-import { ETypographyVariant, ITypographyProps } from "./typography.types";
+import { ETypographyVariant, ITypographyProps } from "./typography.atom.types";
 import {
   accentToClassName,
   classes,
@@ -7,7 +7,7 @@ import {
   fontFamilyToClassName,
   fontWeightToClassName
 } from "../../../shared/utils/styles.util";
-import styles from "./typography.module.scss";
+import styles from "./typography.atom.module.scss";
 
 function getVariantClassName(variant: ETypographyVariant) {
   return {
@@ -20,7 +20,7 @@ function getVariantClassName(variant: ETypographyVariant) {
 const Typography: React.FC<ITypographyProps> = (props) => {
 
   const {
-    element: Element = "p",
+    element: Element = "span",
     variant,
     color,
     className,

@@ -4,6 +4,8 @@
 html, body {
   font-family: 'Titillium Web';
   font-size: $defaultFontSize;
+  color: map-get($colors, 'white');
+  background-color: #191E34;
 }
 
 html, body, #root {

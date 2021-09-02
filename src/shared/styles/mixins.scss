@@ -30,3 +30,14 @@
     font-size: pxToRem(16px);
   }
 }
+
+@mixin btnNormal($btnColor) {
+  @include button-variant(transparentize($btnColor, 0.8), $btnColor);
+
+  border-color: $btnColor;
+  color: $btnColor !important;
+
+  &:hover {
+    background-color: transparentize($btnColor, 0.55);
+  }
+}
