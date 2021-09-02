@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import PageOrganism from "../../organisms/Page/page.organism";
 import styles from "./home.page.module.scss";
 import ConnectWallet from "../../molecules/ConnectWalletButton/connectWalletButton.molecule";
 import Button from "../../atoms/Button/button.atom";
 import Typography from "../../atoms/Typography/typography.atom";
+import DropdownArrow from "../../atoms/DropdownArrow/dropdownArrow.atom";
 
 const HomePage: React.FC = () => {
+
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <PageOrganism className={styles.homePage} containerEnabled={true}>
@@ -39,6 +42,12 @@ const HomePage: React.FC = () => {
       <br/><br/><br/>
       <Button theme={"error"}>
         Error!
+      </Button>
+      <Button
+        onClick={() => setIsOpen(prevState => !prevState)}
+        theme={"flat"}
+      >
+        <DropdownArrow isOpen={isOpen} />
       </Button>
     </PageOrganism>
   );

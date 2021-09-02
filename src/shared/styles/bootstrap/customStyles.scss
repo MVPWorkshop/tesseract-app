@@ -45,6 +45,18 @@ $errorButtonColor: map-get($colors, 'red');
 }
 
 .btn-flat {
+  background-color: transparent;
+  border-color: transparent;
+
+  &:hover, &:focus, &.focus {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  &:hover {
+    opacity: 0.5;
+  }
 }
 
 .modal-content {
