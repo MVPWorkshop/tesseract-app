@@ -14,38 +14,39 @@ const HomePage: React.FC = () => {
     <PageOrganism className={styles.homePage} containerEnabled={true}>
       <ConnectWallet/>
       <br/><br/>
-      <Button theme={"primary"}>
+      <Button theme={"primary"} disabled={true}>
         <Typography>
           Primary!
         </Typography>
       </Button>
       <br/><br/>
-      <Button theme={"outline-primary"}>
+      <Button theme={"outline-primary"} disabled={true}>
         Primary-outline!
       </Button>
       <br/><br/><br/>
-      <Button theme={"secondary"}>
+      <Button theme={"secondary"} disabled={true}>
         Secondary!
       </Button>
       <br/><br/>
-      <Button theme={"outline-secondary"}>
+      <Button theme={"outline-secondary"} disabled={true}>
         Secondary-outline!
       </Button>
       <br/><br/><br/>
-      <Button theme={"tertiary"}>
+      <Button theme={"tertiary"} disabled={true}>
         Tertiary!
       </Button>
       <br/><br/>
-      <Button theme={"outline-tertiary"}>
+      <Button theme={"outline-tertiary"} disabled={true}>
         Tertiary-outline!
       </Button>
       <br/><br/><br/>
-      <Button theme={"error"}>
+      <Button theme={"error"} disabled={true}>
         Error!
       </Button>
       <Button
         onClick={() => setIsOpen(prevState => !prevState)}
         theme={"flat"}
+        disabled={true}
       >
         <DropdownArrow isOpen={isOpen} />
       </Button>
