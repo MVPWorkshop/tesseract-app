@@ -9,3 +9,35 @@
   background: none;
   outline: none;
 }
+
+
+@mixin textMain {
+  font-size: pxToRem(21px);
+  line-height: pxToRem(24px);
+  color: map-get($colors, 'white');
+
+  .type-small {
+    font-size: pxToRem(18px);
+  }
+}
+
+@mixin textBody {
+  font-size: pxToRem(19.2px);
+  line-height: pxToRem(24px);
+  color: map-get($colors, 'white');
+
+  .type-small {
+    font-size: pxToRem(16px);
+  }
+}
+
+@mixin btnNormal($btnColor) {
+  @include button-variant(transparentize($btnColor, 0.8), $btnColor);
+
+  border-color: $btnColor;
+  color: $btnColor !important;
+
+  &:hover {
+    background-color: transparentize($btnColor, 0.55);
+  }
+}

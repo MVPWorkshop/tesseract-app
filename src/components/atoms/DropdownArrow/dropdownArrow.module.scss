@@ -1,0 +1,8 @@
+.dropdownArrow {
+  display: inline-block;
+  transition-duration: 0.2s;
+
+  &.open {
+    transform: rotate(180deg);
+  }
+}

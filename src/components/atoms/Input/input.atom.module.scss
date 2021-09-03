@@ -1,0 +1,62 @@
+@import '../../../shared/styles/variables';
+@import '../../../shared/styles/util';
+
+.input {
+  $mainColor: map-get($colors, 'olive');
+  $borderCornerWidth: 3px;
+  position: relative;
+
+  input {
+    width: 100%;
+    background: transparent;
+    border: 2px solid transparentize($mainColor, 0.6);
+    font-size: pxToRem(18px);
+    color: white;
+    padding: 24px 21px;
+
+    &:focus {
+      outline: none;
+
+      ~ .corner {
+        border-color: $mainColor;
+      }
+    }
+  }
+
+  input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  .corner {
+    border-color: transparentize($mainColor, 0.85);
+    border-style: solid;
+    border-width: 0;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    display: inline-block;
+    box-sizing: content-box;
+    z-index: 40;
+
+    &.top {
+      border-top-width: $borderCornerWidth;
+      top: -3px;
+    }
+
+    &.bottom {
+      border-bottom-width: $borderCornerWidth;
+      bottom: -3px;
+    }
+
+    &.left {
+      border-left-width: $borderCornerWidth;
+      left: -3px;
+    }
+
+    &.right {
+      border-right-width: $borderCornerWidth;
+      right: -3px;
+    }
+  }
+}

@@ -1,0 +1,95 @@
+@import "../variables";
+@import "../mixins";
+@import './customVariables';
+
+$primaryButtonColor: map-get($colors, 'tiffanyBlue');
+$secondaryButtonColor: map-get($colors, 'white');
+$tertiaryButtonColor: map-get($colors, 'jacarta');
+$errorButtonColor: map-get($colors, 'red');
+
+.btn {
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 0;
+
+  &.disabled, &:disabled {
+    color: transparentize(map-get($colors, 'white'), 0.85) !important;
+    pointer-events: none;
+  }
+}
+
+.btn-primary {
+  @include btnNormal($primaryButtonColor);
+}
+
+.btn-outline-primary {
+  @include button-outline-variant($primaryButtonColor);
+}
+
+.btn-secondary {
+  @include btnNormal($secondaryButtonColor);
+  border-color: transparentize($secondaryButtonColor, 0.6);
+
+  &:disabled {
+    border-color: transparentize($secondaryButtonColor, 0.6);
+  }
+}
+
+.btn-outline-secondary {
+  @include button-outline-variant($secondaryButtonColor);
+  border-color: transparentize($secondaryButtonColor, 0.6);
+
+  &:disabled {
+    border-color: transparentize($secondaryButtonColor, 0.6);
+  }
+}
+
+.btn-tertiary {
+  @include button-variant($tertiaryButtonColor, $tertiaryButtonColor);
+}
+
+.btn-tertiary-outline {
+  @include button-outline-variant($tertiaryButtonColor);
+  background-color: transparent;
+
+  &:disabled {
+    border-color: $tertiaryButtonColor;
+  }
+}
+
+.btn-error {
+  @include btnNormal($errorButtonColor);
+}
+
+.btn-flat {
+  background-color: transparent;
+  border-color: transparent;
+
+  &:hover, &:focus, &.focus {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+  &:disabled {
+    background-color: transparent;
+    border-color: transparent;
+  }
+}
+
+.modal-content {
+  background-color: map-get($colors, 'spaceCadet');
+  max-width: 420px;
+}
+
+.modal-title {
+  padding: 0 21px;
+}
+
+.modal-body {
+  padding: 32px 21px;
+}
