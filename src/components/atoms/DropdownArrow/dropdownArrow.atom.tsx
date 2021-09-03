@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { IDropdownArrowProps } from "./dropdownArrow.atom.types";
 import { classes } from "../../../shared/utils/styles.util";
 import styles from "./dropdownArrow.module.scss";
@@ -13,7 +13,7 @@ const DropdownArrow: React.FC<IDropdownArrowProps> = (props) => {
 
   const arrowClassName = classes(
     styles.dropdownArrow,
-    isOpen ? styles.open : '',
+    isOpen ? styles.open : "",
     className
   );
 
@@ -21,7 +21,7 @@ const DropdownArrow: React.FC<IDropdownArrowProps> = (props) => {
     <span className={arrowClassName}>
       <ChevronSVG/>
     </span>
-  )
-}
+  );
+};
 
 export default DropdownArrow;
