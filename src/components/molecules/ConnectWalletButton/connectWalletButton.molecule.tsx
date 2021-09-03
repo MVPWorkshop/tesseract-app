@@ -7,6 +7,9 @@ import Web3Util from "../../../shared/utils/web3.util";
 import { errorMessages } from "../../../shared/constants/error.constants";
 import { Trans } from "@lingui/macro";
 import { EErrorTypes } from "../../../shared/types/error.types";
+import Button from "../../atoms/Button/button.atom";
+import Typography from "../../atoms/Typography/typography.atom";
+import styles from "./connectWalletButton.molecule.module.scss";
 
 const ConnectWallet: React.FC = () => {
 
@@ -29,13 +32,19 @@ const ConnectWallet: React.FC = () => {
       return Web3Util.getFormattedAddress(account!);
     }
 
-    return <Trans>Connect wallet</Trans>;
+    return <Trans>Wallet</Trans>;
   };
 
   return (
-    <button onClick={onButtonClick}>
-      {renderLabel()}
-    </button>
+    <Button
+      theme={'secondary'}
+      onClick={onButtonClick}
+      className={styles.connectWalletButton}
+    >
+      <Typography uppercase={true}>
+        {renderLabel()}
+      </Typography>
+    </Button>
   );
 };
 
