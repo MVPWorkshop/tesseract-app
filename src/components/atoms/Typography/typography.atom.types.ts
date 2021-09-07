@@ -21,6 +21,7 @@ interface ITypographyBaseProps extends IClassableComponent {
   uppercase?: boolean;
   style?: React.CSSProperties;
   textAlign?: React.CSSProperties["textAlign"];
+  maximize?: boolean;
 }
 
 // If we are using variant you can't change color, accent or font family

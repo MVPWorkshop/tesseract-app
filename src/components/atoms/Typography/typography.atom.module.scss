@@ -28,4 +28,9 @@
       font-weight: 600;
     }
   }
+
+  &.maximize {
+    display: inline-block;
+    width: 100%;
+  }
 }

@@ -1,0 +1,59 @@
+.modalConnectWallet {
+  $clipPath: polygon(0 0, 0 100%, 100% 100%, 100% 20%, 90% 0);
+
+  -webkit-clip-path: $clipPath;
+  clip-path: $clipPath;
+
+  :global(.modal-title) {
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+
+    .closeButton {
+      padding-top: 10px;
+      padding-right: 10px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
+      flex-grow: 1;
+    }
+  }
+
+  :global(.modal-body) {
+    display: flex;
+    flex-direction: column;
+
+    $marginBetweenButtons: 23px;
+    $buttonHeight: 68px;
+
+    .connectorButton {
+      align-items: flex-start;
+      height: $buttonHeight;
+      margin-bottom: $marginBetweenButtons;
+    }
+
+    .infoContainer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 16px;
+      margin-bottom: $marginBetweenButtons;
+      height: $buttonHeight;
+      background-color: transparentize(white, 0.9);
+    }
+
+    .utilBtn {
+      align-self: start;
+      min-width: 140px;
+      padding-left: 0;
+      padding-right: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: start;
+
+      &:first-of-type {
+        margin-right: 8px;
+      }
+    }
+  }
+}

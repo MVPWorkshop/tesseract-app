@@ -36,6 +36,16 @@ $fontSizes: 64;
   font-weight: 700;
 }
 
+.pv-0 {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.ph-0 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 @each $name, $glyph in $accents {
   // color-accent-main, color-accent.secondary ....
   .color-accent-#{$name} {

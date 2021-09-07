@@ -1,5 +1,4 @@
 import React from "react";
-import { useWeb3React } from "@web3-react/core";
 import { useDispatch } from "react-redux";
 import { toggleModal } from "../../../redux/ui/ui.redux.actions";
 import { EModalName } from "../../../redux/ui/ui.redux.types";
@@ -10,19 +9,19 @@ import { EErrorTypes } from "../../../shared/types/error.types";
 import Button from "../../atoms/Button/button.atom";
 import Typography from "../../atoms/Typography/typography.atom";
 import styles from "./connectWalletButton.molecule.module.scss";
+import useWeb3 from "../../../hooks/useWeb3";
 
 const ConnectWallet: React.FC = () => {
 
   const dispatch = useDispatch();
-  const context = useWeb3React();
-  const { account, active, error: web3Error } = context;
-  const error = web3Error ? Web3Util.mapConnectorError(web3Error) : null;
+  const context = useWeb3();
+  const { account, active, mappedError } = context;
 
   const onButtonClick = () => {
     dispatch(toggleModal(EModalName.CONNECT_WALLET, true));
   };
 
-  const isUnsupportedChain = error && error === EErrorTypes.UNSUPPORTED_CHAIN;
+  const isUnsupportedChain = mappedError && mappedError === EErrorTypes.UNSUPPORTED_CHAIN;
   const isAccountAvailable = active && account;
 
   const renderLabel = () => {
@@ -37,7 +36,7 @@ const ConnectWallet: React.FC = () => {
 
   return (
     <Button
-      theme={'secondary'}
+      theme={"secondary"}
       onClick={onButtonClick}
       className={styles.connectWalletButton}
     >

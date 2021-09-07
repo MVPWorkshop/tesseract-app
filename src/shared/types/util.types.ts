@@ -1,3 +1,4 @@
+import { FunctionComponent, SVGProps } from "react";
 
 // Used for typing some dynamic object, first param defines the value type, second the key type
 export type DynamicObject<
@@ -15,3 +16,5 @@ export type Nullable<T = any> = T | undefined | null;
 export interface IClassableComponent {
   className?: string;
 }
+
+export type SvgComponent = FunctionComponent<SVGProps<SVGSVGElement>>;

@@ -18,7 +18,8 @@ export function colorToClassName(color: EColor) {
     [EColor.SPACE_CADET]: "spaceCadet",
     [EColor.JACARTA]: "jacarta",
     [EColor.AMERICAN_BLUE]: "americanBlue",
-    [EColor.DARK_JUNGLE_GREEN]: "darkJungleGreen"
+    [EColor.DARK_JUNGLE_GREEN]: "darkJungleGreen",
+    [EColor.RED]: "red"
   };
 
   return {

@@ -11,7 +11,7 @@ import { EInputType } from "../../atoms/Input/input.atom.types";
 const HomePage: React.FC = () => {
 
   const [isOpen, setIsOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
 
   return (
     <PageOrganism className={styles.homePage} containerEnabled={true}>

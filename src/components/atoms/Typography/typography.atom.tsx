@@ -32,7 +32,8 @@ const Typography: React.FC<ITypographyProps> = (props) => {
     children,
     style,
     textAlign,
-    small
+    small,
+    maximize
   } = props;
 
   const classColor = color && colorToClassName(color).color;
@@ -50,6 +51,7 @@ const Typography: React.FC<ITypographyProps> = (props) => {
         classAccent,
         classFontFamily,
         classFontWeight,
+        maximize ? styles.maximize : "",
         fontSize ? `fs-${fontSize}` : "",
         uppercase ? "text-uppercase" : "",
         small ? "type-small" : "",

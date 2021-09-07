@@ -1,8 +1,10 @@
 import React, { FC } from "react";
-import { Button as BTButton, ButtonProps, Spinner } from "react-bootstrap";
+import { Button as BTButton, ButtonProps } from "react-bootstrap";
 import { IButtonProps } from "./button.atom.types";
 import styles from "./button.atom.module.scss";
 import { classes } from "../../../shared/utils/styles.util";
+import Loader from "../Loader/loader.atom";
+import { Trans } from "@lingui/macro";
 
 const Button: FC<IButtonProps> = (props) => {
   const {
@@ -13,6 +15,7 @@ const Button: FC<IButtonProps> = (props) => {
     uppercase,
     loading,
     theme,
+    loadingTextComponent,
     ...other
   } = props;
 
@@ -48,9 +51,14 @@ const Button: FC<IButtonProps> = (props) => {
       {...other}
     >
       {loading ?
-        <div className='d-flex align-items-center justify-content-center'>
-          <Spinner animation={"border"}/>
-          <span className='ml-1'>Please wait</span>
+        <div className="d-flex align-items-center justify-content-center mh-100">
+          <Loader width="40px" height="40px"/>
+          { loadingTextComponent ?
+            loadingTextComponent :
+            <span className="ml-2">
+              <Trans>Loading</Trans>
+            </span>
+          }
         </div>
         :
         children
