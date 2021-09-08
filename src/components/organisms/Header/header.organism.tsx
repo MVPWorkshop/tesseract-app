@@ -58,12 +58,12 @@ const Header: React.FC<IHeaderProps> = (props) => {
 
   const toggleMenu = () => {
     setIsMenuOpen(prevState => !prevState);
-  }
+  };
 
   const headerClassName = classes(
     styles.header,
     isMenuOpen ? "" : styles.navCollapsed
-  )
+  );
 
   return (
     <Nav className={headerClassName}>
