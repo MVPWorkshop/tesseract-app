@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Container, Nav } from "react-bootstrap";
 import styles from "./header.organism.module.scss";
 import { ReactComponent as TesseractLogoSVG } from "../../../shared/assets/tesseract-logo.svg";
@@ -12,8 +12,11 @@ import Link from "../../atoms/Link/link.atom";
 import { Link as RouterLink } from "react-router-dom";
 import { ERoutes } from "../../../router";
 import LanguagePicker from "../../molecules/LanguagePicker/languagePicker.molecule";
+import { classes } from "../../../shared/utils/styles.util";
 
 const Header: React.FC<IHeaderProps> = (props) => {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
   const AppHeaderContent = () => {
     return (
       <Fragment>
@@ -53,13 +56,40 @@ const Header: React.FC<IHeaderProps> = (props) => {
     return <AppHeaderContent/>;
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(prevState => !prevState);
+  }
+
+  const headerClassName = classes(
+    styles.header,
+    isMenuOpen ? "" : styles.navCollapsed
+  )
+
   return (
-    <Nav className={styles.header}>
+    <Nav className={headerClassName}>
       <Container className={styles.container}>
         <TesseractLogoSVG className={styles.logo}/>
-        <div className={styles.content}>
+        <div className={classes(styles.content, "d-none d-md-flex")}>
           {getHeaderContent()}
         </div>
+        <div className="flex-grow-1 d-flex d-md-none justify-content-end">
+          <Button
+            theme="flat"
+            onClick={toggleMenu}
+          >
+            <Typography color={EColor.WHITE}>
+              MENU
+            </Typography>
+          </Button>
+        </div>
+      </Container>
+      <Container className={classes(styles.mobileMenu, isMenuOpen ? "" : styles.menuClosed)}>
+        {
+          isMenuOpen &&
+          <div className={styles.content}>
+            {getHeaderContent()}
+          </div>
+        }
       </Container>
     </Nav>
   );
