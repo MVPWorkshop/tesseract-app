@@ -1,0 +1,25 @@
+@import "src/shared/styles/variables";
+
+.dropdownMenu {
+  :global(.dropdown-toggle) {
+    color: white;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  :global(.dropdown-menu) {
+    background-color: transparentize(map-get($colors, 'darkJungleGreen'), 0.5);
+
+    :global(.dropdown-item) {
+      &:global(.active) {
+        background-color: map-get($accents, 'primary') !important;
+      }
+
+      &:hover {
+        background-color: transparentize(map-get($accents, 'primary'), 0.5);
+      }
+    }
+  }
+}

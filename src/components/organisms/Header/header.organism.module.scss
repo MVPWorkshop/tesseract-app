@@ -1,0 +1,76 @@
+@import "src/shared/styles/variables";
+@import "src/shared/styles/mixins";
+
+.header {
+  background-color: transparentize(map-get($colors, "americanBlue"), 0.6);
+  padding-top: 22px;
+  padding-bottom: 22px;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  flex-direction: column;
+
+  @include md() {
+    flex-direction: row;
+  }
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    .logo {
+      align-self: flex-start;
+      width: 88px;
+      height: auto;
+
+      @include md() {
+        width: initial;
+      }
+    }
+  }
+
+  .mobileMenu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 400px;
+    transition: max-height 1.2s ease-out;
+
+    &.menuClosed {
+      max-height: 0;
+    }
+
+    @include md() {
+      display: none;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    @include md() {
+      height: 60px;
+      flex-direction: row;
+    }
+
+    & > * {
+      margin-bottom: 16px;
+
+      @include md() {
+        margin-right: 24px;
+        margin-bottom: 0;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}

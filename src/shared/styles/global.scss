@@ -5,13 +5,13 @@ html, body {
   font-family: 'Titillium Web';
   font-size: $defaultFontSize;
   color: map-get($colors, 'white');
-  background-color: #191E34;
+  background-color: map-get($colors, 'darkJungleGreen');
+  background-image: url("../assets/bg.svg");
 }
 
 html, body, #root {
   height: 100%;
   width: 100%;
-  display: flex;
 }
 
 h1 {

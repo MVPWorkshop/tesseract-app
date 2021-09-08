@@ -1,0 +1,45 @@
+@import "src/shared/styles/mixins";
+
+.footer {
+  width: 100%;
+  padding-top: 40px;
+  padding-bottom: 40px;
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+
+    .logo {
+      width: 100%;
+      margin-bottom: 24px;
+
+      @include sm() {
+        width: initial;
+        margin-bottom: 0;
+      }
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-grow: 1;
+
+      @include sm() {
+        align-items: flex-end;
+      }
+
+      .socialContainer {
+        display: inline-flex;
+
+        & > * {
+          margin-right: 24px;
+
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+  }
+}

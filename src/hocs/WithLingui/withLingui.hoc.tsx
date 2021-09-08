@@ -28,7 +28,10 @@ const WithLingui: React.FC = (props) => {
   }, [selectedLocale]);
 
   return (
-    <I18nProvider i18n={i18n}>
+    <I18nProvider
+      i18n={i18n}
+      forceRenderOnLocaleChange={false}
+    >
       {props.children}
     </I18nProvider>
   );
