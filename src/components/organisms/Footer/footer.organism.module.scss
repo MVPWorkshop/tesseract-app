@@ -1,3 +1,5 @@
+@import "src/shared/styles/mixins";
+
 .footer {
   width: 100%;
   padding-top: 40px;
@@ -7,11 +9,25 @@
     display: flex;
     flex-wrap: wrap;
 
+    .logo {
+      width: 100%;
+      margin-bottom: 24px;
+
+      @include sm() {
+        width: initial;
+        margin-bottom: 0;
+      }
+    }
+
     .content {
       display: flex;
-      flex-grow: 1;
       flex-direction: column;
-      align-items: flex-end;
+      align-items: center;
+      flex-grow: 1;
+
+      @include sm() {
+        align-items: flex-end;
+      }
 
       .socialContainer {
         display: inline-flex;

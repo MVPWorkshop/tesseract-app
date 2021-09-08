@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
   return (
     <div className={styles.footer}>
       <Container className={styles.container}>
-        <TesseractLogoSVG/>
+        <TesseractLogoSVG className={styles.logo}/>
         <div className={styles.content}>
           <Typography
             fontWeight={EFontWeight.SEMI_BOLD}
