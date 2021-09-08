@@ -14,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: node:12
+      image: node:14
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.x]
 
     steps:
       - name: Checkout
