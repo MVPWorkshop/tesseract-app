@@ -39,7 +39,7 @@ jobs:
         run: npm install -g yarn
 
       - name: Install dependencies
-        run: yarn install --force
+        run: yarn install
 
   lint:
     runs-on: ubuntu-latest
@@ -71,6 +71,9 @@ jobs:
         with:
           path: node_modules
           key: node_modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Rebuild Node SASS
+        run: npm rebuild node-sass
 
       - name: Code builds successfully
         run: yarn build
