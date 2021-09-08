@@ -4,6 +4,7 @@ import { IPageProps } from "./page.organism.types";
 import { classes } from "../../../shared/utils/styles.util";
 import styles from "./page.organism.module.scss";
 import Header from "../Header/header.organism";
+import Footer from "../Footer/footer.organism";
 
 const PageOrganism: React.FC<IPageProps> = (props) => {
 
@@ -34,6 +35,7 @@ const PageOrganism: React.FC<IPageProps> = (props) => {
     <Fragment>
       <Header type={headerType}/>
       <MainContent/>
+      <Footer/>
     </Fragment>
   );
 };

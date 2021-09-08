@@ -21,7 +21,7 @@ const LanguagePicker: React.FC = () => {
       items={supportedLocaleList}
       onSelect={onLocaleChange}
     />
-  )
-}
+  );
+};
 
 export default LanguagePicker;

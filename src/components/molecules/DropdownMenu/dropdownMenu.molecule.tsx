@@ -37,7 +37,11 @@ const DropdownMenu: React.FC<IDropdownMenuProps> = (props) => {
 
       <Dropdown.Menu>
         {items.map(item => (
-          <Dropdown.Item eventKey={item} active={selected === item}>
+          <Dropdown.Item
+            key={item}
+            eventKey={item}
+            active={selected === item}
+          >
             <Typography uppercase={true} color={EColor.WHITE}>
               {item}
             </Typography>
