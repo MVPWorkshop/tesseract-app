@@ -43,13 +43,13 @@
     }
 
     .utilBtn {
-      align-self: start;
+      align-self: flex-start;
       min-width: 140px;
       padding-left: 0;
       padding-right: 0;
       display: inline-flex;
       align-items: center;
-      justify-content: start;
+      justify-content: flex-start;
 
       &:first-of-type {
         margin-right: 8px;

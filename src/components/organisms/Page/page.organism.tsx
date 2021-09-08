@@ -1,37 +1,40 @@
-import React  from "react";
+import React, { Fragment } from "react";
 import { Container } from "react-bootstrap";
 import { IPageProps } from "./page.organism.types";
 import { classes } from "../../../shared/utils/styles.util";
 import styles from "./page.organism.module.scss";
+import Header from "../Header/header.organism";
 
 const PageOrganism: React.FC<IPageProps> = (props) => {
 
   const {
     containerEnabled,
     children,
+    className,
+    headerType,
     ...otherProps
   } = props;
 
-  if (containerEnabled) {
-    return (
-      <Container
-        {...otherProps}
-        className={classes(props.className, styles.page)}
-      >
+  const MainContent = () => (
+    <Container
+      {...otherProps}
+      className={classes(props.className, styles.page)}
+    >
+      { containerEnabled ?
         <div className={styles.container}>
           {children}
         </div>
-      </Container>
-    );
-  }
+        :
+        children
+      }
+    </Container>
+  );
 
   return (
-    <Container
-      {...props}
-      className={classes(props.className, styles.page)}
-    >
-      {children}
-    </Container>
+    <Fragment>
+      <Header type={headerType}/>
+      <MainContent/>
+    </Fragment>
   );
 };
 

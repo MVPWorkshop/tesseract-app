@@ -1,3 +1,7 @@
+@import "../../../shared/styles/mixins";
+
 .connectWalletButton {
-  width: 240px;
+  @include md {
+    width: 240px;
+  }
 }

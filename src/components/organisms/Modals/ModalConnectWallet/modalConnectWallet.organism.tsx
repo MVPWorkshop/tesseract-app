@@ -22,6 +22,7 @@ import { classes } from "../../../../shared/utils/styles.util";
 import { ReactComponent as CopyIcon } from "../../../../shared/assets/copy.svg";
 import { ReactComponent as LinkIcon } from "../../../../shared/assets/link.svg";
 import { copyToClipboard, sleep } from "../../../../shared/utils/common.util";
+import Link from "../../../atoms/Link/link.atom";
 
 enum EModalConnectWalletScreens {
   PickWallet = "PickWallet",
@@ -84,20 +85,6 @@ const ModalConnectWallet: React.FC = () => {
     dispatch(toggleModal(modalName, false));
   };
 
-  const wrapWithDownloadLink = (ComponentToWrap: React.FC, link?: string) => {
-    if (link) {
-      return (
-        <a href={link} target="_blank" rel="noopener noreferrer">
-          <ComponentToWrap/>
-        </a>
-      );
-    } else {
-      return (
-        <ComponentToWrap/>
-      );
-    }
-  };
-
   const renderButton = (type: EConnectorType) => {
     const isMetamaskWithoutWeb3 = type === EConnectorType.INJECTED && !Web3Util.isProviderInjected();
     const isActivationHappening = !!activatingConnector;
@@ -157,7 +144,11 @@ const ModalConnectWallet: React.FC = () => {
     };
 
     if (isMetamaskWithoutWeb3) {
-      return wrapWithDownloadLink(ButtonElement, METAMASK_DOWNLOAD_LINK);
+      return (
+        <Link link={METAMASK_DOWNLOAD_LINK}>
+          <ButtonElement/>
+        </Link>
+      );
     } else {
       return <ButtonElement/>;
     }
@@ -212,20 +203,17 @@ const ModalConnectWallet: React.FC = () => {
                 {isAddressBeingCopied ? <Trans>Copied!</Trans> : <Trans>Copy address</Trans>}
               </Typography>
             </Button>
-            {wrapWithDownloadLink(
-              () => (
-                <Button
-                  theme={"flat"}
-                  className={styles.utilBtn}
-                >
-                  <LinkIcon className="mr-2"/>
-                  <Typography color={EColor.RHYTM} fontWeight={EFontWeight.SEMI_BOLD}>
-                    <Trans>View on explorer</Trans>
-                  </Typography>
-                </Button>
-              ),
-              Web3Util.getExplorerLink(chainId!, account!, "account")
-            )}
+            <Link link={Web3Util.getExplorerLink(chainId!, account!, "account")!}>
+              <Button
+                theme={"flat"}
+                className={styles.utilBtn}
+              >
+                <LinkIcon className="mr-2"/>
+                <Typography color={EColor.RHYTM} fontWeight={EFontWeight.SEMI_BOLD}>
+                  <Trans>View on explorer</Trans>
+                </Typography>
+              </Button>
+            </Link>
           </div>
           <Button
             theme="primary"

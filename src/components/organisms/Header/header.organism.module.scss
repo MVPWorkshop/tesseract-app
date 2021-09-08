@@ -1,0 +1,43 @@
+@import "src/shared/styles/variables";
+@import "src/shared/styles/mixins";
+
+.header {
+  background-color: transparentize(map-get($colors, "americanBlue"), 0.6);
+  padding-top: 22px;
+  padding-bottom: 22px;
+  position: fixed;
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    .logo {
+      align-self: flex-start;
+      width: 88px;
+      height: auto;
+
+      @include md() {
+        width: initial;
+      }
+    }
+
+    .content {
+      display: flex;
+      flex-grow: 1;
+      justify-content: flex-end;
+      align-items: center;
+      height: 60px;
+      flex-wrap: wrap;
+
+      & > * {
+        margin-right: 24px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
