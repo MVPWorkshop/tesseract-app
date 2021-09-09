@@ -68,7 +68,9 @@ const Header: React.FC<IHeaderProps> = (props) => {
   return (
     <Nav className={headerClassName}>
       <Container className={styles.container}>
-        <TesseractLogoSVG className={styles.logo}/>
+        <RouterLink to={ERoutes.LANDING}>
+          <TesseractLogoSVG className={styles.logo}/>
+        </RouterLink>
         <div className={classes(styles.content, "d-none d-md-flex")}>
           {getHeaderContent()}
         </div>

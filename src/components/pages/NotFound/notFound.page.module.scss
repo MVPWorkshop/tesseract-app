@@ -1,0 +1,16 @@
+@import "src/shared/styles/mixins";
+
+.notFoundPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .illustration {
+    max-width: 100%;
+
+    @include md() {
+      max-width: 600px;
+    }
+  }
+}
