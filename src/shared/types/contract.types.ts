@@ -1,5 +1,7 @@
 import { Event } from "ethers";
 import { Result } from "@ethersproject/abi";
+import { AllKeysRequired, DynamicObject } from "./util.types";
+import { EChainId } from "./web3.types";
 
 export interface TypedEvent<EventArgs extends Result> extends Event {
   args: EventArgs;
@@ -27,5 +29,18 @@ export type GetARGsTypeFromFactory<F> = F extends MinEthersFactory<any, any>
 
 export enum EContractType {
   ERC20 = "ERC20",
-  VAULT = "VAULT"
+  VAULT = "VAULT",
+  REGISTRY = "REGISTRY"
 }
+
+export enum ESupportedTokens {
+  USDC = "USDC",
+  USDT = "USDT",
+  DAI = "DAI",
+  WETH = "WETH",
+  WBTC = "WBTC"
+}
+
+// Every token needs to have an object, but doesn't have to be supported by every network
+export type TokenAddressByNetwork =
+  DynamicObject<DynamicObject<string, EChainId>, ESupportedTokens, AllKeysRequired>;

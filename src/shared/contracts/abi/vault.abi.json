@@ -140,6 +140,18 @@
     "type": "event"
   },
   {
+    "name": "NewPendingGovernance",
+    "inputs": [
+      {
+        "name": "governance",
+        "type": "address",
+        "indexed": false
+      }
+    ],
+    "anonymous": false,
+    "type": "event"
+  },
+  {
     "name": "UpdateManagement",
     "inputs": [
       {
@@ -502,7 +514,7 @@
       }
     ],
     "outputs": [],
-    "gas": 37665
+    "gas": 39011
   },
   {
     "stateMutability": "nonpayable",
@@ -627,7 +639,7 @@
       }
     ],
     "outputs": [],
-    "gas": 1090134
+    "gas": 1348889
   },
   {
     "stateMutability": "nonpayable",
@@ -851,7 +863,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 830798
+    "gas": 1576655
   },
   {
     "stateMutability": "nonpayable",
@@ -939,7 +951,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 43519
+    "gas": 77734
   },
   {
     "stateMutability": "nonpayable",
@@ -967,8 +979,75 @@
         "type": "uint256"
       }
     ],
-    "outputs": [],
-    "gas": 1523989
+    "outputs": []
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "addStrategy",
+    "inputs": [
+      {
+        "name": "strategy",
+        "type": "address"
+      },
+      {
+        "name": "debtRatio",
+        "type": "uint256"
+      },
+      {
+        "name": "minDebtPerHarvest",
+        "type": "uint256"
+      },
+      {
+        "name": "maxDebtPerHarvest",
+        "type": "uint256"
+      },
+      {
+        "name": "performanceFee",
+        "type": "uint256"
+      },
+      {
+        "name": "profitLimitRatio",
+        "type": "uint256"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "addStrategy",
+    "inputs": [
+      {
+        "name": "strategy",
+        "type": "address"
+      },
+      {
+        "name": "debtRatio",
+        "type": "uint256"
+      },
+      {
+        "name": "minDebtPerHarvest",
+        "type": "uint256"
+      },
+      {
+        "name": "maxDebtPerHarvest",
+        "type": "uint256"
+      },
+      {
+        "name": "performanceFee",
+        "type": "uint256"
+      },
+      {
+        "name": "profitLimitRatio",
+        "type": "uint256"
+      },
+      {
+        "name": "lossLimitRatio",
+        "type": "uint256"
+      }
+    ],
+    "outputs": []
   },
   {
     "stateMutability": "nonpayable",
@@ -1041,6 +1120,61 @@
   {
     "stateMutability": "nonpayable",
     "type": "function",
+    "name": "setStrategyEnforceChangeLimit",
+    "inputs": [
+      {
+        "name": "strategy",
+        "type": "address"
+      },
+      {
+        "name": "enabled",
+        "type": "bool"
+      }
+    ],
+    "outputs": [],
+    "gas": 43676
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "setStrategySetLimitRatio",
+    "inputs": [
+      {
+        "name": "strategy",
+        "type": "address"
+      },
+      {
+        "name": "_lossRatioLimit",
+        "type": "uint256"
+      },
+      {
+        "name": "_profitLimitRatio",
+        "type": "uint256"
+      }
+    ],
+    "outputs": [],
+    "gas": 78808
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "setStrategyCustomCheck",
+    "inputs": [
+      {
+        "name": "strategy",
+        "type": "address"
+      },
+      {
+        "name": "_customCheck",
+        "type": "address"
+      }
+    ],
+    "outputs": [],
+    "gas": 43914
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
     "name": "migrateStrategy",
     "inputs": [
       {
@@ -1053,7 +1187,7 @@
       }
     ],
     "outputs": [],
-    "gas": 1190208
+    "gas": 1339277
   },
   {
     "stateMutability": "nonpayable",
@@ -1085,7 +1219,7 @@
       }
     ],
     "outputs": [],
-    "gas": 1255644
+    "gas": 1255734
   },
   {
     "stateMutability": "nonpayable",
@@ -1098,7 +1232,7 @@
       }
     ],
     "outputs": [],
-    "gas": 23636673
+    "gas": 23636763
   },
   {
     "stateMutability": "view",
@@ -1169,7 +1303,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 21381
+    "gas": 21471
   },
   {
     "stateMutability": "view",
@@ -1224,7 +1358,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 1170904
+    "gas": 1279579
   },
   {
     "stateMutability": "nonpayable",
@@ -1265,7 +1399,7 @@
         "type": "string"
       }
     ],
-    "gas": 13920
+    "gas": 14010
   },
   {
     "stateMutability": "view",
@@ -1278,7 +1412,7 @@
         "type": "string"
       }
     ],
-    "gas": 11673
+    "gas": 11763
   },
   {
     "stateMutability": "view",
@@ -1291,7 +1425,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 3678
+    "gas": 3768
   },
   {
     "stateMutability": "view",
@@ -1309,7 +1443,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 3923
+    "gas": 4013
   },
   {
     "stateMutability": "view",
@@ -1331,7 +1465,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 4168
+    "gas": 4258
   },
   {
     "stateMutability": "view",
@@ -1344,7 +1478,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 3768
+    "gas": 3858
   },
   {
     "stateMutability": "view",
@@ -1357,7 +1491,7 @@
         "type": "address"
       }
     ],
-    "gas": 3798
+    "gas": 3888
   },
   {
     "stateMutability": "view",
@@ -1370,7 +1504,7 @@
         "type": "address"
       }
     ],
-    "gas": 3828
+    "gas": 3918
   },
   {
     "stateMutability": "view",
@@ -1383,7 +1517,7 @@
         "type": "address"
       }
     ],
-    "gas": 3858
+    "gas": 3948
   },
   {
     "stateMutability": "view",
@@ -1396,7 +1530,7 @@
         "type": "address"
       }
     ],
-    "gas": 3888
+    "gas": 3978
   },
   {
     "stateMutability": "view",
@@ -1444,9 +1578,25 @@
       {
         "name": "totalLoss",
         "type": "uint256"
+      },
+      {
+        "name": "enforceChangeLimit",
+        "type": "bool"
+      },
+      {
+        "name": "profitLimitRatio",
+        "type": "uint256"
+      },
+      {
+        "name": "lossLimitRatio",
+        "type": "uint256"
+      },
+      {
+        "name": "customCheck",
+        "type": "address"
       }
     ],
-    "gas": 22641
+    "gas": 31860
   },
   {
     "stateMutability": "view",
@@ -1464,7 +1614,7 @@
         "type": "address"
       }
     ],
-    "gas": 4057
+    "gas": 4147
   },
   {
     "stateMutability": "view",
@@ -1477,7 +1627,7 @@
         "type": "bool"
       }
     ],
-    "gas": 3978
+    "gas": 4068
   },
   {
     "stateMutability": "view",
@@ -1490,7 +1640,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 4008
+    "gas": 4098
   },
   {
     "stateMutability": "view",
@@ -1503,7 +1653,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 4038
+    "gas": 4128
   },
   {
     "stateMutability": "view",
@@ -1516,7 +1666,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 4068
+    "gas": 4158
   },
   {
     "stateMutability": "view",
@@ -1529,7 +1679,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 4098
+    "gas": 4188
   },
   {
     "stateMutability": "view",
@@ -1542,7 +1692,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 4128
+    "gas": 4218
   },
   {
     "stateMutability": "view",
@@ -1555,7 +1705,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 4158
+    "gas": 4248
   },
   {
     "stateMutability": "view",
@@ -1568,7 +1718,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 4188
+    "gas": 4278
   },
   {
     "stateMutability": "view",
@@ -1581,7 +1731,7 @@
         "type": "address"
       }
     ],
-    "gas": 4218
+    "gas": 4308
   },
   {
     "stateMutability": "view",
@@ -1594,7 +1744,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 4248
+    "gas": 4338
   },
   {
     "stateMutability": "view",
@@ -1607,7 +1757,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 4278
+    "gas": 4368
   },
   {
     "stateMutability": "view",
@@ -1625,7 +1775,7 @@
         "type": "uint256"
       }
     ],
-    "gas": 4523
+    "gas": 4613
   },
   {
     "stateMutability": "view",
@@ -1638,6 +1788,6 @@
         "type": "bytes32"
       }
     ],
-    "gas": 4338
+    "gas": 4428
   }
 ]
