@@ -47,6 +47,9 @@ interface VaultAbiInterface extends ethers.utils.Interface {
     "updateStrategyMinDebtPerHarvest(address,uint256)": FunctionFragment;
     "updateStrategyMaxDebtPerHarvest(address,uint256)": FunctionFragment;
     "updateStrategyPerformanceFee(address,uint256)": FunctionFragment;
+    "setStrategyEnforceChangeLimit(address,bool)": FunctionFragment;
+    "setStrategySetLimitRatio(address,uint256,uint256)": FunctionFragment;
+    "setStrategyCustomCheck(address,address)": FunctionFragment;
     "migrateStrategy(address,address)": FunctionFragment;
     "revokeStrategy()": FunctionFragment;
     "addStrategyToQueue(address)": FunctionFragment;
@@ -212,6 +215,18 @@ interface VaultAbiInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "updateStrategyPerformanceFee",
     values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setStrategyEnforceChangeLimit",
+    values: [string, boolean]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setStrategySetLimitRatio",
+    values: [string, BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setStrategyCustomCheck",
+    values: [string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "migrateStrategy",
@@ -413,6 +428,18 @@ interface VaultAbiInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setStrategyEnforceChangeLimit",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setStrategySetLimitRatio",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setStrategyCustomCheck",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "migrateStrategy",
     data: BytesLike
   ): Result;
@@ -505,6 +532,7 @@ interface VaultAbiInterface extends ethers.utils.Interface {
     "StrategyAdded(address,uint256,uint256,uint256,uint256)": EventFragment;
     "StrategyReported(address,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)": EventFragment;
     "UpdateGovernance(address)": EventFragment;
+    "NewPendingGovernance(address)": EventFragment;
     "UpdateManagement(address)": EventFragment;
     "UpdateRewards(address)": EventFragment;
     "UpdateDepositLimit(uint256)": EventFragment;
@@ -528,6 +556,7 @@ interface VaultAbiInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "StrategyAdded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "StrategyReported"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "UpdateGovernance"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewPendingGovernance"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "UpdateManagement"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "UpdateRewards"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "UpdateDepositLimit"): EventFragment;
@@ -796,12 +825,33 @@ export class VaultAbi extends BaseContract {
 
     pricePerShare(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    addStrategy(
+    "addStrategy(address,uint256,uint256,uint256,uint256)"(
       strategy: string,
       debtRatio: BigNumberish,
       minDebtPerHarvest: BigNumberish,
       maxDebtPerHarvest: BigNumberish,
       performanceFee: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "addStrategy(address,uint256,uint256,uint256,uint256,uint256)"(
+      strategy: string,
+      debtRatio: BigNumberish,
+      minDebtPerHarvest: BigNumberish,
+      maxDebtPerHarvest: BigNumberish,
+      performanceFee: BigNumberish,
+      profitLimitRatio: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "addStrategy(address,uint256,uint256,uint256,uint256,uint256,uint256)"(
+      strategy: string,
+      debtRatio: BigNumberish,
+      minDebtPerHarvest: BigNumberish,
+      maxDebtPerHarvest: BigNumberish,
+      performanceFee: BigNumberish,
+      profitLimitRatio: BigNumberish,
+      lossLimitRatio: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -826,6 +876,25 @@ export class VaultAbi extends BaseContract {
     updateStrategyPerformanceFee(
       strategy: string,
       performanceFee: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setStrategyEnforceChangeLimit(
+      strategy: string,
+      enabled: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setStrategySetLimitRatio(
+      strategy: string,
+      _lossRatioLimit: BigNumberish,
+      _profitLimitRatio: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setStrategyCustomCheck(
+      strategy: string,
+      _customCheck: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -932,19 +1001,27 @@ export class VaultAbi extends BaseContract {
         BigNumber,
         BigNumber,
         BigNumber,
-        BigNumber
+        BigNumber,
+        boolean,
+        BigNumber,
+        BigNumber,
+        string
       ] & {
-        performanceFee: BigNumber;
-        activation: BigNumber;
-        debtRatio: BigNumber;
-        minDebtPerHarvest: BigNumber;
-        maxDebtPerHarvest: BigNumber;
-        lastReport: BigNumber;
-        totalDebt: BigNumber;
-        totalGain: BigNumber;
-        totalLoss: BigNumber;
-      }
-    >;
+      performanceFee: BigNumber;
+      activation: BigNumber;
+      debtRatio: BigNumber;
+      minDebtPerHarvest: BigNumber;
+      maxDebtPerHarvest: BigNumber;
+      lastReport: BigNumber;
+      totalDebt: BigNumber;
+      totalGain: BigNumber;
+      totalLoss: BigNumber;
+      enforceChangeLimit: boolean;
+      profitLimitRatio: BigNumber;
+      lossLimitRatio: BigNumber;
+      customCheck: string;
+    }
+      >;
 
     withdrawalQueue(
       arg0: BigNumberish,
@@ -1178,12 +1255,33 @@ export class VaultAbi extends BaseContract {
 
   pricePerShare(overrides?: CallOverrides): Promise<BigNumber>;
 
-  addStrategy(
+  "addStrategy(address,uint256,uint256,uint256,uint256)"(
     strategy: string,
     debtRatio: BigNumberish,
     minDebtPerHarvest: BigNumberish,
     maxDebtPerHarvest: BigNumberish,
     performanceFee: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "addStrategy(address,uint256,uint256,uint256,uint256,uint256)"(
+    strategy: string,
+    debtRatio: BigNumberish,
+    minDebtPerHarvest: BigNumberish,
+    maxDebtPerHarvest: BigNumberish,
+    performanceFee: BigNumberish,
+    profitLimitRatio: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "addStrategy(address,uint256,uint256,uint256,uint256,uint256,uint256)"(
+    strategy: string,
+    debtRatio: BigNumberish,
+    minDebtPerHarvest: BigNumberish,
+    maxDebtPerHarvest: BigNumberish,
+    performanceFee: BigNumberish,
+    profitLimitRatio: BigNumberish,
+    lossLimitRatio: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1208,6 +1306,25 @@ export class VaultAbi extends BaseContract {
   updateStrategyPerformanceFee(
     strategy: string,
     performanceFee: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setStrategyEnforceChangeLimit(
+    strategy: string,
+    enabled: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setStrategySetLimitRatio(
+    strategy: string,
+    _lossRatioLimit: BigNumberish,
+    _profitLimitRatio: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setStrategyCustomCheck(
+    strategy: string,
+    _customCheck: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1314,19 +1431,27 @@ export class VaultAbi extends BaseContract {
       BigNumber,
       BigNumber,
       BigNumber,
-      BigNumber
+      BigNumber,
+      boolean,
+      BigNumber,
+      BigNumber,
+      string
     ] & {
-      performanceFee: BigNumber;
-      activation: BigNumber;
-      debtRatio: BigNumber;
-      minDebtPerHarvest: BigNumber;
-      maxDebtPerHarvest: BigNumber;
-      lastReport: BigNumber;
-      totalDebt: BigNumber;
-      totalGain: BigNumber;
-      totalLoss: BigNumber;
-    }
-  >;
+    performanceFee: BigNumber;
+    activation: BigNumber;
+    debtRatio: BigNumber;
+    minDebtPerHarvest: BigNumber;
+    maxDebtPerHarvest: BigNumber;
+    lastReport: BigNumber;
+    totalDebt: BigNumber;
+    totalGain: BigNumber;
+    totalLoss: BigNumber;
+    enforceChangeLimit: boolean;
+    profitLimitRatio: BigNumber;
+    lossLimitRatio: BigNumber;
+    customCheck: string;
+  }
+    >;
 
   withdrawalQueue(
     arg0: BigNumberish,
@@ -1536,12 +1661,33 @@ export class VaultAbi extends BaseContract {
 
     pricePerShare(overrides?: CallOverrides): Promise<BigNumber>;
 
-    addStrategy(
+    "addStrategy(address,uint256,uint256,uint256,uint256)"(
       strategy: string,
       debtRatio: BigNumberish,
       minDebtPerHarvest: BigNumberish,
       maxDebtPerHarvest: BigNumberish,
       performanceFee: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "addStrategy(address,uint256,uint256,uint256,uint256,uint256)"(
+      strategy: string,
+      debtRatio: BigNumberish,
+      minDebtPerHarvest: BigNumberish,
+      maxDebtPerHarvest: BigNumberish,
+      performanceFee: BigNumberish,
+      profitLimitRatio: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "addStrategy(address,uint256,uint256,uint256,uint256,uint256,uint256)"(
+      strategy: string,
+      debtRatio: BigNumberish,
+      minDebtPerHarvest: BigNumberish,
+      maxDebtPerHarvest: BigNumberish,
+      performanceFee: BigNumberish,
+      profitLimitRatio: BigNumberish,
+      lossLimitRatio: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1566,6 +1712,25 @@ export class VaultAbi extends BaseContract {
     updateStrategyPerformanceFee(
       strategy: string,
       performanceFee: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setStrategyEnforceChangeLimit(
+      strategy: string,
+      enabled: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setStrategySetLimitRatio(
+      strategy: string,
+      _lossRatioLimit: BigNumberish,
+      _profitLimitRatio: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setStrategyCustomCheck(
+      strategy: string,
+      _customCheck: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1667,19 +1832,27 @@ export class VaultAbi extends BaseContract {
         BigNumber,
         BigNumber,
         BigNumber,
-        BigNumber
+        BigNumber,
+        boolean,
+        BigNumber,
+        BigNumber,
+        string
       ] & {
-        performanceFee: BigNumber;
-        activation: BigNumber;
-        debtRatio: BigNumber;
-        minDebtPerHarvest: BigNumber;
-        maxDebtPerHarvest: BigNumber;
-        lastReport: BigNumber;
-        totalDebt: BigNumber;
-        totalGain: BigNumber;
-        totalLoss: BigNumber;
-      }
-    >;
+      performanceFee: BigNumber;
+      activation: BigNumber;
+      debtRatio: BigNumber;
+      minDebtPerHarvest: BigNumber;
+      maxDebtPerHarvest: BigNumber;
+      lastReport: BigNumber;
+      totalDebt: BigNumber;
+      totalGain: BigNumber;
+      totalLoss: BigNumber;
+      enforceChangeLimit: boolean;
+      profitLimitRatio: BigNumber;
+      lossLimitRatio: BigNumber;
+      customCheck: string;
+    }
+      >;
 
     withdrawalQueue(
       arg0: BigNumberish,
@@ -1721,7 +1894,7 @@ export class VaultAbi extends BaseContract {
     ): TypedEventFilter<
       [string, string, BigNumber],
       { sender: string; receiver: string; value: BigNumber }
-    >;
+      >;
 
     Approval(
       owner?: string | null,
@@ -1730,7 +1903,7 @@ export class VaultAbi extends BaseContract {
     ): TypedEventFilter<
       [string, string, BigNumber],
       { owner: string; spender: string; value: BigNumber }
-    >;
+      >;
 
     StrategyAdded(
       strategy?: string | null,
@@ -1747,7 +1920,7 @@ export class VaultAbi extends BaseContract {
         maxDebtPerHarvest: BigNumber;
         performanceFee: BigNumber;
       }
-    >;
+      >;
 
     StrategyReported(
       strategy?: string | null,
@@ -1782,9 +1955,13 @@ export class VaultAbi extends BaseContract {
         debtAdded: BigNumber;
         debtRatio: BigNumber;
       }
-    >;
+      >;
 
     UpdateGovernance(
+      governance?: null
+    ): TypedEventFilter<[string], { governance: string }>;
+
+    NewPendingGovernance(
       governance?: null
     ): TypedEventFilter<[string], { governance: string }>;
 
@@ -1867,7 +2044,7 @@ export class VaultAbi extends BaseContract {
           string
         ];
       }
-    >;
+      >;
 
     StrategyUpdateDebtRatio(
       strategy?: string | null,
@@ -1875,7 +2052,7 @@ export class VaultAbi extends BaseContract {
     ): TypedEventFilter<
       [string, BigNumber],
       { strategy: string; debtRatio: BigNumber }
-    >;
+      >;
 
     StrategyUpdateMinDebtPerHarvest(
       strategy?: string | null,
@@ -1883,7 +2060,7 @@ export class VaultAbi extends BaseContract {
     ): TypedEventFilter<
       [string, BigNumber],
       { strategy: string; minDebtPerHarvest: BigNumber }
-    >;
+      >;
 
     StrategyUpdateMaxDebtPerHarvest(
       strategy?: string | null,
@@ -1891,7 +2068,7 @@ export class VaultAbi extends BaseContract {
     ): TypedEventFilter<
       [string, BigNumber],
       { strategy: string; maxDebtPerHarvest: BigNumber }
-    >;
+      >;
 
     StrategyUpdatePerformanceFee(
       strategy?: string | null,
@@ -1899,7 +2076,7 @@ export class VaultAbi extends BaseContract {
     ): TypedEventFilter<
       [string, BigNumber],
       { strategy: string; performanceFee: BigNumber }
-    >;
+      >;
 
     StrategyMigrated(
       oldVersion?: string | null,
@@ -1907,7 +2084,7 @@ export class VaultAbi extends BaseContract {
     ): TypedEventFilter<
       [string, string],
       { oldVersion: string; newVersion: string }
-    >;
+      >;
 
     StrategyRevoked(
       strategy?: string | null
@@ -2123,12 +2300,33 @@ export class VaultAbi extends BaseContract {
 
     pricePerShare(overrides?: CallOverrides): Promise<BigNumber>;
 
-    addStrategy(
+    "addStrategy(address,uint256,uint256,uint256,uint256)"(
       strategy: string,
       debtRatio: BigNumberish,
       minDebtPerHarvest: BigNumberish,
       maxDebtPerHarvest: BigNumberish,
       performanceFee: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "addStrategy(address,uint256,uint256,uint256,uint256,uint256)"(
+      strategy: string,
+      debtRatio: BigNumberish,
+      minDebtPerHarvest: BigNumberish,
+      maxDebtPerHarvest: BigNumberish,
+      performanceFee: BigNumberish,
+      profitLimitRatio: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "addStrategy(address,uint256,uint256,uint256,uint256,uint256,uint256)"(
+      strategy: string,
+      debtRatio: BigNumberish,
+      minDebtPerHarvest: BigNumberish,
+      maxDebtPerHarvest: BigNumberish,
+      performanceFee: BigNumberish,
+      profitLimitRatio: BigNumberish,
+      lossLimitRatio: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -2153,6 +2351,25 @@ export class VaultAbi extends BaseContract {
     updateStrategyPerformanceFee(
       strategy: string,
       performanceFee: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setStrategyEnforceChangeLimit(
+      strategy: string,
+      enabled: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setStrategySetLimitRatio(
+      strategy: string,
+      _lossRatioLimit: BigNumberish,
+      _profitLimitRatio: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setStrategyCustomCheck(
+      strategy: string,
+      _customCheck: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -2483,12 +2700,33 @@ export class VaultAbi extends BaseContract {
 
     pricePerShare(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    addStrategy(
+    "addStrategy(address,uint256,uint256,uint256,uint256)"(
       strategy: string,
       debtRatio: BigNumberish,
       minDebtPerHarvest: BigNumberish,
       maxDebtPerHarvest: BigNumberish,
       performanceFee: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "addStrategy(address,uint256,uint256,uint256,uint256,uint256)"(
+      strategy: string,
+      debtRatio: BigNumberish,
+      minDebtPerHarvest: BigNumberish,
+      maxDebtPerHarvest: BigNumberish,
+      performanceFee: BigNumberish,
+      profitLimitRatio: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "addStrategy(address,uint256,uint256,uint256,uint256,uint256,uint256)"(
+      strategy: string,
+      debtRatio: BigNumberish,
+      minDebtPerHarvest: BigNumberish,
+      maxDebtPerHarvest: BigNumberish,
+      performanceFee: BigNumberish,
+      profitLimitRatio: BigNumberish,
+      lossLimitRatio: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -2513,6 +2751,25 @@ export class VaultAbi extends BaseContract {
     updateStrategyPerformanceFee(
       strategy: string,
       performanceFee: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setStrategyEnforceChangeLimit(
+      strategy: string,
+      enabled: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setStrategySetLimitRatio(
+      strategy: string,
+      _lossRatioLimit: BigNumberish,
+      _profitLimitRatio: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setStrategyCustomCheck(
+      strategy: string,
+      _customCheck: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

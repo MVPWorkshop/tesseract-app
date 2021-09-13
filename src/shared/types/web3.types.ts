@@ -12,6 +12,5 @@ export enum EConnectorType {
 }
 
 export enum EChainId {
-  POLYGON_MAINNET = 137,
-  POYLGON_MUMBAI = 80001
+  POLYGON_MAINNET = 137
 }
