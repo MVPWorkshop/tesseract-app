@@ -16,7 +16,7 @@ class RegistryContract {
   };
 
   constructor(provider: Provider | JsonRpcSigner, chainId: EChainId) {
-    const address = this._addressByChain[chainId]
+    const address = this._addressByChain[chainId];
     const factory = new ContractFactory(EContractType.REGISTRY);
 
     this._contract = factory.createContract(address, provider);

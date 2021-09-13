@@ -16,7 +16,7 @@ const VaultsPage: React.FC = () => {
       const theAddress = await registry.getVaultByToken(ESupportedTokens.DAI);
       setState(theAddress);
     }
-  }
+  };
 
   return (
     <PageOrganism>
