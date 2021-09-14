@@ -23,3 +23,4 @@ export class APIError extends BaseError {
     super(EErrorTypes.API_ERROR, message);
   }
 }
+

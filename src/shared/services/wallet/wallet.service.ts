@@ -1,9 +1,9 @@
 import { AbstractConnector } from "@web3-react/abstract-connector";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
-import { EConnectorType } from "../types/web3.types";
-import { PROVIDER_POLLING_INTERVAL } from "../constants/config.constants";
-import { RPC_URLS, supportedChainIds } from "../constants/web3.constants";
+import { EConnectorType } from "../../types/web3.types";
+import { PROVIDER_POLLING_INTERVAL } from "../../constants/config.constants";
+import { RPC_URLS, supportedChainIds } from "../../constants/web3.constants";
 
 class WalletService {
   private static _injectedProvider = new InjectedConnector({ supportedChainIds })

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import PageOrganism from "../../organisms/Page/page.organism";
-import { Trans } from "@lingui/macro";
 import Button from "../../atoms/Button/button.atom";
 import useWeb3 from "../../../hooks/useWeb3";
 import RegistryContract from "../../../shared/contracts/registry.contract";
@@ -20,7 +19,6 @@ const VaultsPage: React.FC = () => {
 
   return (
     <PageOrganism>
-      <Trans>Hi!</Trans><br/>
       <Button onClick={() => getVaultAddress()}>
         Hey
       </Button>

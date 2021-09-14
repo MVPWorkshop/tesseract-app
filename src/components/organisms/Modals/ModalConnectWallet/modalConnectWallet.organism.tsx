@@ -3,7 +3,7 @@ import Modal from "../../../molecules/Modal/modal.molecule";
 import { EModalName } from "../../../../redux/ui/ui.redux.types";
 import { EConnectorType } from "../../../../shared/types/web3.types";
 import { Nullable } from "../../../../shared/types/util.types";
-import WalletService from "../../../../shared/services/wallet.service";
+import WalletService from "../../../../shared/services/wallet/wallet.service";
 import { CONNECTOR_LABELS, CONNECTOR_LOGOS, supportedConnectorList } from "../../../../shared/constants/web3.constants";
 import Web3Util from "../../../../shared/utils/web3.util";
 import { Trans } from "@lingui/macro";

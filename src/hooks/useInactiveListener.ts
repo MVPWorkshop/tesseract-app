@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import WalletService from "../shared/services/wallet.service";
+import WalletService from "../shared/services/wallet/wallet.service";
 import useWeb3 from "./useWeb3";
 
 interface IUseInactiveListenerParams {

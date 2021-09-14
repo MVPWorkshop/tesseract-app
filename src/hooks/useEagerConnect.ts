@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import WalletService from "../shared/services/wallet.service";
+import WalletService from "../shared/services/wallet/wallet.service";
 import useWeb3 from "./useWeb3";
 
 export function useEagerConnect(): boolean {
