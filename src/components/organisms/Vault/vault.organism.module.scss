@@ -1,0 +1,108 @@
+@import "src/shared/styles/variables";
+@import "src/shared/styles/util";
+@import "src/shared/styles/mixins";
+
+.vault {
+  $clipPath: polygon(0 0,calc(100% - 30px) 0,100% 30px,100% 100%,0 100%,0 30px,10px 20px,0 10px);
+  $borderColor: transparentize(white, 0.6);
+
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+
+  .indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: $borderColor;
+    border: 1px solid $borderColor;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    &.open {
+      background-color: white;
+    }
+  }
+
+  .corner {
+    position: absolute;
+    left: 6px;
+    bottom: 6px;
+    width: 22px;
+    height: 22px;
+    border-bottom: 1px solid $borderColor;
+    border-left: 1px solid $borderColor;
+    border-radius: 2px;
+  }
+
+  .outer {
+    -webkit-clip-path: $clipPath;
+    clip-path: $clipPath;
+    background-color: $borderColor;
+    padding: 1px;
+  }
+
+  .inner {
+    -webkit-clip-path: $clipPath;
+    clip-path: $clipPath;
+
+    background-color: map-get($colors, "yankesBlue");
+    padding-left: 10px;
+    padding-right: 10px;
+
+    @include md() {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+
+    .header {
+      min-height: 118px;
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      .tokenLogoContainer {
+        display: flex;
+        align-items: center;
+        width: 90px;
+        margin-right: 2px;
+
+        @include md() {
+          width: 180px;
+        }
+      }
+
+      th {
+        color: map-get($colors, "rhytm");
+        font-size: pxToRem(16px);
+        font-weight: 400;
+        padding-bottom: 0;
+      }
+
+      td {
+        color: map-get($colors, "white");
+        font-size: pxToRem(19px);
+        font-weight: 700;
+        padding: 5px
+      }
+    }
+
+    .body {
+      max-height: 0;
+      transition: max-height 0.3s ease-out;
+
+      .actionButton {
+        min-width: 160px;
+      }
+
+      &.open {
+        max-height: 500px;
+      }
+
+      .content {
+        padding-bottom: 45px;
+      }
+    }
+  }
+}

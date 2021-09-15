@@ -7,8 +7,17 @@ const Separator: React.FC<ISeparatorProps> = (props) => {
 
   const {
     vertical,
+    marginAfter,
+    marginBefore,
     className
   } = props;
+
+  const margins = {
+    marginLeft: (vertical && marginBefore) ? marginBefore : undefined,
+    marginRight: (vertical && marginAfter) ? marginAfter : undefined,
+    marginTop: (!vertical && marginBefore) ? marginBefore : undefined,
+    marginBottom: (!vertical && marginAfter) ? marginAfter : undefined
+  };
 
   return(
     <div
@@ -17,6 +26,7 @@ const Separator: React.FC<ISeparatorProps> = (props) => {
         vertical ? styles.vertical : styles.horizontal,
         className
       )}
+      style={{...margins}}
     />
   );
 };

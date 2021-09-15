@@ -24,9 +24,9 @@
 @mixin textBody {
   font-size: pxToRem(19.2px);
   line-height: pxToRem(24px);
-  color: map-get($colors, 'white');
+  color: map-get($colors, 'blueBell');
 
-  .type-small {
+  &:global(.type-small) {
     font-size: pxToRem(16px);
   }
 }

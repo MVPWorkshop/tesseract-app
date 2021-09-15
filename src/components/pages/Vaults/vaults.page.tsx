@@ -1,28 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import PageOrganism from "../../organisms/Page/page.organism";
-import Button from "../../atoms/Button/button.atom";
+import { getSupportedTokensByChain } from "../../../shared/utils/vault.util";
 import useWeb3 from "../../../hooks/useWeb3";
-import RegistryContract from "../../../shared/contracts/registry.contract";
-import { ESupportedTokens } from "../../../shared/types/contract.types";
+import { EChainId } from "../../../shared/types/web3.types";
+import Vault from "../../organisms/Vault/vault.organism";
 
 const VaultsPage: React.FC = () => {
-  const [state, setState] = useState<any>();
-  const { library, chainId } = useWeb3();
+  const { chainId, isChainSupported } = useWeb3();
+  const displayChainId = (chainId && isChainSupported) ? chainId : EChainId.POLYGON_MAINNET;
 
-  const getVaultAddress = async () => {
-    if (library && chainId) {
-      const registry = new RegistryContract(library, chainId);
-      const theAddress = await registry.getVaultByToken(ESupportedTokens.DAI);
-      setState(theAddress);
-    }
-  };
+  const tokens = getSupportedTokensByChain(displayChainId);
 
   return (
     <PageOrganism>
-      <Button onClick={() => getVaultAddress()}>
-        Hey
-      </Button>
-      {state}
+      <br/>
+      {tokens.map(token =>(
+        <Vault
+          key={token}
+          token={token}
+          chain={displayChainId}
+        />
+      ))}
     </PageOrganism>
   );
 };

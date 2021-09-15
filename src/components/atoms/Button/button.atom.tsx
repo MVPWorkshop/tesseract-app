@@ -37,7 +37,7 @@ const Button: FC<IButtonProps> = (props) => {
     styles.appButton,
     className,
     disabled && "disabledElement",
-    uppercase && styles.uppercase,
+    uppercase && "text-uppercase",
     customTheme,
     props.flat && styles.flat
   );

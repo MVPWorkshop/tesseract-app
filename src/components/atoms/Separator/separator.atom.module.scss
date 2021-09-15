@@ -2,11 +2,11 @@
 
 .separator {
   &.vertical {
-    border-right: 2px solid map-get($colors, 'gray');
+    border-right: 1px solid map-get($colors, 'olive');
   }
 
   &.horizontal {
     width: 100%;
-    border-top: 2px solid map-get($colors, 'gray');
+    border-top: 1px solid map-get($colors, 'olive');
   }
 }
