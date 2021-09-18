@@ -12,7 +12,7 @@ const VaultsPage: React.FC = () => {
   const tokens = getSupportedTokensByChain(displayChainId);
 
   return (
-    <PageOrganism>
+    <PageOrganism containerEnabled={true}>
       <br/>
       {tokens.map(token =>(
         <Vault

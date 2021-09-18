@@ -97,7 +97,11 @@
       }
 
       &.open {
-        max-height: 500px;
+        max-height: 1000px;
+
+        @include md() {
+          max-height: 500px;
+        }
       }
 
       .content {

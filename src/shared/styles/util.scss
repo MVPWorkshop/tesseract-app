@@ -69,3 +69,11 @@ $fontSizes: 64;
     background-color: $glyph;
   }
 }
+
+$min-widths: 50px, 100px, 200px, 300px, 400px, 500px;
+
+@each $size in $min-widths {
+  .mw-#{$size} {
+    min-width: $size;
+  }
+}

@@ -15,10 +15,21 @@ import { ETypographyVariant } from "../../atoms/Typography/typography.atom.types
 import Input from "../../atoms/Input/input.atom";
 import { EInputType } from "../../atoms/Input/input.atom.types";
 import { Row, Col } from "react-bootstrap";
+import Slider from "../../atoms/Slider/slider.atom";
 
 const Vault: React.FC<IVaultProps> = (props) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [depositValue, setDepositValue] = useState<number>(0);
+  const [withdrawValue, setWithdrawValue] = useState<number>(0);
+
+  const onDepositValueChange = (value: number) => {
+    setDepositValue(value);
+  };
+
+  const onWithdrawValueChange = (value: number) => {
+    setWithdrawValue(value);
+  };
 
   const {
     token
@@ -29,6 +40,8 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const toggleDropdown = () => {
     setIsOpen(prevState => !prevState);
   };
+
+  const sliderMarks = [1, 25, 50, 75, 100];
 
   return (
     <div className={styles.vault}>
@@ -98,7 +111,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
 
               <br/><br/>
               <Row>
-                <Col>
+                <Col className="mb-4 mb-md-0">
                   <Typography variant={ETypographyVariant.BODY} small={true}>
                     <Trans>Balance:</Trans>
                     &nbsp;
@@ -106,8 +119,17 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   </Typography>
                   <Input
                     type={EInputType.NUMBER}
-                    onChange={() => {/*test*/}}
-                    value={0}
+                    onChange={onDepositValueChange}
+                    value={depositValue}
+                  />
+                  <Slider
+                    value={depositValue}
+                    onChange={onDepositValueChange}
+                    min={1}
+                    max={100}
+                    marks={sliderMarks}
+                    markSymbol={"%"}
+                    className="mt-4 mb-12"
                   />
                   <Row className="mt-6">
                     <Col className="d-flex justify-content-center">
@@ -130,8 +152,17 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   </Typography>
                   <Input
                     type={EInputType.NUMBER}
-                    onChange={() => {/*test*/}}
-                    value={0}
+                    onChange={onWithdrawValueChange}
+                    value={withdrawValue}
+                  />
+                  <Slider
+                    value={withdrawValue}
+                    onChange={onWithdrawValueChange}
+                    min={1}
+                    max={100}
+                    marks={sliderMarks}
+                    markSymbol={"%"}
+                    className="mt-4 mb-12"
                   />
                   <Row className="mt-6">
                     <Col className="d-flex justify-content-center">

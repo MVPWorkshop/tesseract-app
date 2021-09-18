@@ -1,0 +1,33 @@
+@import '../../../shared/styles/variables';
+
+.slider {
+  :global(.rc-slider-rail) {
+    border-radius: 0;
+    background-color: map-get($colors, "darkJungleGreen");
+    border: 1px solid map-get($colors, "americanBlue");
+  }
+
+  :global(.rc-slider-dot) {
+    background-color: transparent;
+    border: none;
+  }
+
+  :global(.rc-slider-track) {
+    background-color: map-get($accents, "primary");
+  }
+
+  :global(.rc-slider-handle) {
+    background-color: map-get($accents, "primary");
+    border: none;
+  }
+
+  :global(.rc-slider-mark) {
+    :first-child {
+      left: 5px !important;
+    }
+
+    :last-child {
+      left: calc(100% - 10px) !important;
+    }
+  }
+}

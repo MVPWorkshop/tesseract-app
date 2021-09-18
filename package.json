@@ -17,6 +17,7 @@
     "moment": "^2.29.1",
     "node-sass": "^4.14.1c",
     "pre-commit": "^1.2.2",
+    "rc-slider": "^9.7.2",
     "react": "^17.0.1",
     "react-bootstrap": "^1.5.2",
     "react-datepicker": "^4.1.1",
