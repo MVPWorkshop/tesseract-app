@@ -29,7 +29,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
   const LandingPageHeaderContent = () => {
     return (
       <Fragment>
-        <Link link={"docs"} newTab={false}>
+        <Link link="https://tesseract-finance.gitbook.io/">
           <Button theme={"flat"}>
             <Typography uppercase={true} color={EColor.WHITE}>
               <Trans>Documentation</Trans>

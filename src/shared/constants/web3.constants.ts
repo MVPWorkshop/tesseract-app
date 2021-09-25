@@ -49,3 +49,7 @@ export const addressByNetworkAndToken: TokenAddressByNetwork = {
     [EChainId.POLYGON_MAINNET]: "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6"
   }
 };
+
+export const chainLabels: DynamicObject<string, EChainId, AllKeysRequired> = {
+  [EChainId.POLYGON_MAINNET]: "POLYGON"
+};

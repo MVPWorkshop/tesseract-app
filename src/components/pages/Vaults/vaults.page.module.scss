@@ -1,2 +1,11 @@
 .vaultsPage {
+  padding-top: 100px;
+
+  .vaultsTitle {
+    margin-bottom: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
 }

@@ -1,0 +1,25 @@
+.textDialog {
+  $clipPath: polygon(0 0,calc(100% - 30px) 0,100% 30px,100% 100%,0 100%,0 30px,10px 20px,0 10px);
+  $borderColor: transparentize(white, 0.6);
+
+  position: relative;
+  width: 100%;
+
+  .outter {
+    -webkit-clip-path: $clipPath;
+    clip-path: $clipPath;
+    background-color: $borderColor;
+    padding: 1px;
+  }
+
+  .inner {
+    padding: 20px;
+    background-color: #272B4A;
+    -webkit-clip-path: $clipPath;
+    clip-path: $clipPath;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+}

@@ -16,6 +16,7 @@ const Button: FC<IButtonProps> = (props) => {
     loading,
     theme,
     loadingTextComponent,
+    disableLoadingText,
     ...other
   } = props;
 
@@ -53,11 +54,14 @@ const Button: FC<IButtonProps> = (props) => {
       {loading ?
         <div className="d-flex align-items-center justify-content-center mh-100">
           <Loader width="40px" height="40px"/>
-          { loadingTextComponent ?
-            loadingTextComponent :
-            <span className="ml-2">
-              <Trans>Loading</Trans>
-            </span>
+          { !disableLoadingText &&
+            (
+              loadingTextComponent ?
+                loadingTextComponent :
+                <span className="ml-2">
+                  <Trans>Loading</Trans>
+                </span>
+            )
           }
         </div>
         :

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./vault.organism.module.scss";
 import { IVaultProps } from "./vault.organism.types";
 import { tokenIcons } from "../../../shared/constants/common.constants";
@@ -16,12 +16,40 @@ import Input from "../../atoms/Input/input.atom";
 import { EInputType } from "../../atoms/Input/input.atom.types";
 import { Row, Col } from "react-bootstrap";
 import Slider from "../../atoms/Slider/slider.atom";
+import useWeb3 from "../../../hooks/useWeb3";
+import Web3Util from "../../../shared/utils/web3.util";
+import RegistryContract from "../../../shared/contracts/registry.contract";
 
 const Vault: React.FC<IVaultProps> = (props) => {
+  const {
+    token
+  } = props;
+
+  const { library, chainId } = useWeb3();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [depositValue, setDepositValue] = useState<number>(0);
   const [withdrawValue, setWithdrawValue] = useState<number>(0);
+  const [isFetchingVaultAddress, setIsFetchingVaultAddress] = useState<boolean>();
+  const [vaultAddress, setVaultAddress] = useState<string>();
+
+
+  useEffect(() => {
+    const fetchVaultAddress = async () => {
+      setIsFetchingVaultAddress(true);
+      try {
+        if (library && chainId) {
+          const registryContract = new RegistryContract(library, chainId);
+          const vaultAddress = await registryContract.getVaultByToken(token);
+          setVaultAddress(vaultAddress);
+        }
+      } finally {
+        setIsFetchingVaultAddress(false);
+      }
+    };
+
+    fetchVaultAddress();
+  }, [token]);
 
   const onDepositValueChange = (value: number) => {
     setDepositValue(value);
@@ -31,16 +59,11 @@ const Vault: React.FC<IVaultProps> = (props) => {
     setWithdrawValue(value);
   };
 
-  const {
-    token
-  } = props;
-
-  const TokenLogo = tokenIcons[token];
-
   const toggleDropdown = () => {
     setIsOpen(prevState => !prevState);
   };
 
+  const TokenLogo = tokenIcons[token];
   const sliderMarks = [1, 25, 50, 75, 100];
 
   return (
@@ -63,18 +86,10 @@ const Vault: React.FC<IVaultProps> = (props) => {
             >
               <thead>
                 <tr>
-                  <th>
-                    <Trans>APY</Trans>
-                  </th>
-                  <th>
-                    <Trans>Total value locked</Trans>
-                  </th>
-                  <th>
-                    <Trans>Your staked LP</Trans>
-                  </th>
-                  <th>
-                    <Trans>Available to stake</Trans>
-                  </th>
+                  <th><Trans>APY</Trans></th>
+                  <th><Trans>Total value locked</Trans></th>
+                  <th><Trans>Your staked LP</Trans></th>
+                  <th><Trans>Available to stake</Trans></th>
                 </tr>
               </thead>
               <tbody>
@@ -86,7 +101,13 @@ const Vault: React.FC<IVaultProps> = (props) => {
                 </tr>
               </tbody>
             </Table>
-            <Button theme={"flat"} onClick={toggleDropdown}>
+            <Button
+              theme={"flat"}
+              onClick={toggleDropdown}
+              disableLoadingText={true}
+              loading={isFetchingVaultAddress}
+              disabled={isFetchingVaultAddress}
+            >
               <DropdownArrow isOpen={isOpen}/>
             </Button>
           </div>
@@ -102,14 +123,19 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   Deposit {token} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield.
                 </Trans>
               </Typography>
-              <Typography variant={ETypographyVariant.BODY} small={true}>
+              <Typography
+                variant={ETypographyVariant.BODY}
+                small={true}
+                element="p"
+                className="text-break"
+              >
                 <Trans>Link to contract:</Trans>&nbsp;
-                <Link link={""}>
-                  {"0x000000000000000000000"}
+                <Link link={Web3Util.getExplorerLink(chainId!, vaultAddress!, "account")!}>
+                  {vaultAddress}
                 </Link>
               </Typography>
 
-              <br/><br/>
+              <br/>
               <Row>
                 <Col className="mb-4 mb-md-0">
                   <Typography variant={ETypographyVariant.BODY} small={true}>

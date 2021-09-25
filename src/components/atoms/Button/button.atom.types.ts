@@ -19,4 +19,5 @@ export interface IButtonProps extends ButtonProps {
   variant?: never;
   flat?: boolean;
   loadingTextComponent?: JSX.Element;
+  disableLoadingText?: boolean;
 }
