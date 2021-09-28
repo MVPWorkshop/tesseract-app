@@ -31,7 +31,7 @@ const HomePage: React.FC = () => {
               uppercase={true}
             >
               <Trans>
-                Generate more yield with tesseract.
+                Generate more yield with Tesseract.
               </Trans>
             </Typography>
             <Typography
