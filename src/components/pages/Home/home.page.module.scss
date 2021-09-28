@@ -1,4 +1,40 @@
 @import "src/shared/styles/variables";
+@import "src/shared/styles/mixins";
 
 .homePage {
+  display: flex;
+  flex-wrap: wrap;
+
+  .textContent {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+
+    .title {
+      flex-grow: 1;
+      max-width: 591px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .titleBody {
+        max-width: 518px;
+      }
+    }
+  }
+
+  .spaceFarm {
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+
+    .spaceFarmImg {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      mix-blend-mode: color-dodge;
+    }
+  }
 }

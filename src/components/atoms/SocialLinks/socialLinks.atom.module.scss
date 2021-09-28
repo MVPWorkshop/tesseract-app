@@ -1,0 +1,17 @@
+.socialLinks {
+  display: inline-flex;
+
+  &.spacingLarge {
+    & > * {
+      margin-right: 47px;
+    }
+  }
+
+  & > * {
+    margin-right: 24px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
