@@ -15,161 +15,201 @@ msgstr ""
 
 #: src/shared/constants/error.constants.ts:12
 msgid "API Errored"
-msgstr ""
+msgstr "Problem s API"
 
-#: src/components/organisms/Vault/vault.organism.tsx:54
+#: src/components/organisms/Vault/vault.organism.tsx:89
 msgid "APY"
-msgstr ""
+msgstr "APY"
 
-#: src/components/organisms/Vault/vault.organism.tsx:115
+#: src/components/organisms/Vault/vault.organism.tsx:164
 msgid "Approve"
-msgstr ""
+msgstr "Utvrdi"
 
 #: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:161
 msgid "Approve connecting with {0}"
-msgstr ""
+msgstr "Utvrditi sjedinjenje sò {0}"
 
-#: src/components/organisms/Vault/vault.organism.tsx:63
+#: src/components/organisms/Vault/vault.organism.tsx:92
 msgid "Available to stake"
+msgstr "Možeš stavjati na"
+
+#: src/components/organisms/Vault/vault.organism.tsx:176
+msgid "Available to withdraw"
 msgstr ""
 
-#: src/components/organisms/Vault/vault.organism.tsx:103
-#: src/components/organisms/Vault/vault.organism.tsx:127
-msgid "Balance:"
-msgstr ""
+#: src/components/organisms/Vault/vault.organism.tsx:143
+msgid "Balance"
+msgstr "Saldo"
 
 #: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:224
 msgid "Change wallet"
-msgstr ""
+msgstr "Izměnjati portmone"
 
-#: src/components/molecules/ConnectWalletButton/connectWalletButton.molecule.tsx:32
-#~ msgid "Connect wallet"
-#~ msgstr ""
+#: src/components/pages/Vaults/vaults.page.tsx:82
+msgid "Connect wallet"
+msgstr ""
 
 #: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:203
 msgid "Copied!"
-msgstr ""
+msgstr "Kopija stvorjena!"
 
 #: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:203
 msgid "Copy address"
-msgstr ""
+msgstr "Kopiovati adresų"
 
-#: src/components/organisms/Vault/vault.organism.tsx:120
+#: src/components/organisms/Vault/vault.organism.tsx:169
 msgid "Deposit"
 msgstr ""
 
-#: src/components/organisms/Vault/vault.organism.tsx:88
+#: src/components/organisms/Vault/vault.organism.tsx:122
 msgid "Deposit {token} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield."
-msgstr ""
+msgstr "Stvori depozit s {token} vò tutoj valutě a my bųdemo njejų dobro vladati. Odpočivaj i ględaj kako jej cěnnosť råste - my bųdemo aplikovati najdobre strategije daby tvoriti dohod."
+
+#: src/components/pages/Vaults/vaults.page.tsx:112
+msgid "Deposited"
+msgstr "Depozit stvorjeny"
 
 #: src/components/organisms/Header/header.organism.tsx:35
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentacija"
 
 #: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:104
 msgid "Error connecting"
-msgstr ""
+msgstr "Problem sò sjedinjenjem"
 
-#: src/components/pages/Vaults/vaults.page.tsx:37
-#~ msgid "Hi!"
-#~ msgstr "Test"
+#: src/components/pages/Home/home.page.tsx:33
+msgid "Generate more yield with Tesseract."
+msgstr "Tvori vyše dohoda sò Tesseraktom"
+
+#: src/components/pages/Home/home.page.tsx:41
+msgid "In collaboration with the Yearn team we bring you the true power of DeFi by using the best Yearn strategies adapted for Polygon. Add liquidity to Tesseract and generate juicy yields."
+msgstr "My råbotali jesmo s grupojų yEarn i prinosimo Vam čistų silų DeFi sò pomoćjų najlěpših yEarn strategij prisposobjenyh do Polygona. Dodavajte denary do Tesserakta i tvorite krasive dohody."
 
 #: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:130
 msgid "Initializing"
-msgstr ""
+msgstr "Počinanje"
 
 #: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:96
 msgid "Install Metamask"
-msgstr ""
+msgstr "Instalovati Metamask"
 
-#: src/components/organisms/Footer/footer.organism.tsx:27
+#: src/components/organisms/Footer/footer.organism.tsx:32
 msgid "Join the community"
-msgstr ""
+msgstr "Prihodite do našej grupy"
 
 #: src/components/organisms/Header/header.organism.tsx:43
 msgid "Launch app"
-msgstr ""
+msgstr "Aktivovati aplikacijų"
 
-#: src/components/organisms/Vault/vault.organism.tsx:93
-msgid "Link to contract:"
-msgstr ""
+#: src/components/organisms/Vault/vault.organism.tsx:132
+msgid "Link to contract"
+msgstr "Link do kontrakta"
 
-#: src/components/atoms/Button/button.atom.tsx:59
+#: src/components/atoms/Button/button.atom.tsx:62
 msgid "Loading"
-msgstr ""
+msgstr "Čitanje"
 
 #: src/shared/constants/error.constants.ts:15
 msgid "No ethereum provider found, please install it"
-msgstr ""
+msgstr "My ne našli jesmo podavatelja ethereum, prosimo, instalujte jego"
 
 #: src/shared/constants/error.constants.ts:16
 msgid "No provider"
-msgstr ""
+msgstr "Nedostatòk podavatelja"
 
 #: src/components/pages/NotFound/notFound.page.tsx:23
 msgid "Page not found"
+msgstr "My ne našli tutoj strånice"
+
+#: src/components/organisms/Footer/footer.organism.tsx:20
+#: src/components/pages/Home/home.page.tsx:52
+msgid "Powered by"
 msgstr ""
 
 #: src/shared/constants/error.constants.ts:24
 msgid "Request rejected"
-msgstr ""
+msgstr "Prosba odmetena"
 
 #: src/shared/constants/error.constants.ts:23
 msgid "Request was rejected, please try again"
-msgstr ""
+msgstr "Prosba odmetena, prosimo, poprobujte iznova"
 
 #: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:163
 msgid "Select the wallet you want to connect with:"
-msgstr ""
+msgstr "S kakym portmone ty hćeš sę sjediniti?"
 
 #: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:159
 msgid "Something went wrong"
-msgstr ""
+msgstr "Jest někakovy problem"
 
 #: src/shared/constants/error.constants.ts:11
 msgid "Something went wrong on the API"
-msgstr ""
+msgstr "Jest někakovy problem s API"
 
 #: src/shared/constants/error.constants.ts:7
 msgid "Sorry, an unknown error occurred"
+msgstr "Pomilujte, neznajemy problem pojavil sę"
+
+#: src/components/pages/Vaults/vaults.page.tsx:50
+msgid "Switch to Polygon Network"
 msgstr ""
 
-#: src/components/organisms/Vault/vault.organism.tsx:57
-msgid "Total value locked"
+#: src/components/pages/Vaults/vaults.page.tsx:106
+msgid "TVL"
+msgstr "CBC"
+
+#: src/components/pages/Vaults/vaults.page.tsx:42
+msgid "This app supports{0}. You are currently on unsupported network"
 msgstr ""
+
+#: src/components/organisms/Vault/vault.organism.tsx:90
+msgid "Total value locked"
+msgstr "Cěla blokovana cěnnosť"
 
 #: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:112
 msgid "Try again"
-msgstr ""
+msgstr "Poprobuj iznova"
 
 #: src/shared/constants/error.constants.ts:8
 msgid "Unknown error"
-msgstr ""
+msgstr "Neznajemy problem"
 
 #: src/shared/constants/error.constants.ts:20
 msgid "Unsupported chain"
-msgstr ""
+msgstr "Lanec cěnnosti bez supporta"
 
 #: src/shared/constants/error.constants.ts:19
 msgid "Unsupported chain, please switch to supported one"
-msgstr ""
+msgstr "Lanec cěnnosti bez obsługe, prosimo, izměnjajte jego na obsługovan lanec"
 
 #: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:213
 msgid "View on explorer"
-msgstr ""
+msgstr "okazati prěględač blokčejnov"
 
 #: src/components/molecules/ConnectWalletButton/connectWalletButton.molecule.tsx:34
 msgid "Wallet"
-msgstr ""
+msgstr "Portmone"
 
-#: src/components/organisms/Vault/vault.organism.tsx:143
+#: src/components/pages/Vaults/vaults.page.tsx:74
+msgid "Wallet connection to {0} required"
+msgstr "Potrěbno jest sjedinjenje portmone s {0}"
+
+#: src/components/organisms/Vault/vault.organism.tsx:201
 msgid "Withdraw"
 msgstr ""
 
-#: src/components/organisms/Vault/vault.organism.tsx:152
+#: src/components/organisms/Vault/vault.organism.tsx:210
 msgid "Withdraw all"
 msgstr ""
 
-#: src/components/organisms/Vault/vault.organism.tsx:60
-msgid "Your staked LP"
+#: src/components/pages/Vaults/vaults.page.tsx:59
+msgid "You may need to manually switch network via your wallet."
 msgstr ""
+
+#: src/components/organisms/Vault/vault.organism.tsx:91
+msgid "Your staked LP"
+msgstr "Tvoje stavjeno LP"
+
+#: src/components/pages/Vaults/vaults.page.tsx:97
+msgid "{0} Vaults"
+msgstr "{0} Valuty"
