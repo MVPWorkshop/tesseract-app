@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { MouseEventHandler, useEffect, useState } from "react";
 import styles from "./vault.organism.module.scss";
 import { IVaultProps } from "./vault.organism.types";
 import { tokenIcons } from "../../../shared/constants/common.constants";
@@ -59,8 +59,12 @@ const Vault: React.FC<IVaultProps> = (props) => {
     setWithdrawValue(value);
   };
 
-  const toggleDropdown = () => {
-    setIsOpen(prevState => !prevState);
+  const toggleDropdown: MouseEventHandler<HTMLDivElement | HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+
+    if (!isFetchingVaultAddress) {
+      setIsOpen(prevState => !prevState);
+    }
   };
 
   const TokenLogo = tokenIcons[token];
@@ -70,7 +74,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     <div className={styles.vault}>
       <div className={styles.outer}>
         <div className={styles.inner}>
-          <div className={styles.header}>
+          <div className={styles.header} onClick={toggleDropdown}>
             <div className={styles.tokenLogoContainer}>
               <TokenLogo className="d-inline mr-2"/>
               <Typography

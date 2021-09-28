@@ -7,16 +7,14 @@ html, body {
   color: map-get($colors, 'white');
   background-color: map-get($colors, 'darkJungleGreen');
   background-image: url("../assets/bg.svg");
-}
-
-html, body, #root {
   height: 100%;
-  width: 100%;
 }
 
 #root {
   display: flex;
   flex-direction: column;
+  min-height: 100%;
+  overflow: hidden;
 }
 
 h1 {

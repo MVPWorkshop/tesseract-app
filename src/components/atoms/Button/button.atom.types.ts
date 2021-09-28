@@ -1,8 +1,8 @@
 import React from "react";
 import { ButtonProps } from "react-bootstrap";
+import { IClassableComponent } from "../../../shared/types/util.types";
 
-export interface IButtonProps extends ButtonProps {
-  className?: string
+export interface IButtonProps extends ButtonProps, IClassableComponent {
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
   uppercase?: boolean;
   loading?: boolean;

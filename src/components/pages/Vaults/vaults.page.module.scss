@@ -1,5 +1,15 @@
+@import "src/shared/styles/mixins";
+
 .vaultsPage {
-  padding-top: 100px;
+  padding-top: 25px;
+
+  @include sm() {
+    padding-top: 30px;
+  }
+
+  @include md() {
+    padding-top: 100px;
+  }
 
   .vaultsTitle {
     margin-bottom: 50px;

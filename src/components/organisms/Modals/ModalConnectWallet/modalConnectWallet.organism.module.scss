@@ -27,6 +27,7 @@
     $buttonHeight: 68px;
 
     .connectorButton {
+      width: 100%;
       align-items: flex-start;
       height: $buttonHeight;
       margin-bottom: $marginBetweenButtons;
