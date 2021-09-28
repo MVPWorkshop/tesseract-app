@@ -129,7 +129,8 @@ const Vault: React.FC<IVaultProps> = (props) => {
                 element="p"
                 className="text-break"
               >
-                <Trans>Link to contract:</Trans>&nbsp;
+                <Trans>Link to contract</Trans>:
+                &nbsp;
                 <Link link={Web3Util.getExplorerLink(chainId!, vaultAddress!, "account")!}>
                   {vaultAddress}
                 </Link>
@@ -139,7 +140,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
               <Row>
                 <Col className="mb-4 mb-md-0">
                   <Typography variant={ETypographyVariant.BODY} small={true}>
-                    <Trans>Balance:</Trans>
+                    <Trans>Balance</Trans>:
                     &nbsp;
                     {`0 ${token}`}
                   </Typography>
@@ -172,7 +173,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
                 </Col>
                 <Col>
                   <Typography variant={ETypographyVariant.BODY} small={true}>
-                    <Trans>Balance:</Trans>
+                    <Trans>Available to withdraw</Trans>:
                     &nbsp;
                     {`0 ${token}`}
                   </Typography>

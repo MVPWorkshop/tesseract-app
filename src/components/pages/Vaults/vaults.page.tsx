@@ -40,8 +40,8 @@ const VaultsPage: React.FC = () => {
           variant={ETypographyVariant.BODY}
         >
           <Trans>
-            This app supports&nbsp;
-            {getChainLabelList()}.
+            This app supports
+            {" "+getChainLabelList()}.
             You are currently on unsupported network
           </Trans>
         </Typography>
