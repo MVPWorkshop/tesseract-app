@@ -1,7 +1,16 @@
+@use "sass:math";
 @import "variables";
 
 @function pxToRem($value){
-  @return ($value / $defaultFontSize) + rem
+  @return $value / $defaultFontSize + rem
+}
+
+// h1XlSize / scale^(hSize - offset); Minor third scale dependant on breakpoints
+@function headerFontSize($headerSize, $breakPoint) {
+  $offset: map-get($offsetByBreakpoint, $breakPoint);
+  $scale: math.pow($headerScale, $headerSize + $offset);
+
+  @return $h1XlSize / $scale + px;
 }
 
 @mixin removeButtonDefaultStyles {
@@ -9,7 +18,6 @@
   background: none;
   outline: none;
 }
-
 
 @mixin textMain {
   font-size: pxToRem(21px);
@@ -63,5 +71,25 @@
 @mixin xl {
   @media (min-width: #{$screen-xl-min}) {
     @content;
+  }
+}
+
+@mixin headerFontSize($headerSize) {
+  font-size: headerFontSize($headerSize, $screen-xs-min);
+
+  @include sm() {
+    font-size: headerFontSize($headerSize, $screen-sm-min);
+  }
+
+  @include md() {
+    font-size: headerFontSize($headerSize, $screen-md-min);
+  }
+
+  @include lg() {
+    font-size: headerFontSize($headerSize, $screen-lg-min);
+  }
+
+  @include xl() {
+    font-size: headerFontSize($headerSize, $screen-xl-min);
   }
 }

@@ -20,25 +20,25 @@ html, body, #root {
 }
 
 h1 {
-  font-size: pxToRem(57.33px);
+  @include headerFontSize(1);
 }
 
 h2 {
-  font-size: pxToRem(47.78px);
+  @include headerFontSize(2);
 }
 
 h3 {
-  font-size: pxToRem(39.81px);
+  @include headerFontSize(3);
 }
 
 h4 {
-  font-size: pxToRem(33.18px);
+  @include headerFontSize(4);
 }
 
 h5 {
-  font-size: pxToRem(27.65px);
+  @include headerFontSize(5);
 }
 
 h6 {
-  font-size: pxToRem(23.04px);
+  @include headerFontSize(6);
 }
