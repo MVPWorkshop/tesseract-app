@@ -10,8 +10,11 @@
     flex-wrap: wrap;
 
     .logo {
+      display: flex;
+      flex-direction: column;
       width: 100%;
       margin-bottom: 24px;
+      align-items: center;
 
       @include sm() {
         width: initial;

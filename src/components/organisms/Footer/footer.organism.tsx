@@ -7,12 +7,22 @@ import { EFontWeight } from "../../../shared/types/styles.types";
 import { ETypographyVariant } from "../../atoms/Typography/typography.atom.types";
 import { Container } from "react-bootstrap";
 import SocialLinks from "../../atoms/SocialLinks/socialLinks.atom";
+import { ReactComponent as YearnLogoSVG } from "../../../shared/assets/yearn-logo.svg";
 
 const Footer: React.FC = () => {
   return (
     <div className={styles.footer}>
       <Container className={styles.container}>
-        <TesseractLogoSVG className={styles.logo}/>
+        <div className={styles.logo}>
+          <TesseractLogoSVG className={"mb-4"}/>
+          <div>
+            <Typography>
+              <Trans>Powered by</Trans>
+            </Typography>
+            &nbsp;
+            <YearnLogoSVG/>
+          </div>
+        </div>
         <div className={styles.content}>
           <Typography
             fontWeight={EFontWeight.SEMI_BOLD}
