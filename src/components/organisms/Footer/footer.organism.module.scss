@@ -10,8 +10,11 @@
     flex-wrap: wrap;
 
     .logo {
+      display: flex;
+      flex-direction: column;
       width: 100%;
       margin-bottom: 24px;
+      align-items: center;
 
       @include sm() {
         width: initial;
@@ -27,18 +30,6 @@
 
       @include sm() {
         align-items: flex-end;
-      }
-
-      .socialContainer {
-        display: inline-flex;
-
-        & > * {
-          margin-right: 24px;
-
-          &:last-child {
-            margin-right: 0;
-          }
-        }
       }
     }
   }

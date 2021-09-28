@@ -33,7 +33,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: node_modules
-          key: node_modules-${{ hashFiles('**/package-lock.json') }}
+          key: node_modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install yarn
         run: npm install -g yarn
@@ -53,7 +53,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: node_modules
-          key: node_modules-${{ hashFiles('**/package-lock.json') }}
+          key: node_modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Typescript code passes lint check
         run: yarn lint
@@ -70,10 +70,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: node_modules
-          key: node_modules-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Rebuild Node SASS
-        run: npm rebuild node-sass
+          key: node_modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Code builds successfully
         run: yarn build

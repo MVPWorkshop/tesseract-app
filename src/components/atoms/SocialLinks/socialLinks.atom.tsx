@@ -1,0 +1,51 @@
+import React from "react";
+import Link from "../Link/link.atom";
+import Button from "../Button/button.atom";
+import { ReactComponent as MediumLogoSVG } from "../../../shared/assets/medium.svg";
+import { ReactComponent as DiscordLogoSVG } from "../../../shared/assets/discord.svg";
+import { ReactComponent as TwitterLogoSVG } from "../../../shared/assets/twitter.svg";
+import { ReactComponent as TelegramLogoSVG } from "../../../shared/assets/telegram.svg";
+import styles from "./socialLinks.atom.module.scss";
+import { ISocialLinksProps } from "./socialLinks.atom.types";
+import { classes } from "../../../shared/utils/styles.util";
+
+const SocialLinks: React.FC<ISocialLinksProps> = (props) => {
+
+  const {
+    className,
+    spacingLarge
+  } = props;
+
+  const socialLinksClassName = classes(
+    styles.socialLinks,
+    [!!spacingLarge, styles.spacingLarge],
+    className
+  );
+
+  return (
+    <div className={socialLinksClassName}>
+      <Link link={"medium"}>
+        <Button theme="flat" className="p-0">
+          <MediumLogoSVG/>
+        </Button>
+      </Link>
+      <Link link={"discord"}>
+        <Button theme="flat" className="p-0">
+          <DiscordLogoSVG/>
+        </Button>
+      </Link>
+      <Link link={"twitter"}>
+        <Button theme="flat" className="p-0">
+          <TwitterLogoSVG/>
+        </Button>
+      </Link>
+      <Link link={"telegram"}>
+        <Button theme="flat" className="p-0">
+          <TelegramLogoSVG/>
+        </Button>
+      </Link>
+    </div>
+  );
+};
+
+export default SocialLinks;

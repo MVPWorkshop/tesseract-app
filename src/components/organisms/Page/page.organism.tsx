@@ -13,13 +13,15 @@ const PageOrganism: React.FC<IPageProps> = (props) => {
     children,
     className,
     headerType,
+    disableFooter,
+    disableHeader,
     ...otherProps
   } = props;
 
   const MainContent = () => (
     <Container
       {...otherProps}
-      className={classes(props.className, styles.page)}
+      className={classes(styles.page, props.className)}
     >
       { containerEnabled ?
         <div className={styles.container}>
@@ -33,9 +35,9 @@ const PageOrganism: React.FC<IPageProps> = (props) => {
 
   return (
     <Fragment>
-      <Header type={headerType}/>
+      {!disableHeader && <Header type={headerType}/>}
       <MainContent/>
-      <Footer/>
+      {!disableFooter && <Footer/>}
     </Fragment>
   );
 };

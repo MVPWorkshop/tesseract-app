@@ -22,7 +22,18 @@ $accents: (
 $defaultFontSize: 16px;
 $backgroundColor: map-get($colors, 'lightGray');
 
+$screen-xs-min: 0px;
 $screen-sm-min: 576px;
 $screen-md-min: 768px;
 $screen-lg-min: 992px;
 $screen-xl-min: 1200px;
+
+$h1XlSize: 57.33;
+$headerScale: 1.2;
+$offsetByBreakpoint: (
+  $screen-xl-min: -1, // h1: 1 - 1 = 0; take original xl h1 size
+  $screen-lg-min: 0, // h1: 1 - 0 = 1; take size off h2
+  $screen-md-min: 1,
+  $screen-sm-min: 2,
+  $screen-xs-min: 3
+);
