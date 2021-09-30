@@ -1,121 +1,124 @@
 {
-  "name": "tesseract-app",
-  "version": "1.0.0",
-  "private": true,
-  "dependencies": {
-    "@ethersproject/providers": "^5.4.4",
-    "@lingui/react": "^3.10.2",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@web3-react/core": "^6.1.9",
-    "@web3-react/injected-connector": "^6.0.7",
-    "@web3-react/walletconnect-connector": "^6.2.4",
-    "axios": "^0.19.2",
-    "bootstrap": "^4.5.0",
-    "ethers": "^5.4.5",
-    "moment": "^2.29.1",
-    "pre-commit": "^1.2.2",
-    "rc-slider": "^9.7.2",
-    "react": "^17.0.1",
-    "react-bootstrap": "^1.5.2",
-    "react-datepicker": "^4.1.1",
-    "react-dom": "^17.0.1",
-    "react-redux": "^7.2.1",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.1",
-    "redux": "^4.0.5",
-    "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0",
-    "sass": "1.32.12",
-    "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1",
-    "web3": "^1.2.9"
-  },
-  "devDependencies": {
-    "@lingui/cli": "^3.10.2",
-    "@lingui/macro": "^3.10.2",
-    "@typechain/ethers-v5": "^7.0.1",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0",
-    "@types/react": "^17.0.0",
-    "@types/react-datepicker": "^4.1.3",
-    "@types/react-dom": "^17.0.0",
-    "@types/react-redux": "^7.1.9",
-    "@types/react-router-dom": "^5.1.7",
-    "typechain": "^5.1.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lang:extract": "lingui extract",
-    "lang:extract:clean": "lingui extract --clean",
-    "lang:compile": "lingui compile",
-    "lint": "eslint ./src",
-    "lint:fix": "eslint ./src --fix",
-    "sc:extract": "typechain --target=ethers-v5 './src/shared/contracts/abi/*.json' --out-dir './src/shared/contracts'"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest",
-      "eslint:recommended",
-      "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended"
-    ],
-    "rules": {
-      "no-console": "warn",
-      "no-constant-condition": "off",
-      "no-dupe-else-if": "off",
-      "no-empty": "warn",
-      "no-extra-boolean-cast": "off",
-      "no-inner-declarations": "off",
-      "no-obj-calls": "off",
-      "no-sparse-arrays": "off",
-      "no-unreachable": "warn",
-      "indent": [
-        "warn",
-        2,
-        {
-          "SwitchCase": 1
-        }
-      ],
-      "quotes": [
-        "warn",
-        "double"
-      ],
-      "semi": [
-        "warn",
-        "always"
-      ],
-      "@typescript-eslint/no-empty-interface": "off",
-      "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "off",
-      "linebreak-style": [
-        "error",
-        "unix"
-      ],
-      "@typescript-eslint/adjacent-overload-signatures": "off",
-      "@typescript-eslint/no-non-null-assertion": "off",
-      "react-hooks/exhaustive-deps": "off",
-      "@typescript-eslint/no-var-requires": "off"
-    }
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "pre-commit": [
-    "lint"
-  ]
+	"name": "tesseract-app",
+	"version": "1.0.0",
+	"private": true,
+	"homepage": "https://mvpworkshop.github.io/tesseract-app/",
+	"dependencies": {
+		"@ethersproject/providers": "^5.4.4",
+		"@lingui/react": "^3.10.2",
+		"@testing-library/jest-dom": "^5.11.4",
+		"@testing-library/react": "^11.1.0",
+		"@testing-library/user-event": "^12.1.10",
+		"@web3-react/core": "^6.1.9",
+		"@web3-react/injected-connector": "^6.0.7",
+		"@web3-react/walletconnect-connector": "^6.2.4",
+		"axios": "^0.19.2",
+		"bootstrap": "^4.5.0",
+		"ethers": "^5.4.5",
+		"moment": "^2.29.1",
+		"pre-commit": "^1.2.2",
+		"rc-slider": "^9.7.2",
+		"react": "^17.0.1",
+		"react-bootstrap": "^1.5.2",
+		"react-datepicker": "^4.1.1",
+		"react-dom": "^17.0.1",
+		"react-redux": "^7.2.1",
+		"react-router-dom": "^5.2.0",
+		"react-scripts": "4.0.1",
+		"redux": "^4.0.5",
+		"redux-devtools-extension": "^2.13.8",
+		"redux-thunk": "^2.3.0",
+		"sass": "1.32.12",
+		"typescript": "^4.1.2",
+		"web-vitals": "^1.0.1",
+		"web3": "^1.2.9"
+	},
+	"devDependencies": {
+		"@lingui/cli": "^3.10.2",
+		"@lingui/macro": "^3.10.2",
+		"@typechain/ethers-v5": "^7.0.1",
+		"@types/jest": "^26.0.15",
+		"@types/node": "^12.0.0",
+		"@types/react": "^17.0.0",
+		"@types/react-datepicker": "^4.1.3",
+		"@types/react-dom": "^17.0.0",
+		"@types/react-redux": "^7.1.9",
+		"@types/react-router-dom": "^5.1.7",
+		"gh-pages": "^3.2.3",
+		"typechain": "^5.1.2"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"deploy": "gh-pages -d build",
+		"eject": "react-scripts eject",
+		"lang:extract": "lingui extract",
+		"lang:extract:clean": "lingui extract --clean",
+		"lang:compile": "lingui compile",
+		"lint": "eslint ./src",
+		"lint:fix": "eslint ./src --fix",
+		"sc:extract": "typechain --target=ethers-v5 './src/shared/contracts/abi/*.json' --out-dir './src/shared/contracts'"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest",
+			"eslint:recommended",
+			"plugin:@typescript-eslint/eslint-recommended",
+			"plugin:@typescript-eslint/recommended"
+		],
+		"rules": {
+			"no-console": "warn",
+			"no-constant-condition": "off",
+			"no-dupe-else-if": "off",
+			"no-empty": "warn",
+			"no-extra-boolean-cast": "off",
+			"no-inner-declarations": "off",
+			"no-obj-calls": "off",
+			"no-sparse-arrays": "off",
+			"no-unreachable": "warn",
+			"indent": [
+				"warn",
+				2,
+				{
+					"SwitchCase": 1
+				}
+			],
+			"quotes": [
+				"warn",
+				"double"
+			],
+			"semi": [
+				"warn",
+				"always"
+			],
+			"@typescript-eslint/no-empty-interface": "off",
+			"@typescript-eslint/no-explicit-any": "off",
+			"@typescript-eslint/explicit-module-boundary-types": "off",
+			"linebreak-style": [
+				"error",
+				"unix"
+			],
+			"@typescript-eslint/adjacent-overload-signatures": "off",
+			"@typescript-eslint/no-non-null-assertion": "off",
+			"react-hooks/exhaustive-deps": "off",
+			"@typescript-eslint/no-var-requires": "off"
+		}
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"pre-commit": [
+		"lint"
+	]
 }
