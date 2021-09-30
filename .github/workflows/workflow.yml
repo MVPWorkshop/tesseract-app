@@ -85,19 +85,5 @@ jobs:
           REACT_APP_EXPLORER_POLYGON_MUMBAI: ${{ secrets.REACT_APP_EXPLORER_POLYGON_MUMBAI }}
           REACT_APP_REGISTRY_ADDRESS_POLYGON_MAINNET: ${{ secrets.REACT_APP_REGISTRY_ADDRESS_POLYGON_MAINNET }}
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Load node modules
-        uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: node_modules-${{ hashFiles('**/yarn.lock') }}
-
       - name: Deploy
         run: yarn deploy
