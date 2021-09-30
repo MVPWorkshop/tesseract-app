@@ -19,6 +19,7 @@ import Slider from "../../atoms/Slider/slider.atom";
 import useWeb3 from "../../../hooks/useWeb3";
 import Web3Util from "../../../shared/utils/web3.util";
 import RegistryContract from "../../../shared/contracts/registry.contract";
+import VaultService from "../../../shared/services/vault/vault.service";
 
 const Vault: React.FC<IVaultProps> = (props) => {
   const {
@@ -50,6 +51,10 @@ const Vault: React.FC<IVaultProps> = (props) => {
 
     fetchVaultAddress();
   }, [token]);
+
+  useEffect(() => {
+    new VaultService().getVaultAPY("tvBTC");
+  }, []);
 
   const onDepositValueChange = (value: number) => {
     setDepositValue(value);

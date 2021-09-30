@@ -29,3 +29,19 @@ export interface ApiRequestParams {
 export type IAuthenticationData =
   IOauthAuthentication |
   IBasicAuthentication;
+
+export interface IPromQlResponse<ValueType = string> {
+  status: string
+  data: {
+    resultType: string;
+    result: [
+      {
+        metric: any,
+        value: [
+          number, // timestamp
+          ValueType // actual value
+        ]
+      }
+    ]
+  }
+}
