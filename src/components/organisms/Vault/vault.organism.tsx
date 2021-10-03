@@ -24,7 +24,7 @@ import {
   fetchTokenBalance,
   fetchTokenDetails,
   fetchTokenVault
-} from "../../../redux/tokens/token.redux.actions";
+} from "../../../redux/tokens/tokens.redux.actions";
 import { RootState } from "../../../redux/redux.types";
 import { createLoadingSelector } from "../../../redux/loading/loading.redux.reducer";
 import ActionUtil from "../../../shared/utils/action.util";
