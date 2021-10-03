@@ -26,7 +26,7 @@ export type UiReduxActions =
   ChangeLocale;
 
 // Reducer
-export type UiReduxReducerState = {
+export interface IUiReduxReducerState {
   modals: DynamicObject<boolean, EModalName>;
   locale: ESupportedLocales;
-};
+}

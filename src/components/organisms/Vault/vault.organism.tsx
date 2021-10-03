@@ -18,43 +18,63 @@ import { Row, Col } from "react-bootstrap";
 import Slider from "../../atoms/Slider/slider.atom";
 import useWeb3 from "../../../hooks/useWeb3";
 import Web3Util from "../../../shared/utils/web3.util";
-import RegistryContract from "../../../shared/contracts/registry.contract";
-import VaultService from "../../../shared/services/vault/vault.service";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchTokenApprovedAmount,
+  fetchTokenBalance,
+  fetchTokenDetails,
+  fetchTokenVault
+} from "../../../redux/tokens/token.redux.actions";
+import { RootState } from "../../../redux/redux.types";
+import { createLoadingSelector } from "../../../redux/loading/loading.redux.reducer";
+import ActionUtil from "../../../shared/utils/action.util";
+import { ETokenReduxActions, ITokenReduxState } from "../../../redux/tokens/tokens.redux.types";
 
 const Vault: React.FC<IVaultProps> = (props) => {
   const {
-    token
+    token,
+    signer
   } = props;
 
-  const { library, chainId } = useWeb3();
+  const dispatch = useDispatch();
+  const { chainId, account } = useWeb3();
+
+  const isFetchingAnyData = useSelector<RootState, boolean>(
+    createLoadingSelector([
+      ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_BALANCE, token),
+      ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_DETAILS, token),
+      ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_VAULT, token),
+      ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_APPROVED_AMOUNT, token),
+    ])
+  );
+
+  const {
+    vaultAddress,
+    amountApproved,
+    balance,
+    decimals
+  } = useSelector<RootState, ITokenReduxState>(state => state.tokens[token]);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [depositValue, setDepositValue] = useState<number>(0);
   const [withdrawValue, setWithdrawValue] = useState<number>(0);
-  const [isFetchingVaultAddress, setIsFetchingVaultAddress] = useState<boolean>();
-  const [vaultAddress, setVaultAddress] = useState<string>();
-
 
   useEffect(() => {
-    const fetchVaultAddress = async () => {
-      setIsFetchingVaultAddress(true);
-      try {
-        if (library && chainId) {
-          const registryContract = new RegistryContract(library, chainId);
-          const vaultAddress = await registryContract.getVaultByToken(token);
-          setVaultAddress(vaultAddress);
-        }
-      } finally {
-        setIsFetchingVaultAddress(false);
-      }
-    };
-
-    fetchVaultAddress();
-  }, [token]);
+    dispatch(fetchTokenDetails(token, signer));
+    dispatch(fetchTokenVault(token, signer));
+  }, [token, chainId]);
 
   useEffect(() => {
-    new VaultService().getVaultAPY("tvBTC");
-  }, []);
+    if (account) {
+      dispatch(fetchTokenBalance(token, account, signer));
+    }
+  }, [token, chainId, account]);
+
+  useEffect(() => {
+    if (account && vaultAddress) {
+      dispatch(fetchTokenApprovedAmount(token, account, vaultAddress, signer));
+    }
+  }, [token, chainId, account, vaultAddress]);
 
   const onDepositValueChange = (value: number) => {
     setDepositValue(value);
@@ -67,7 +87,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const toggleDropdown: MouseEventHandler<HTMLDivElement | HTMLButtonElement> = (e) => {
     e.stopPropagation();
 
-    if (!isFetchingVaultAddress) {
+    if (!isFetchingAnyData) {
       setIsOpen(prevState => !prevState);
     }
   };
@@ -106,7 +126,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   <td>10.56%</td>
                   <td>$12,693,421.56</td>
                   <td>-</td>
-                  <td>-</td>
+                  <td>{amountApproved?.toNumber() || "-"}</td>
                 </tr>
               </tbody>
             </Table>
@@ -114,8 +134,8 @@ const Vault: React.FC<IVaultProps> = (props) => {
               theme={"flat"}
               onClick={toggleDropdown}
               disableLoadingText={true}
-              loading={isFetchingVaultAddress}
-              disabled={isFetchingVaultAddress}
+              loading={isFetchingAnyData}
+              disabled={isFetchingAnyData}
             >
               <DropdownArrow isOpen={isOpen}/>
             </Button>
@@ -151,7 +171,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   <Typography variant={ETypographyVariant.BODY} small={true}>
                     <Trans>Balance</Trans>:
                     &nbsp;
-                    {`0 ${token}`}
+                    {`${(balance && decimals ? Web3Util.formatTokenNumber(balance, decimals) : "-")} ${token}`}
                   </Typography>
                   <Input
                     type={EInputType.NUMBER}

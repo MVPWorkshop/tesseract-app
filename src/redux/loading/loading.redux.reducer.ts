@@ -2,7 +2,7 @@
  * This reducer is used for controlling loading state of the specific action or bach of actions
  */
 import { RootState } from "../redux.types";
-import { AnyAction, Reducer } from "redux";
+import { Reducer } from "redux";
 import { DynamicObject } from "../../shared/types/util.types";
 
 export type LoadingState = DynamicObject<boolean>;
@@ -10,7 +10,7 @@ export type LoadingState = DynamicObject<boolean>;
 const initialState: LoadingState = {
 };
 
-export const loadingReduxReducer: Reducer<LoadingState, AnyAction> = (state = initialState, action) => {
+export const loadingReduxReducer: Reducer<LoadingState> = (state = initialState, action) => {
   const { type } = action;
   const matches = /(.*)_(REQUEST|SUCCESS|ERROR)/.exec(type);
   // not a *_REQUEST / *_SUCCESS /  *_FAILURE actions, so we ignore them

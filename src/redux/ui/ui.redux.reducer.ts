@@ -1,13 +1,13 @@
 import { Reducer } from "redux";
-import { EUiReduxActions, UiReduxActions, UiReduxReducerState } from "./ui.redux.types";
+import { EUiReduxActions, UiReduxActions, IUiReduxReducerState } from "./ui.redux.types";
 import { ESupportedLocales } from "../../shared/types/locale.types";
 
-const initialState: UiReduxReducerState = {
+const initialState: IUiReduxReducerState = {
   modals: {},
   locale: ESupportedLocales.ENGLISH
 };
 
-const uiReduxReducer: Reducer<UiReduxReducerState, UiReduxActions> = (state = initialState, action) => {
+const uiReduxReducer: Reducer<IUiReduxReducerState, UiReduxActions> = (state = initialState, action) => {
   switch (action.type) {
     case EUiReduxActions.TOGGLE_MODAL: {
 

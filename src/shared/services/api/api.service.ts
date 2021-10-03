@@ -1,8 +1,8 @@
 import RestService from "../rest/rest.service";
 import { API_BASE_URL } from "../../constants/config.constants";
-import { IGetVaultAPYResponse } from "./vault.service.types";
+import { IGetVaultAPYResponse } from "./api.service.types";
 
-class VaultService extends RestService {
+class ApiService extends RestService {
   constructor() {
     super({
       baseUrl: API_BASE_URL
@@ -21,6 +21,20 @@ class VaultService extends RestService {
 
     return response.data.data.result[0].value[1];
   }
+
+  public async getTokenPrice(tokenSymbol: string): Promise<string> {
+    await this.get<IGetVaultAPYResponse>({
+      url: "/query",
+      config: {
+        params: {
+          query: `price{ticker="${tokenSymbol}",dex="Quickswap"}`
+        }
+      }
+    });
+
+    return "1.0";
+    // return response.data.data.result[0].value[1];
+  }
 }
 
-export default VaultService;
+export default ApiService;

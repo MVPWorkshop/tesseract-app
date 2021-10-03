@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PageOrganism from "../../organisms/Page/page.organism";
 import { getSupportedTokensByChain } from "../../../shared/utils/vault.util";
 import useWeb3 from "../../../hooks/useWeb3";
@@ -14,14 +14,24 @@ import { useDispatch } from "react-redux";
 import { toggleModal } from "../../../redux/ui/ui.redux.actions";
 import { EModalName } from "../../../redux/ui/ui.redux.types";
 import styles from "./vaults.page.module.scss";
+import { JsonRpcSigner } from "@ethersproject/providers";
+import { Nullable } from "../../../shared/types/util.types";
 
 const VaultsPage: React.FC = () => {
   const dispatch = useDispatch();
-  const { chainId, isChainSupported, active, library } = useWeb3();
-  const displayChainId = (chainId && isChainSupported) ? chainId : EChainId.POLYGON_MAINNET;
+  const { chainId, isChainSupported, active, library, account, getSigner } = useWeb3();
 
+  const [signer, setSigner] = useState<Nullable<JsonRpcSigner>>();
+
+  useEffect(() => {
+    getSigner()
+      .then(setSigner)
+      .catch(() => setSigner(null));
+  }, [library, account]);
+
+  const displayChainId = (chainId && isChainSupported) ? chainId : EChainId.POLYGON_MAINNET;
   const tokens = getSupportedTokensByChain(displayChainId);
-  const isProviderAvailable = active && library;
+  const isProviderAvailable = active && library && signer;
 
   const getChainLabelList = () => {
     return supportedChainIds.map((chainId, index) => {
@@ -117,6 +127,7 @@ const VaultsPage: React.FC = () => {
           <Vault
             key={`${token}-${displayChainId}`}
             token={token}
+            signer={signer!}
           />
         ))}
       </Fragment>

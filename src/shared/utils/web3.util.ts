@@ -9,6 +9,8 @@ import { UserRejectedRequestError as WalletConnectRejectedRequestError } from "@
 import { EErrorTypes, WalletConnectorError } from "../types/error.types";
 import { EChainId } from "../types/web3.types";
 import { EXPLORER_URLS } from "../constants/web3.constants";
+import { BigNumber } from "ethers";
+import { formatUnits } from "ethers/lib/utils";
 
 class Web3Util {
   public static isActiveChainSupported(chainId: Nullable<number>): boolean {
@@ -62,6 +64,10 @@ class Web3Util {
         return `${baseUrl}/tx/${data}`;
       }
     }
+  }
+
+  public static formatTokenNumber(number: BigNumber, decimals: number) {
+    return formatUnits(number, decimals).toString();
   }
 }
 
