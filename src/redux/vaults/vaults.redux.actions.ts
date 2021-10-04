@@ -4,7 +4,7 @@ import {
   SetVaultDetailsAction,
   SetVaultTvlAction
 } from "./vaults.redux.types";
-import { BigNumber } from "ethers";
+import { BigNumber, ContractTransaction } from "ethers";
 import { JsonRpcSigner } from "@ethersproject/providers";
 import { Thunk } from "../redux.types";
 import ActionUtil from "../../shared/utils/action.util";
@@ -14,6 +14,12 @@ import ApiService from "../../shared/services/api/api.service";
 import { CONFIRMATIONS_SUCCESS } from "../../shared/constants/config.constants";
 import { fetchTokenBalance } from "../tokens/tokens.redux.actions";
 import { EChainId } from "../../shared/types/web3.types";
+import React from "react";
+import { toast } from "react-toastify";
+import { i18n } from "@lingui/core";
+import { t } from "@lingui/macro";
+import Link from "../../components/atoms/Link/link.atom";
+import Web3Util from "../../shared/utils/web3.util";
 
 export function setVaultDetails(vault: string, symbol: string, apy: number): SetVaultDetailsAction {
   return {
@@ -99,19 +105,45 @@ export function fetchVaultTvl(vaultAddress: string, provider: JsonRpcSigner): Th
   };
 }
 
-export function depositAssets(token: ESupportedTokens, vaultAddress: string, userAddress: string, amount: BigNumber, provider: JsonRpcSigner, chainId: EChainId): Thunk<void> {
+export function depositAssetsIntoVault(token: ESupportedTokens, vaultAddress: string, userAddress: string, amount: BigNumber | -1, provider: JsonRpcSigner, chainId: EChainId): Thunk<void> {
+  let toastId: React.ReactText;
+
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(EVaultReduxActions.DEPOSIT_ASSETS, vaultAddress));
 
       const vaultContract = (new ContractFactory(EContractType.VAULT)).createContract(vaultAddress, provider);
-      const tx = await vaultContract["deposit(uint256)"](amount);
-      await tx.wait(CONFIRMATIONS_SUCCESS);
+      let tx: ContractTransaction;
+      if (amount === -1) {
+        tx = await vaultContract["deposit()"]();
+      } else {
+        tx = await vaultContract["deposit(uint256)"](amount);
+      }
+      toastId = toast.loading(i18n._(t`Waiting for confirmations`));
+      const receipt = await tx.wait(CONFIRMATIONS_SUCCESS);
+      const txHash = receipt.transactionHash;
+      const txLink = Web3Util.getExplorerLink(chainId, txHash, "tx");
 
       dispatch(fetchUserVaultShares(vaultAddress, userAddress, provider));
       dispatch(fetchTokenBalance(token, userAddress, provider, chainId));
+
+      toast.update(toastId, {
+        type: "success",
+        render: Link({ newTab: true, link: txLink!, children: i18n._(t`Transactions hash: ${txHash}`)}),
+        isLoading: false,
+        autoClose: 3500
+      });
+
       dispatch(ActionUtil.successAction(EVaultReduxActions.DEPOSIT_ASSETS, vaultAddress));
     } catch {
+      if (toastId) {
+        toast.update(toastId, {
+          type: "error",
+          render: i18n._(t`Failed depositing to the vault`),
+          isLoading: false,
+          autoClose: 2000
+        });
+      }
       dispatch(ActionUtil.errorAction(EVaultReduxActions.DEPOSIT_ASSETS, vaultAddress));
     }
   };

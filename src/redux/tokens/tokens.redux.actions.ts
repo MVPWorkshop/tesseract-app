@@ -16,6 +16,12 @@ import Erc20ContractFactory from "../../shared/contracts/erc20Contract.factory";
 import ApiService from "../../shared/services/api/api.service";
 import RegistryContractFactory from "../../shared/contracts/registryContract.factory";
 import { CONFIRMATIONS_SUCCESS } from "../../shared/constants/config.constants";
+import { toast } from "react-toastify";
+import { i18n } from "@lingui/core";
+import React from "react";
+import Link from "../../components/atoms/Link/link.atom";
+import Web3Util from "../../shared/utils/web3.util";
+import { t } from "@lingui/macro";
 
 export function setTokenBalance(token: ESupportedTokens, newBalance: BigNumber): SetTokenBalanceAction {
   return {
@@ -98,7 +104,6 @@ export function fetchTokenVault(token: ESupportedTokens, provider: JsonRpcSigner
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(ETokenReduxActions.FETCH_TOKEN_VAULT, token));
-
       let _chainId = chainId;
       if (!_chainId) {
         _chainId = await provider.getChainId();
@@ -134,18 +139,37 @@ export function fetchTokenApprovedAmount(token: ESupportedTokens, userAddress: s
   };
 }
 
-export function approveTokenSpending(token: ESupportedTokens, amount: BigNumber, userAddress: string, spender: string, provider: JsonRpcSigner, chainId?: EChainId): Thunk<void> {
+export function approveTokenSpending(token: ESupportedTokens, amount: BigNumber, userAddress: string, spender: string, provider: JsonRpcSigner, chainId: EChainId): Thunk<void> {
+  let toastId: React.ReactText;
+
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(ETokenReduxActions.APPROVE_TOKEN_SPENDING, token));
 
       const tokenContract = await (new Erc20ContractFactory(token, provider)).getInstance(chainId);
       const tx = await tokenContract.approve(spender, amount);
-      await tx.wait(CONFIRMATIONS_SUCCESS);
+      toastId = toast.loading(i18n._(t`Waiting for confirmations`));
+      const receipt = await tx.wait(CONFIRMATIONS_SUCCESS);
+      const txHash = receipt.transactionHash;
+      const txLink = Web3Util.getExplorerLink(chainId, txHash, "tx");
 
+      toast.update(toastId, {
+        type: "success",
+        render: Link({ newTab: true, link: txLink!, children: i18n._(t`Transactions hash: ${txHash}`)}),
+        isLoading: false,
+        autoClose: 3500
+      });
       dispatch(fetchTokenApprovedAmount(token, userAddress, spender, provider, chainId));
       dispatch(ActionUtil.successAction(ETokenReduxActions.APPROVE_TOKEN_SPENDING, token));
     } catch (error) {
+      if (toastId) {
+        toast.update(toastId, {
+          type: "error",
+          render: i18n._(t`Failed approving token for spending`),
+          isLoading: false,
+          autoClose: 2000
+        });
+      }
       dispatch(ActionUtil.errorAction(ETokenReduxActions.APPROVE_TOKEN_SPENDING, token));
     }
   };

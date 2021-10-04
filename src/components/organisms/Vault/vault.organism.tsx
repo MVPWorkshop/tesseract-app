@@ -30,7 +30,12 @@ import { RootState } from "../../../redux/redux.types";
 import { createLoadingSelector } from "../../../redux/loading/loading.redux.reducer";
 import ActionUtil from "../../../shared/utils/action.util";
 import { ETokenReduxActions, ITokenReduxState } from "../../../redux/tokens/tokens.redux.types";
-import { fetchUserVaultShares, fetchVaultDetails, fetchVaultTvl } from "../../../redux/vaults/vaults.redux.actions";
+import {
+  depositAssetsIntoVault,
+  fetchUserVaultShares,
+  fetchVaultDetails,
+  fetchVaultTvl
+} from "../../../redux/vaults/vaults.redux.actions";
 import { isEmptyValue } from "../../../shared/utils/common.util";
 import { IVaultReduxState } from "../../../redux/vaults/vaults.redux.types";
 import { formatUnits, parseUnits } from "ethers/lib/utils";
@@ -133,11 +138,23 @@ const Vault: React.FC<IVaultProps> = (props) => {
     }
   };
 
-  const isApproveAssetsDisabled = !(depositValue && !isEmptyValue(decimals) && account && vaultAddress && signer);
+  const isApproveAssetsDisabled = !(depositValue && !isEmptyValue(decimals) && account && vaultAddress && signer && chainId);
   const approveAssets = () => {
     if (!isApproveAssetsDisabled) {
       const amountToApprove = parseUnits(depositValue.toString(), decimals);
-      dispatch(approveTokenSpending(token, amountToApprove, account!, vaultAddress!, signer, chainId));
+      dispatch(approveTokenSpending(token, amountToApprove, account!, vaultAddress!, signer, chainId!));
+    }
+  };
+
+  const isDepositAllAssetsDisabled = !(vaultAddress && account && chainId);
+  const isDepositSomeAssetsDisabled = isDepositAllAssetsDisabled && (depositValue && decimals);
+  const depositAssets = (depositAll: boolean) => () => {
+    if (depositAll && !isDepositAllAssetsDisabled) {
+      const amountToSpend = -1; // Deposit all
+      dispatch(depositAssetsIntoVault(token, vaultAddress!, account!, amountToSpend, signer, chainId!));
+    } else if (!isDepositSomeAssetsDisabled) {
+      const amountToSpend = parseUnits(depositValue.toString(), decimals);
+      dispatch(depositAssetsIntoVault(token, vaultAddress!, account!, amountToSpend, signer, chainId!));
     }
   };
 
@@ -251,7 +268,11 @@ const Vault: React.FC<IVaultProps> = (props) => {
                       </Button>
                     </Col>
                     <Col className="d-flex justify-content-center mt-lg-0 mt-4">
-                      <Button uppercase={true} className={styles.actionButton}>
+                      <Button
+                        uppercase={true}
+                        className={styles.actionButton}
+                        onClick={depositAssets(false)}
+                      >
                         <Trans>Deposit</Trans>
                       </Button>
                     </Col>
