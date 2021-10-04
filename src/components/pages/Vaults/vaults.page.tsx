@@ -113,13 +113,13 @@ const VaultsPage: React.FC = () => {
               variant={ETypographyVariant.TITLE}
               element={"h3"}
             >
-              <Trans>TVL</Trans>&nbsp;$134.24M
+              <Trans>TVL</Trans>&nbsp;$-
             </Typography>
             <Typography
               variant={ETypographyVariant.TITLE}
               element={"h5"}
             >
-              <Trans>Deposited</Trans>&nbsp;$0.00
+              <Trans>Deposited</Trans>&nbsp;$-
             </Typography>
           </div>
         </div>

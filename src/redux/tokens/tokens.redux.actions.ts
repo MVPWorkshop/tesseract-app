@@ -15,6 +15,7 @@ import { addressByNetworkAndToken } from "../../shared/constants/web3.constants"
 import Erc20ContractFactory from "../../shared/contracts/erc20Contract.factory";
 import ApiService from "../../shared/services/api/api.service";
 import RegistryContractFactory from "../../shared/contracts/registryContract.factory";
+import { CONFIRMATIONS_SUCCESS } from "../../shared/constants/config.constants";
 
 export function setTokenBalance(token: ESupportedTokens, newBalance: BigNumber): SetTokenBalanceAction {
   return {
@@ -57,12 +58,12 @@ export function setTokenApprovedAmount(token: ESupportedTokens, amount: BigNumbe
   };
 }
 
-export function fetchTokenBalance(token: ESupportedTokens, userAddress: string, provider: JsonRpcSigner): Thunk<void> {
+export function fetchTokenBalance(token: ESupportedTokens, userAddress: string, provider: JsonRpcSigner, chainId?: EChainId): Thunk<void> {
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(ETokenReduxActions.FETCH_TOKEN_BALANCE, token));
 
-      const tokenContract = await (new Erc20ContractFactory(token, provider)).getInstance();
+      const tokenContract = await (new Erc20ContractFactory(token, provider)).getInstance(chainId);
       const balance = await tokenContract.balanceOf(userAddress);
 
       dispatch(setTokenBalance(token, balance));
@@ -73,19 +74,19 @@ export function fetchTokenBalance(token: ESupportedTokens, userAddress: string, 
   };
 }
 
-export function fetchTokenDetails(token: ESupportedTokens, provider: JsonRpcSigner): Thunk<void> {
+export function fetchTokenDetails(token: ESupportedTokens, provider: JsonRpcSigner, chainId?: EChainId): Thunk<void> {
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(ETokenReduxActions.FETCH_TOKEN_DETAILS, token));
 
-      const tokenContract = await (new Erc20ContractFactory(token, provider)).getInstance();
+      const tokenContract = await (new Erc20ContractFactory(token, provider)).getInstance(chainId);
       const apiService = new ApiService();
 
       const tokenDecimals = await tokenContract.decimals();
       const tokenSymbol = await tokenContract.symbol();
       const tokenPriceUSD = await apiService.getTokenPrice(tokenSymbol);
 
-      dispatch(setTokenDetails(token, tokenDecimals, parseInt(tokenPriceUSD)));
+      dispatch(setTokenDetails(token, tokenDecimals, parseFloat(tokenPriceUSD)));
       dispatch(ActionUtil.successAction(ETokenReduxActions.FETCH_TOKEN_DETAILS, token));
     } catch {
       dispatch(ActionUtil.errorAction(ETokenReduxActions.FETCH_TOKEN_DETAILS, token));
@@ -93,14 +94,17 @@ export function fetchTokenDetails(token: ESupportedTokens, provider: JsonRpcSign
   };
 }
 
-export function fetchTokenVault(token: ESupportedTokens, provider: JsonRpcSigner): Thunk<void> {
+export function fetchTokenVault(token: ESupportedTokens, provider: JsonRpcSigner, chainId?: EChainId): Thunk<void> {
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(ETokenReduxActions.FETCH_TOKEN_VAULT, token));
 
-      const chainId: EChainId = await provider.getChainId();
+      let _chainId = chainId;
+      if (!_chainId) {
+        _chainId = await provider.getChainId();
+      }
       const registryContract = await (new RegistryContractFactory(provider)).getInstance(chainId);
-      const tokenAddress = addressByNetworkAndToken[token][chainId];
+      const tokenAddress = addressByNetworkAndToken[token][_chainId];
       if (!tokenAddress) {
         throw new Error("Token not supported on current network");
       }
@@ -114,18 +118,35 @@ export function fetchTokenVault(token: ESupportedTokens, provider: JsonRpcSigner
   };
 }
 
-export function fetchTokenApprovedAmount(token: ESupportedTokens, userAddress: string, vaultAddress: string, provider: JsonRpcSigner): Thunk<void> {
+export function fetchTokenApprovedAmount(token: ESupportedTokens, userAddress: string, vaultAddress: string, provider: JsonRpcSigner, chainId?: EChainId): Thunk<void> {
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(ETokenReduxActions.FETCH_TOKEN_APPROVED_AMOUNT, token));
 
-      const tokenContract = await (new Erc20ContractFactory(token, provider)).getInstance();
+      const tokenContract = await (new Erc20ContractFactory(token, provider)).getInstance(chainId);
       const allowed = await tokenContract.allowance(userAddress, vaultAddress);
 
       dispatch(setTokenApprovedAmount(token, allowed));
       dispatch(ActionUtil.successAction(ETokenReduxActions.FETCH_TOKEN_APPROVED_AMOUNT, token));
     } catch {
       dispatch(ActionUtil.errorAction(ETokenReduxActions.FETCH_TOKEN_APPROVED_AMOUNT, token));
+    }
+  };
+}
+
+export function approveTokenSpending(token: ESupportedTokens, amount: BigNumber, userAddress: string, spender: string, provider: JsonRpcSigner, chainId?: EChainId): Thunk<void> {
+  return async dispatch => {
+    try {
+      dispatch(ActionUtil.requestAction(ETokenReduxActions.APPROVE_TOKEN_SPENDING, token));
+
+      const tokenContract = await (new Erc20ContractFactory(token, provider)).getInstance(chainId);
+      const tx = await tokenContract.approve(spender, amount);
+      await tx.wait(CONFIRMATIONS_SUCCESS);
+
+      dispatch(fetchTokenApprovedAmount(token, userAddress, spender, provider, chainId));
+      dispatch(ActionUtil.successAction(ETokenReduxActions.APPROVE_TOKEN_SPENDING, token));
+    } catch (error) {
+      dispatch(ActionUtil.errorAction(ETokenReduxActions.APPROVE_TOKEN_SPENDING, token));
     }
   };
 }

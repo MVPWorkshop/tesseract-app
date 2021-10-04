@@ -20,6 +20,7 @@ import useWeb3 from "../../../hooks/useWeb3";
 import Web3Util from "../../../shared/utils/web3.util";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  approveTokenSpending,
   fetchTokenApprovedAmount,
   fetchTokenBalance,
   fetchTokenDetails,
@@ -29,6 +30,10 @@ import { RootState } from "../../../redux/redux.types";
 import { createLoadingSelector } from "../../../redux/loading/loading.redux.reducer";
 import ActionUtil from "../../../shared/utils/action.util";
 import { ETokenReduxActions, ITokenReduxState } from "../../../redux/tokens/tokens.redux.types";
+import { fetchUserVaultShares, fetchVaultDetails, fetchVaultTvl } from "../../../redux/vaults/vaults.redux.actions";
+import { isEmptyValue } from "../../../shared/utils/common.util";
+import { IVaultReduxState } from "../../../redux/vaults/vaults.redux.types";
+import { formatUnits, parseUnits } from "ethers/lib/utils";
 
 const Vault: React.FC<IVaultProps> = (props) => {
   const {
@@ -44,37 +49,62 @@ const Vault: React.FC<IVaultProps> = (props) => {
       ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_BALANCE, token),
       ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_DETAILS, token),
       ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_VAULT, token),
-      ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_APPROVED_AMOUNT, token),
     ])
+  );
+  const isFetchingApprovedTokenAmount = useSelector<RootState, boolean>(
+    createLoadingSelector([ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_APPROVED_AMOUNT, token)])
+  );
+  const isApprovingAssets = useSelector<RootState, boolean>(
+    createLoadingSelector([ActionUtil.actionName(ETokenReduxActions.APPROVE_TOKEN_SPENDING, token)])
   );
 
   const {
     vaultAddress,
-    amountApproved,
     balance,
     decimals
   } = useSelector<RootState, ITokenReduxState>(state => state.tokens[token]);
+
+  const vaultData: IVaultReduxState | undefined = useSelector<RootState, IVaultReduxState | undefined>(state => {
+    if (vaultAddress) {
+      return state.vaults[vaultAddress];
+    } else {
+      return undefined;
+    }
+  });
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [depositValue, setDepositValue] = useState<number>(0);
   const [withdrawValue, setWithdrawValue] = useState<number>(0);
 
   useEffect(() => {
-    dispatch(fetchTokenDetails(token, signer));
-    dispatch(fetchTokenVault(token, signer));
-  }, [token, chainId]);
+    dispatch(fetchTokenDetails(token, signer, chainId));
+    dispatch(fetchTokenVault(token, signer, chainId));
+  }, [chainId]);
 
   useEffect(() => {
     if (account) {
-      dispatch(fetchTokenBalance(token, account, signer));
+      dispatch(fetchTokenBalance(token, account, signer, chainId));
     }
-  }, [token, chainId, account]);
+  }, [chainId, account]);
 
   useEffect(() => {
     if (account && vaultAddress) {
-      dispatch(fetchTokenApprovedAmount(token, account, vaultAddress, signer));
+      dispatch(fetchUserVaultShares(vaultAddress, account, signer));
     }
-  }, [token, chainId, account, vaultAddress]);
+  }, [chainId, account, vaultAddress]);
+
+  useEffect(() => {
+    if (isOpen && account && vaultAddress) {
+      dispatch(fetchTokenApprovedAmount(token, account, vaultAddress, signer, chainId));
+    }
+  }, [isOpen, account, vaultAddress]);
+
+  useEffect(() => {
+    if (vaultAddress) {
+      dispatch(fetchVaultDetails(vaultAddress, signer));
+      dispatch(fetchVaultTvl(vaultAddress, signer));
+    }
+  }, [chainId, vaultAddress]);
 
   const onDepositValueChange = (value: number) => {
     setDepositValue(value);
@@ -94,6 +124,27 @@ const Vault: React.FC<IVaultProps> = (props) => {
 
   const TokenLogo = tokenIcons[token];
   const sliderMarks = [1, 25, 50, 75, 100];
+
+  const renderValue = (value: any) => {
+    if (isEmptyValue(value)) {
+      return "-";
+    } else {
+      return value;
+    }
+  };
+
+  const isApproveAssetsDisabled = !(depositValue && !isEmptyValue(decimals) && account && vaultAddress && signer);
+  const approveAssets = () => {
+    if (!isApproveAssetsDisabled) {
+      const amountToApprove = parseUnits(depositValue.toString(), decimals);
+      dispatch(approveTokenSpending(token, amountToApprove, account!, vaultAddress!, signer, chainId));
+    }
+  };
+
+  const vaultAPY = (vaultData && vaultData.apy) && vaultData.apy * 100;
+  const tvl = (vaultData && vaultData.tvl && decimals) && formatUnits(vaultData.tvl.toString(), decimals);
+  const formattedBalance = (balance && decimals) && formatUnits(balance, decimals);
+  const formattedUserShares = (vaultData && vaultData.userShares && decimals) && formatUnits(vaultData.userShares.toString(), decimals);
 
   return (
     <div className={styles.vault}>
@@ -123,10 +174,10 @@ const Vault: React.FC<IVaultProps> = (props) => {
               </thead>
               <tbody>
                 <tr>
-                  <td>10.56%</td>
-                  <td>$12,693,421.56</td>
-                  <td>-</td>
-                  <td>{amountApproved?.toNumber() || "-"}</td>
+                  <td>{renderValue(vaultAPY?.toPrecision(3))}%</td>
+                  <td>{renderValue(tvl?.toString().substring(0, 10))}</td>
+                  <td>{renderValue(formattedUserShares?.toString().substring(0, 10))}</td>
+                  <td>{renderValue(formattedBalance?.toString().substring(0, 10))}</td>
                 </tr>
               </tbody>
             </Table>
@@ -171,7 +222,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   <Typography variant={ETypographyVariant.BODY} small={true}>
                     <Trans>Balance</Trans>:
                     &nbsp;
-                    {`${(balance && decimals ? Web3Util.formatTokenNumber(balance, decimals) : "-")} ${token}`}
+                    {`${renderValue(formattedBalance).toString()} ${token}`}
                   </Typography>
                   <Input
                     type={EInputType.NUMBER}
@@ -189,7 +240,13 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   />
                   <Row className="mt-6">
                     <Col className="d-flex justify-content-center">
-                      <Button uppercase={true} className={styles.actionButton}>
+                      <Button
+                        uppercase={true}
+                        className={styles.actionButton}
+                        disabled={isApproveAssetsDisabled}
+                        loading={isApprovingAssets || isFetchingApprovedTokenAmount}
+                        onClick={approveAssets}
+                      >
                         <Trans>Approve</Trans>
                       </Button>
                     </Col>
@@ -204,7 +261,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   <Typography variant={ETypographyVariant.BODY} small={true}>
                     <Trans>Available to withdraw</Trans>:
                     &nbsp;
-                    {`0 ${token}`}
+                    {`${formattedUserShares} ${token}`}
                   </Typography>
                   <Input
                     type={EInputType.NUMBER}
