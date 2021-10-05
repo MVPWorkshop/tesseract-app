@@ -26,7 +26,7 @@ class RestService {
       if (authConfig.customAuth) {
         authData = authConfig.customAuth;
       }
-      // If no custom auth but token is provided use OAUTH token authentication
+      // If no custom auth but tokens is provided use OAUTH tokens authentication
       else if (authConfig.token) {
         authData = {
           type: EAuthenticationType.OAUTH_TOKEN,

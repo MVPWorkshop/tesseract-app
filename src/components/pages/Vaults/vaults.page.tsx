@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PageOrganism from "../../organisms/Page/page.organism";
 import { getSupportedTokensByChain } from "../../../shared/utils/vault.util";
 import useWeb3 from "../../../hooks/useWeb3";
@@ -10,18 +10,34 @@ import { Trans } from "@lingui/macro";
 import { chainLabels, supportedChainIds } from "../../../shared/constants/web3.constants";
 import Button from "../../atoms/Button/button.atom";
 import { ETypographyVariant } from "../../atoms/Typography/typography.atom.types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/ui/ui.redux.actions";
 import { EModalName } from "../../../redux/ui/ui.redux.types";
 import styles from "./vaults.page.module.scss";
+import { JsonRpcSigner, Web3Provider } from "@ethersproject/providers";
+import { Nullable } from "../../../shared/types/util.types";
+import { RootState } from "../../../redux/redux.types";
+import BigDecimal from "js-big-decimal";
+import { createTotalDepositedSelector, createTotalTvlSelector } from "../../../redux/vaults/vaults.redux.reducer";
+import { areBigDecimalsEqual, formatAssetDisplayValue } from "../../../shared/utils/common.util";
+import WalletService from "../../../shared/services/wallet/wallet.service";
 
 const VaultsPage: React.FC = () => {
   const dispatch = useDispatch();
-  const { chainId, isChainSupported, active, library } = useWeb3();
-  const displayChainId = (chainId && isChainSupported) ? chainId : EChainId.POLYGON_MAINNET;
+  const { chainId, isChainSupported, active, library, account, getSigner } = useWeb3();
 
+  const [signer, setSigner] = useState<Nullable<JsonRpcSigner>>();
+  const [isSwitchingNetwork, setIsSwitchingNetwork] = useState<boolean>(false);
+
+  useEffect(() => {
+    getSigner()
+      .then(setSigner)
+      .catch(() => setSigner(null));
+  }, [library, account]);
+
+  const displayChainId = (chainId && isChainSupported) ? chainId : EChainId.POLYGON_MAINNET;
   const tokens = getSupportedTokensByChain(displayChainId);
-  const isProviderAvailable = active && library;
+  const isProviderAvailable = active && library && signer;
 
   const getChainLabelList = () => {
     return supportedChainIds.map((chainId, index) => {
@@ -30,6 +46,22 @@ const VaultsPage: React.FC = () => {
 
       return isFirst ? chainLabel : `, ${chainLabel}`;
     });
+  };
+
+  const totalTvl = useSelector<RootState, BigDecimal>(createTotalTvlSelector(tokens), areBigDecimalsEqual);
+  const totalDeposited = useSelector<RootState, BigDecimal>(createTotalDepositedSelector(tokens), areBigDecimalsEqual);
+
+  const switchToPolygonChain = async () => {
+    setIsSwitchingNetwork(true);
+
+    if (library) {
+      await WalletService.switchToNetwork(library, displayChainId);
+    } else if (window.ethereum) {
+      const temporaryProvider = new Web3Provider(window.ethereum);
+      await WalletService.switchToNetwork(temporaryProvider, displayChainId);
+    }
+
+    setIsSwitchingNetwork(false);
   };
 
   const renderWalletWrongNetwork = () => {
@@ -45,7 +77,11 @@ const VaultsPage: React.FC = () => {
             You are currently on unsupported network
           </Trans>
         </Typography>
-        <Button theme={"tertiary"}>
+        <Button
+          theme={"tertiary"}
+          onClick={switchToPolygonChain}
+          loading={isSwitchingNetwork}
+        >
           <Typography>
             <Trans>Switch to Polygon Network</Trans>
           </Typography>
@@ -103,20 +139,23 @@ const VaultsPage: React.FC = () => {
               variant={ETypographyVariant.TITLE}
               element={"h3"}
             >
-              <Trans>TVL</Trans>&nbsp;$134.24M
+              <Trans>TVL</Trans>&nbsp;${formatAssetDisplayValue(totalTvl.getValue())}
             </Typography>
             <Typography
               variant={ETypographyVariant.TITLE}
               element={"h5"}
             >
-              <Trans>Deposited</Trans>&nbsp;$0.00
+              <Trans>Deposited</Trans>&nbsp;${formatAssetDisplayValue(totalDeposited.getValue())}
             </Typography>
           </div>
         </div>
         {tokens.map(token => (
           <Vault
             key={`${token}-${displayChainId}`}
+            chainId={displayChainId}
             token={token}
+            signer={signer!}
+            account={account}
           />
         ))}
       </Fragment>

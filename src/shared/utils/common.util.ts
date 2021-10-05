@@ -1,3 +1,5 @@
+import BigDecimal from "js-big-decimal";
+
 export function keys<O extends Record<string, unknown>>(obj: O): (keyof O)[] {
   return Object.keys(obj) as (keyof O)[];
 }
@@ -37,4 +39,36 @@ export function copyToClipboard(str: string) {
 
 export function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+export function formatAssetDisplayValue(value: any) {
+  if (isEmptyValue(value)) {
+    return "-";
+  } else {
+    // eslint-disable-next-line
+    if (value == 0) {
+      return 0;
+    } else {
+      return value;
+    }
+  }
+}
+
+export function areBigDecimalsEqual(a: BigDecimal, b: BigDecimal): boolean {
+  return a.getValue() === b.getValue();
+}
+
+export function countDecimals(value: number) {
+  if (Math.floor(value) === value) {
+    return 0;
+  } else {
+    const decimalPart = value.toString().split(".")[1];
+    return decimalPart ? decimalPart.length : 0;
+  }
+}
+
+export function hasMoreDecimalsThan(value: number, requiredDecimals: number) {
+  const actualDecimals = countDecimals(value);
+
+  return actualDecimals > requiredDecimals;
 }

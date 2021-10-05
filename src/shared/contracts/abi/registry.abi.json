@@ -120,16 +120,14 @@
         "type": "address"
       }
     ],
-    "outputs": [],
-    "gas": 37545
+    "outputs": []
   },
   {
     "stateMutability": "nonpayable",
     "type": "function",
     "name": "acceptGovernance",
     "inputs": [],
-    "outputs": [],
-    "gas": 38817
+    "outputs": []
   },
   {
     "stateMutability": "view",
@@ -141,8 +139,7 @@
         "name": "",
         "type": "string"
       }
-    ],
-    "gas": 12891
+    ]
   },
   {
     "stateMutability": "view",
@@ -159,8 +156,7 @@
         "name": "",
         "type": "address"
       }
-    ],
-    "gas": 5187
+    ]
   },
   {
     "stateMutability": "nonpayable",
@@ -172,8 +168,7 @@
         "type": "address"
       }
     ],
-    "outputs": [],
-    "gas": 95468
+    "outputs": []
   },
   {
     "stateMutability": "nonpayable",
@@ -393,8 +388,7 @@
         "type": "string"
       }
     ],
-    "outputs": [],
-    "gas": 190064
+    "outputs": []
   },
   {
     "stateMutability": "view",
@@ -406,8 +400,7 @@
         "name": "",
         "type": "uint256"
       }
-    ],
-    "gas": 2688
+    ]
   },
   {
     "stateMutability": "view",
@@ -424,8 +417,7 @@
         "name": "",
         "type": "address"
       }
-    ],
-    "gas": 2833
+    ]
   },
   {
     "stateMutability": "view",
@@ -442,8 +434,7 @@
         "name": "",
         "type": "uint256"
       }
-    ],
-    "gas": 2963
+    ]
   },
   {
     "stateMutability": "view",
@@ -464,8 +455,7 @@
         "name": "",
         "type": "address"
       }
-    ],
-    "gas": 3108
+    ]
   },
   {
     "stateMutability": "view",
@@ -482,8 +472,7 @@
         "name": "",
         "type": "address"
       }
-    ],
-    "gas": 2923
+    ]
   },
   {
     "stateMutability": "view",
@@ -495,8 +484,7 @@
         "name": "",
         "type": "uint256"
       }
-    ],
-    "gas": 2838
+    ]
   },
   {
     "stateMutability": "view",
@@ -513,8 +501,7 @@
         "name": "",
         "type": "bool"
       }
-    ],
-    "gas": 3083
+    ]
   },
   {
     "stateMutability": "view",
@@ -526,8 +513,7 @@
         "name": "",
         "type": "address"
       }
-    ],
-    "gas": 2898
+    ]
   },
   {
     "stateMutability": "view",
@@ -539,8 +525,7 @@
         "name": "",
         "type": "address"
       }
-    ],
-    "gas": 2928
+    ]
   },
   {
     "stateMutability": "view",
@@ -557,8 +542,7 @@
         "name": "",
         "type": "string"
       }
-    ],
-    "gas": 18029
+    ]
   },
   {
     "stateMutability": "view",
@@ -575,7 +559,6 @@
         "name": "",
         "type": "bool"
       }
-    ],
-    "gas": 3203
+    ]
   }
 ]
