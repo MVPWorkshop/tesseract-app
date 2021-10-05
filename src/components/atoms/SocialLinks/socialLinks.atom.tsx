@@ -24,22 +24,22 @@ const SocialLinks: React.FC<ISocialLinksProps> = (props) => {
 
   return (
     <div className={socialLinksClassName}>
-      <Link link={"medium"}>
+      <Link link={"medium"} newTab={true}>
         <Button theme="flat" className="p-0">
           <MediumLogoSVG/>
         </Button>
       </Link>
-      <Link link={"discord"}>
+      <Link link={"https://discord.yearn.finance/"} newTab={true}>
         <Button theme="flat" className="p-0">
           <DiscordLogoSVG/>
         </Button>
       </Link>
-      <Link link={"twitter"}>
+      <Link link={"https://twitter.com/tesseract_fi"} newTab={true}>
         <Button theme="flat" className="p-0">
           <TwitterLogoSVG/>
         </Button>
       </Link>
-      <Link link={"telegram"}>
+      <Link link={"https://t.me/tesseractFinanceANN"} newTab={true}>
         <Button theme="flat" className="p-0">
           <TelegramLogoSVG/>
         </Button>
