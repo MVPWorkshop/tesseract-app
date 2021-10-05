@@ -9,8 +9,8 @@ import { UserRejectedRequestError as WalletConnectRejectedRequestError } from "@
 import { EErrorTypes, WalletConnectorError } from "../types/error.types";
 import { EChainId } from "../types/web3.types";
 import { EXPLORER_URLS } from "../constants/web3.constants";
+import BigDecimal from "js-big-decimal";
 import { BigNumber } from "ethers";
-import { formatUnits } from "ethers/lib/utils";
 
 class Web3Util {
   public static isActiveChainSupported(chainId: Nullable<number>): boolean {
@@ -66,8 +66,16 @@ class Web3Util {
     }
   }
 
-  public static formatTokenNumber(number: BigNumber, decimals: number) {
-    return formatUnits(number, decimals).toString();
+  public static formatTokenNumber(number: string | BigNumber, decimals: number, precision?: number): BigDecimal {
+    const precisionDenominator = new BigDecimal(`1.0e${decimals}`);
+    const bigDecimalValue = new BigDecimal(number.toString());
+
+    const actualValue = bigDecimalValue.divide(precisionDenominator, 64);
+    if (precision) {
+      return actualValue.round(precision);
+    } else {
+      return actualValue;
+    }
   }
 }
 

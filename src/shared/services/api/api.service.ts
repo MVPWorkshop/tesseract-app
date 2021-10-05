@@ -10,7 +10,7 @@ class ApiService extends RestService {
   }
 
   public async getVaultAPY(vaultSymbol: string): Promise<string> {
-    const response = await this.get<IGetVaultAPYResponse>({
+    const { data } = await this.get<IGetVaultAPYResponse>({
       url: "/query",
       config: {
         params: {
@@ -19,11 +19,11 @@ class ApiService extends RestService {
       }
     });
 
-    return response.data.data.result[0].value[1];
+    return data.data.result[0].value[1];
   }
 
   public async getTokenPrice(tokenSymbol: string): Promise<string> {
-    await this.get<IGetVaultAPYResponse>({
+    const { data } = await this.get<IGetVaultAPYResponse>({
       url: "/query",
       config: {
         params: {
@@ -32,8 +32,7 @@ class ApiService extends RestService {
       }
     });
 
-    return "1.0";
-    // return response.data.data.result[0].value[1];
+    return data.data.result[0].value[1];
   }
 }
 

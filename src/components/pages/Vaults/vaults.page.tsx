@@ -10,12 +10,16 @@ import { Trans } from "@lingui/macro";
 import { chainLabels, supportedChainIds } from "../../../shared/constants/web3.constants";
 import Button from "../../atoms/Button/button.atom";
 import { ETypographyVariant } from "../../atoms/Typography/typography.atom.types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/ui/ui.redux.actions";
 import { EModalName } from "../../../redux/ui/ui.redux.types";
 import styles from "./vaults.page.module.scss";
 import { JsonRpcSigner } from "@ethersproject/providers";
 import { Nullable } from "../../../shared/types/util.types";
+import { RootState } from "../../../redux/redux.types";
+import BigDecimal from "js-big-decimal";
+import { createTotalDepositedSelector, createTotalTvlSelector } from "../../../redux/vaults/vaults.redux.reducer";
+import { areBigDecimalsEqual, formatAssetDisplayValue } from "../../../shared/utils/common.util";
 
 const VaultsPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -41,6 +45,9 @@ const VaultsPage: React.FC = () => {
       return isFirst ? chainLabel : `, ${chainLabel}`;
     });
   };
+
+  const totalTvl = useSelector<RootState, BigDecimal>(createTotalTvlSelector(tokens), areBigDecimalsEqual);
+  const totalDeposited = useSelector<RootState, BigDecimal>(createTotalDepositedSelector(tokens), areBigDecimalsEqual);
 
   const renderWalletWrongNetwork = () => {
     return (
@@ -113,13 +120,13 @@ const VaultsPage: React.FC = () => {
               variant={ETypographyVariant.TITLE}
               element={"h3"}
             >
-              <Trans>TVL</Trans>&nbsp;$-
+              <Trans>TVL</Trans>&nbsp;${formatAssetDisplayValue(totalTvl.getValue())}
             </Typography>
             <Typography
               variant={ETypographyVariant.TITLE}
               element={"h5"}
             >
-              <Trans>Deposited</Trans>&nbsp;$-
+              <Trans>Deposited</Trans>&nbsp;${formatAssetDisplayValue(totalDeposited.getValue())}
             </Typography>
           </div>
         </div>

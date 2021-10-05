@@ -105,7 +105,7 @@ export function fetchVaultTvl(vaultAddress: string, provider: JsonRpcSigner): Th
   };
 }
 
-export function depositAssetsIntoVault(token: ESupportedTokens, vaultAddress: string, userAddress: string, amount: BigNumber | -1, provider: JsonRpcSigner, chainId: EChainId): Thunk<void> {
+export function depositAssetsIntoVault(token: ESupportedTokens, vaultAddress: string, userAddress: string, amount: BigNumber, provider: JsonRpcSigner, chainId: EChainId): Thunk<void> {
   let toastId: React.ReactText;
 
   return async dispatch => {
@@ -113,12 +113,7 @@ export function depositAssetsIntoVault(token: ESupportedTokens, vaultAddress: st
       dispatch(ActionUtil.requestAction(EVaultReduxActions.DEPOSIT_ASSETS, vaultAddress));
 
       const vaultContract = (new ContractFactory(EContractType.VAULT)).createContract(vaultAddress, provider);
-      let tx: ContractTransaction;
-      if (amount === -1) {
-        tx = await vaultContract["deposit()"]();
-      } else {
-        tx = await vaultContract["deposit(uint256)"](amount);
-      }
+      const tx = await vaultContract["deposit(uint256)"](amount);
       toastId = toast.loading(i18n._(t`Waiting for confirmations`));
       const receipt = await tx.wait(CONFIRMATIONS_SUCCESS);
       const txHash = receipt.transactionHash;
@@ -145,6 +140,51 @@ export function depositAssetsIntoVault(token: ESupportedTokens, vaultAddress: st
         });
       }
       dispatch(ActionUtil.errorAction(EVaultReduxActions.DEPOSIT_ASSETS, vaultAddress));
+    }
+  };
+}
+
+export function withdrawAssetsFromVault(token: ESupportedTokens, vaultAddress: string, userAddress: string, amount: BigNumber | -1, provider: JsonRpcSigner, chainId: EChainId): Thunk<void> {
+  let toastId: React.ReactText;
+  const actionName = amount === -1 ? EVaultReduxActions.WITHDRAW_ALL_ASSETS : EVaultReduxActions.WITHDRAW_ASSETS;
+
+  return async dispatch => {
+    try {
+      dispatch(ActionUtil.requestAction(actionName, vaultAddress));
+
+      const vaultContract = (new ContractFactory(EContractType.VAULT)).createContract(vaultAddress, provider);
+      let tx: ContractTransaction;
+      if (amount === -1) {
+        tx = await vaultContract["withdraw()"]();
+      } else {
+        tx = await vaultContract["withdraw(uint256)"](amount);
+      }
+      toastId = toast.loading(i18n._(t`Waiting for confirmations`));
+      const receipt = await tx.wait(CONFIRMATIONS_SUCCESS);
+      const txHash = receipt.transactionHash;
+      const txLink = Web3Util.getExplorerLink(chainId, txHash, "tx");
+
+      dispatch(fetchUserVaultShares(vaultAddress, userAddress, provider));
+      dispatch(fetchTokenBalance(token, userAddress, provider, chainId));
+
+      toast.update(toastId, {
+        type: "success",
+        render: Link({ newTab: true, link: txLink!, children: i18n._(t`Transactions hash: ${txHash}`)}),
+        isLoading: false,
+        autoClose: 3500
+      });
+
+      dispatch(ActionUtil.successAction(actionName, vaultAddress));
+    } catch {
+      if (toastId) {
+        toast.update(toastId, {
+          type: "error",
+          render: i18n._(t`Failed withdrawing from the vault`),
+          isLoading: false,
+          autoClose: 2000
+        });
+      }
+      dispatch(ActionUtil.errorAction(actionName, vaultAddress));
     }
   };
 }
