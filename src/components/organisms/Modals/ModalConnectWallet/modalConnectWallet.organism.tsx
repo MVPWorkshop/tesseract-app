@@ -23,6 +23,7 @@ import { ReactComponent as CopyIcon } from "../../../../shared/assets/copy.svg";
 import { ReactComponent as LinkIcon } from "../../../../shared/assets/link.svg";
 import { copyToClipboard, sleep } from "../../../../shared/utils/common.util";
 import Link from "../../../atoms/Link/link.atom";
+import { EErrorTypes } from "../../../../shared/types/error.types";
 
 enum EModalConnectWalletScreens {
   PickWallet = "PickWallet",
@@ -33,7 +34,7 @@ const ModalConnectWallet: React.FC = () => {
   const modalName = EModalName.CONNECT_WALLET;
 
   const dispatch = useDispatch();
-  const { activate, error, connector, active, account, chainId } = useWeb3();
+  const { activate, error, connector, active, account, chainId, mappedError } = useWeb3();
 
   const [activatingConnector, setActivatingConnector] = useState<Nullable<EConnectorType>>();
   const [erroredConnector, setErroredConnector] = useState<Nullable<EConnectorType>>();
@@ -156,7 +157,11 @@ const ModalConnectWallet: React.FC = () => {
 
   const getModalTitle = () => {
     if (erroredConnector) {
-      return <Trans>Something went wrong</Trans>;
+      if (mappedError === EErrorTypes.UNSUPPORTED_CHAIN) {
+        return <Trans>Unsupported network</Trans>;
+      } else {
+        return <Trans>Something went wrong</Trans>;
+      }
     } else  if (activatingConnector) {
       return <Trans>Approve connecting with {CONNECTOR_LABELS[activatingConnector]}</Trans>;
     } else {

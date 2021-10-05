@@ -14,18 +14,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/ui/ui.redux.actions";
 import { EModalName } from "../../../redux/ui/ui.redux.types";
 import styles from "./vaults.page.module.scss";
-import { JsonRpcSigner } from "@ethersproject/providers";
+import { JsonRpcSigner, Web3Provider } from "@ethersproject/providers";
 import { Nullable } from "../../../shared/types/util.types";
 import { RootState } from "../../../redux/redux.types";
 import BigDecimal from "js-big-decimal";
 import { createTotalDepositedSelector, createTotalTvlSelector } from "../../../redux/vaults/vaults.redux.reducer";
 import { areBigDecimalsEqual, formatAssetDisplayValue } from "../../../shared/utils/common.util";
+import WalletService from "../../../shared/services/wallet/wallet.service";
 
 const VaultsPage: React.FC = () => {
   const dispatch = useDispatch();
   const { chainId, isChainSupported, active, library, account, getSigner } = useWeb3();
 
   const [signer, setSigner] = useState<Nullable<JsonRpcSigner>>();
+  const [isSwitchingNetwork, setIsSwitchingNetwork] = useState<boolean>(false);
 
   useEffect(() => {
     getSigner()
@@ -49,6 +51,19 @@ const VaultsPage: React.FC = () => {
   const totalTvl = useSelector<RootState, BigDecimal>(createTotalTvlSelector(tokens), areBigDecimalsEqual);
   const totalDeposited = useSelector<RootState, BigDecimal>(createTotalDepositedSelector(tokens), areBigDecimalsEqual);
 
+  const switchToPolygonChain = async () => {
+    setIsSwitchingNetwork(true);
+
+    if (library) {
+      await WalletService.switchToNetwork(library, displayChainId);
+    } else if (window.ethereum) {
+      const temporaryProvider = new Web3Provider(window.ethereum);
+      await WalletService.switchToNetwork(temporaryProvider, displayChainId);
+    }
+
+    setIsSwitchingNetwork(false);
+  };
+
   const renderWalletWrongNetwork = () => {
     return (
       <TextDialog>
@@ -62,7 +77,11 @@ const VaultsPage: React.FC = () => {
             You are currently on unsupported network
           </Trans>
         </Typography>
-        <Button theme={"tertiary"}>
+        <Button
+          theme={"tertiary"}
+          onClick={switchToPolygonChain}
+          loading={isSwitchingNetwork}
+        >
           <Typography>
             <Trans>Switch to Polygon Network</Trans>
           </Typography>
