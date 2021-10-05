@@ -133,8 +133,10 @@ const VaultsPage: React.FC = () => {
         {tokens.map(token => (
           <Vault
             key={`${token}-${displayChainId}`}
+            chainId={displayChainId}
             token={token}
             signer={signer!}
+            account={account}
           />
         ))}
       </Fragment>

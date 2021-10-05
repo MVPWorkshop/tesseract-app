@@ -57,3 +57,18 @@ export function formatAssetDisplayValue(value: any) {
 export function areBigDecimalsEqual(a: BigDecimal, b: BigDecimal): boolean {
   return a.getValue() === b.getValue();
 }
+
+export function countDecimals(value: number) {
+  if (Math.floor(value) === value) {
+    return 0;
+  } else {
+    const decimalPart = value.toString().split(".")[1]
+    return decimalPart ? decimalPart.length : 0;
+  }
+}
+
+export function hasMoreDecimalsThan(value: number, requiredDecimals: number) {
+  const actualDecimals = countDecimals(value);
+
+  return actualDecimals > requiredDecimals;
+}

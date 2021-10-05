@@ -16,7 +16,6 @@ import Input from "../../atoms/Input/input.atom";
 import { EInputType } from "../../atoms/Input/input.atom.types";
 import { Row, Col } from "react-bootstrap";
 import Slider from "../../atoms/Slider/slider.atom";
-import useWeb3 from "../../../hooks/useWeb3";
 import Web3Util from "../../../shared/utils/web3.util";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -36,25 +35,28 @@ import {
   fetchVaultDetails,
   fetchVaultTvl, withdrawAssetsFromVault
 } from "../../../redux/vaults/vaults.redux.actions";
-import { formatAssetDisplayValue, isEmptyValue } from "../../../shared/utils/common.util";
+import { formatAssetDisplayValue, hasMoreDecimalsThan, isEmptyValue } from "../../../shared/utils/common.util";
 import { EVaultReduxActions, IVaultReduxState } from "../../../redux/vaults/vaults.redux.types";
 import { parseUnits } from "ethers/lib/utils";
 import { getShareInToken, getTokenInUSD } from "../../../shared/utils/vault.util";
+import BigDecimal from "js-big-decimal";
 
 const Vault: React.FC<IVaultProps> = (props) => {
   const {
     token,
+    chainId,
+    account,
     signer
   } = props;
 
   const dispatch = useDispatch();
-  const { chainId, account } = useWeb3();
 
   const {
     vaultAddress,
     balance,
     decimals,
-    priceUSD
+    priceUSD,
+    amountApproved
   } = useSelector<RootState, ITokenReduxState>(state => state.tokens[token]);
 
   const isFetchingAnyData = useSelector<RootState, boolean>(
@@ -92,25 +94,25 @@ const Vault: React.FC<IVaultProps> = (props) => {
   });
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [depositValue, setDepositValue] = useState<number>(0);
-  const [withdrawValue, setWithdrawValue] = useState<number>(0);
+  const [depositValue, setDepositValue] = useState<{actual: number, percent: number}>({actual: 0, percent: 0});
+  const [withdrawValue, setWithdrawValue] = useState<{actual: number, percent: number}>({actual: 0, percent: 0});
 
   useEffect(() => {
     dispatch(fetchTokenDetails(token, signer, chainId));
     dispatch(fetchTokenVault(token, signer, chainId));
-  }, [chainId]);
+  }, []);
 
   useEffect(() => {
     if (account) {
       dispatch(fetchTokenBalance(token, account, signer, chainId));
     }
-  }, [chainId, account]);
+  }, [account]);
 
   useEffect(() => {
     if (account && vaultAddress) {
       dispatch(fetchUserVaultShares(vaultAddress, account, signer));
     }
-  }, [chainId, account, vaultAddress]);
+  }, [account, vaultAddress]);
 
   useEffect(() => {
     if (isOpen && account && vaultAddress) {
@@ -123,15 +125,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
       dispatch(fetchVaultDetails(vaultAddress, signer));
       dispatch(fetchVaultTvl(vaultAddress, signer));
     }
-  }, [chainId, vaultAddress]);
-
-  const onDepositValueChange = (value: number) => {
-    setDepositValue(value);
-  };
-
-  const onWithdrawValueChange = (value: number) => {
-    setWithdrawValue(value);
-  };
+  }, [vaultAddress]);
 
   const toggleDropdown: MouseEventHandler<HTMLDivElement | HTMLButtonElement> = (e) => {
     e.stopPropagation();
@@ -144,30 +138,43 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const TokenLogo = tokenIcons[token];
   const sliderMarks = [1, 25, 50, 75, 100];
 
-  const isApproveAssetsDisabled = !(depositValue && !isEmptyValue(decimals) && account && vaultAddress && signer && chainId);
+  const getIsEnoughTokensApproved = () => {
+    if (depositValue.actual && amountApproved && decimals) {
+      const equality =
+        Web3Util.formatTokenNumber(amountApproved, decimals).compareTo(new BigDecimal(depositValue.actual))
+
+      return (equality === 1 || equality === 0);
+    } else {
+      return false;
+    }
+  }
+  const isEnoughTokensApproved = getIsEnoughTokensApproved();
+
+  const isApproveAssetsDisabled = !(depositValue.actual && !isEmptyValue(decimals) && account && vaultAddress && signer && chainId);
   const approveAssets = () => {
     if (!isApproveAssetsDisabled) {
-      const amountToApprove = parseUnits(depositValue.toString(), decimals);
+      console.log(depositValue.actual.toString());
+      const amountToApprove = parseUnits(depositValue.actual.toString(), decimals);
       dispatch(approveTokenSpending(token, amountToApprove, account!, vaultAddress!, signer, chainId!));
     }
   };
 
-  const isDepositSomeAssetsDisabled = !(vaultAddress && account && chainId && depositValue && decimals);
+  const isDepositSomeAssetsDisabled = !(vaultAddress && account && chainId && depositValue.actual && decimals);
   const depositAssets =  () => {
     if (!isDepositSomeAssetsDisabled) {
-      const amountToSpend = parseUnits(depositValue.toString(), decimals);
+      const amountToSpend = parseUnits(depositValue.actual.toString(), decimals);
       dispatch(depositAssetsIntoVault(token, vaultAddress!, account!, amountToSpend, signer, chainId!));
     }
   };
 
   const isWithdrawAllAssetsDisabled = !(vaultAddress && account && chainId);
-  const isWithdrawSomeAssetsDisabled = isWithdrawAllAssetsDisabled || !(withdrawValue > 0 && decimals);
+  const isWithdrawSomeAssetsDisabled = isWithdrawAllAssetsDisabled || !(withdrawValue.actual > 0 && decimals);
   const withdrawAssets = (withdrawAll: boolean) => () => {
     if (withdrawAll && !isWithdrawAllAssetsDisabled) {
       const amountToWithdraw = -1; // Deposit all
       dispatch(withdrawAssetsFromVault(token, vaultAddress!, account!, amountToWithdraw, signer, chainId!));
     } else if (!isWithdrawSomeAssetsDisabled) {
-      const amountToWithdraw = parseUnits(withdrawValue.toString(), decimals);
+      const amountToWithdraw = parseUnits(withdrawValue.actual.toString(), decimals);
       dispatch(withdrawAssetsFromVault(token, vaultAddress!, account!, amountToWithdraw, signer, chainId!));
     }
   };
@@ -176,6 +183,78 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const tvl = (vaultData && vaultData.tvl && priceUSD && decimals) ? getTokenInUSD(vaultData.tvl, priceUSD, decimals) : undefined;
   const formattedBalance = (balance && decimals) ? Web3Util.formatTokenNumber(balance, decimals, 6) : undefined;
   const formattedUserShares = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInToken(vaultData.userShares, vaultData.sharePrice, decimals).round(6) : undefined;
+
+  const onDepositValueChange = (value: number) => {
+    if (decimals && hasMoreDecimalsThan(value, decimals)) {
+      return;
+    }
+
+    let percent = "0";
+
+    if (formattedBalance && value) {
+      percent =
+        new BigDecimal(value)
+          .divide(formattedBalance, 64)
+          .multiply(new BigDecimal(100))
+          .round(2)
+          .getValue();
+    }
+
+    setDepositValue({
+      actual: value,
+      percent: parseFloat(percent)
+    });
+  };
+
+  const onDepositPercentageChange = (percentage: number) => {
+    const value =
+      (formattedBalance || new BigDecimal(0))
+        .multiply(new BigDecimal(percentage))
+        .divide(new BigDecimal(100), 64)
+        .round(decimals)
+        .getValue()
+
+    setDepositValue({
+      actual: parseFloat(value),
+      percent: percentage
+    });
+  }
+
+  const onWithdrawValueChange = (value: number) => {
+    if (decimals && hasMoreDecimalsThan(value, decimals)) {
+      return;
+    }
+
+    let percent = "0";
+
+    if (formattedUserShares && value) {
+      percent =
+        new BigDecimal(value)
+          .divide(formattedUserShares, 64)
+          .multiply(new BigDecimal(100))
+          .round(2)
+          .getValue();
+    }
+
+    setWithdrawValue({
+      actual: value,
+      percent: parseFloat(percent)
+    });
+  };
+
+  const onWithdrawPercentageChange = (percentage: number) => {
+    const value =
+      (formattedUserShares || new BigDecimal(0))
+        .multiply(new BigDecimal(percentage))
+        .divide(new BigDecimal(100), 64)
+        .round(decimals)
+        .getValue()
+
+    setWithdrawValue({
+      actual: parseFloat(value),
+      percent: percentage
+    });
+  }
 
   return (
     <div className={styles.vault}>
@@ -258,11 +337,13 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   <Input
                     type={EInputType.NUMBER}
                     onChange={onDepositValueChange}
-                    value={depositValue}
+                    value={depositValue.actual}
+                    min={0}
+                    max={parseFloat(formattedBalance?.getValue() || "0")}
                   />
                   <Slider
-                    value={depositValue}
-                    onChange={onDepositValueChange}
+                    value={depositValue.percent}
+                    onChange={onDepositPercentageChange}
                     min={1}
                     max={100}
                     marks={sliderMarks}
@@ -274,7 +355,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
                       <Button
                         uppercase={true}
                         className={styles.actionButton}
-                        disabled={isApproveAssetsDisabled}
+                        disabled={isApproveAssetsDisabled || isEnoughTokensApproved}
                         loading={isApprovingAssets || isFetchingApprovedTokenAmount}
                         onClick={approveAssets}
                       >
@@ -286,7 +367,8 @@ const Vault: React.FC<IVaultProps> = (props) => {
                         uppercase={true}
                         className={styles.actionButton}
                         onClick={depositAssets}
-                        disabled={isDepositSomeAssetsDisabled}
+                        disabled={isDepositSomeAssetsDisabled || !isEnoughTokensApproved}
+                        loading={isDepositingAssets}
                       >
                         <Trans>Deposit</Trans>
                       </Button>
@@ -302,12 +384,14 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   <Input
                     type={EInputType.NUMBER}
                     onChange={onWithdrawValueChange}
-                    value={withdrawValue}
+                    value={withdrawValue.actual}
+                    min={0}
+                    max={parseFloat(formattedUserShares?.getValue() || "0")}
                   />
                   <Slider
-                    value={withdrawValue}
-                    onChange={onWithdrawValueChange}
-                    min={1}
+                    value={withdrawValue.percent}
+                    onChange={onWithdrawPercentageChange}
+                    min={0}
                     max={100}
                     marks={sliderMarks}
                     markSymbol={"%"}
