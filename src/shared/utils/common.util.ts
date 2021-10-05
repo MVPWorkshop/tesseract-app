@@ -62,7 +62,7 @@ export function countDecimals(value: number) {
   if (Math.floor(value) === value) {
     return 0;
   } else {
-    const decimalPart = value.toString().split(".")[1]
+    const decimalPart = value.toString().split(".")[1];
     return decimalPart ? decimalPart.length : 0;
   }
 }

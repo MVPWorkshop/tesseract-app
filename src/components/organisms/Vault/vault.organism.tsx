@@ -141,19 +141,18 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const getIsEnoughTokensApproved = () => {
     if (depositValue.actual && amountApproved && decimals) {
       const equality =
-        Web3Util.formatTokenNumber(amountApproved, decimals).compareTo(new BigDecimal(depositValue.actual))
+        Web3Util.formatTokenNumber(amountApproved, decimals).compareTo(new BigDecimal(depositValue.actual));
 
       return (equality === 1 || equality === 0);
     } else {
       return false;
     }
-  }
+  };
   const isEnoughTokensApproved = getIsEnoughTokensApproved();
 
   const isApproveAssetsDisabled = !(depositValue.actual && !isEmptyValue(decimals) && account && vaultAddress && signer && chainId);
   const approveAssets = () => {
     if (!isApproveAssetsDisabled) {
-      console.log(depositValue.actual.toString());
       const amountToApprove = parseUnits(depositValue.actual.toString(), decimals);
       dispatch(approveTokenSpending(token, amountToApprove, account!, vaultAddress!, signer, chainId!));
     }
@@ -212,13 +211,13 @@ const Vault: React.FC<IVaultProps> = (props) => {
         .multiply(new BigDecimal(percentage))
         .divide(new BigDecimal(100), 64)
         .round(decimals)
-        .getValue()
+        .getValue();
 
     setDepositValue({
       actual: parseFloat(value),
       percent: percentage
     });
-  }
+  };
 
   const onWithdrawValueChange = (value: number) => {
     if (decimals && hasMoreDecimalsThan(value, decimals)) {
@@ -248,13 +247,13 @@ const Vault: React.FC<IVaultProps> = (props) => {
         .multiply(new BigDecimal(percentage))
         .divide(new BigDecimal(100), 64)
         .round(decimals)
-        .getValue()
+        .getValue();
 
     setWithdrawValue({
       actual: parseFloat(value),
       percent: percentage
     });
-  }
+  };
 
   return (
     <div className={styles.vault}>
