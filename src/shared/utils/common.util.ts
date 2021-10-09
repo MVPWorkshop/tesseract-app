@@ -1,4 +1,5 @@
 import BigDecimal from "js-big-decimal";
+import { BigNumber } from "ethers";
 
 export function keys<O extends Record<string, unknown>>(obj: O): (keyof O)[] {
   return Object.keys(obj) as (keyof O)[];
@@ -71,4 +72,16 @@ export function hasMoreDecimalsThan(value: number, requiredDecimals: number) {
   const actualDecimals = countDecimals(value);
 
   return actualDecimals > requiredDecimals;
+}
+
+export function isZero(value: string | number | BigDecimal | BigNumber) {
+  if (value instanceof BigDecimal) {
+    return (value.compareTo(new BigDecimal(0))) === 0;
+  } else if (value instanceof BigNumber) {
+    return value.eq(BigNumber.from(0));
+  } else if (typeof value === "string") {
+    return value === "0";
+  } else {
+    return value === 0;
+  }
 }

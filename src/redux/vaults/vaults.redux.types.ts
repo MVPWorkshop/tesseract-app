@@ -17,6 +17,7 @@ export type SetVaultDetailsAction = ReduxAction<EVaultReduxActions.SET_VAULT_DET
   vault: string;
   symbol: string;
   apy: number;
+  depositLimit: BigNumber;
 }>
 
 export type SetUserVaultSharesAction = ReduxAction<EVaultReduxActions.SET_USER_VAULT_SHARES, {
@@ -42,6 +43,7 @@ export interface IVaultReduxState {
   sharePrice?: BigNumber;
   userShares?: BigNumber;
   tvl?: BigNumber;
+  depositLimit?: BigNumber;
 }
 
 export type IVaultsReduxReducerState = Record<string, IVaultReduxState>;
