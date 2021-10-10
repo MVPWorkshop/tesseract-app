@@ -285,8 +285,8 @@ const Vault: React.FC<IVaultProps> = (props) => {
                 <tr>
                   <th><Trans>APY</Trans></th>
                   <th><Trans>Total value locked</Trans></th>
-                  <th><Trans>Your staked LP</Trans></th>
-                  <th><Trans>Available to stake</Trans></th>
+                  <th><Trans>Deposited value</Trans></th>
+                  <th><Trans>Available to deposit</Trans></th>
                 </tr>
               </thead>
               <tbody>
