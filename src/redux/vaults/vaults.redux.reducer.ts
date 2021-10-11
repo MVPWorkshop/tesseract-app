@@ -11,14 +11,15 @@ const initialState: IVaultsReduxReducerState = {
 const vaultsReduxReducer: Reducer<IVaultsReduxReducerState, VaultsReduxActions> = (state = initialState, action) => {
   switch (action.type) {
     case EVaultReduxActions.SET_VAULT_DETAILS: {
-      const { vault, apy, symbol } = action.payload;
+      const { vault, apy, symbol, depositLimit } = action.payload;
 
       return {
         ...state,
         [vault]: {
           ...(state[vault] || {}),
           apy,
-          symbol
+          symbol,
+          depositLimit
         }
       };
     }

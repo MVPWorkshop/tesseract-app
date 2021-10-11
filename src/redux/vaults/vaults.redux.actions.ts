@@ -21,13 +21,14 @@ import { t } from "@lingui/macro";
 import Link from "../../components/atoms/Link/link.atom";
 import Web3Util from "../../shared/utils/web3.util";
 
-export function setVaultDetails(vault: string, symbol: string, apy: number): SetVaultDetailsAction {
+export function setVaultDetails(vault: string, symbol: string, apy: number, depositLimit: BigNumber): SetVaultDetailsAction {
   return {
     type: EVaultReduxActions.SET_VAULT_DETAILS,
     payload: {
       vault,
       symbol,
-      apy
+      apy,
+      depositLimit
     }
   };
 }
@@ -63,8 +64,9 @@ export function fetchVaultDetails(vaultAddress: string, provider: JsonRpcSigner)
 
       const symbol = await vaultContract.symbol();
       const apy = await apiService.getVaultAPY(symbol);
+      const depositLimit = await vaultContract.depositLimit();
 
-      dispatch(setVaultDetails(vaultAddress, symbol, parseFloat(apy)));
+      dispatch(setVaultDetails(vaultAddress, symbol, parseFloat(apy), depositLimit));
       dispatch(ActionUtil.successAction(EVaultReduxActions.FETCH_VAULT_DETAILS, vaultAddress));
     } catch {
       dispatch(ActionUtil.errorAction(EVaultReduxActions.FETCH_VAULT_DETAILS, vaultAddress));

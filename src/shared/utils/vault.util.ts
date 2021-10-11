@@ -1,7 +1,7 @@
 import { EChainId } from "../types/web3.types";
 import { ESupportedTokens } from "../types/contract.types";
 import { addressByNetworkAndToken } from "../constants/web3.constants";
-import { keys } from "./common.util";
+import { isZero, keys } from "./common.util";
 import BigDecimal from "js-big-decimal";
 import Web3Util from "./web3.util";
 import { BigNumber } from "ethers";
@@ -31,7 +31,7 @@ export function getTokenInUSD(assetValue: SupportedNumbers, priceUSD: SupportedN
   return Web3Util.formatTokenNumber(assetInUSD.getValue(), decimals, 2);
 }
 
-export function getShareInToken(shares: SupportedNumbers, pricePerShare: SupportedNumbers, decimals: number): BigDecimal {
+export function getShareInFormattedToken(shares: SupportedNumbers, pricePerShare: SupportedNumbers, decimals: number): BigDecimal {
   const bigDecimalShares = new BigDecimal(shares.toString());
   const bigDecimalPricePerShare = new BigDecimal(pricePerShare.toString());
 
@@ -40,8 +40,32 @@ export function getShareInToken(shares: SupportedNumbers, pricePerShare: Support
 }
 
 export function getShareInUSD(shares: SupportedNumbers, pricePerShare: SupportedNumbers, priceUSD: SupportedNumbers, decimals: number): BigDecimal {
-  const amountInTokens = getShareInToken(shares, pricePerShare, decimals);
+  const amountInTokens = getShareInFormattedToken(shares, pricePerShare, decimals);
   const bigDecimalPriceUSD = new BigDecimal(priceUSD.toString());
 
   return amountInTokens.multiply(bigDecimalPriceUSD).round(2);
+}
+
+// Formatted implies the value of the token is a float instead of integer with imagined decimals
+export function formattedTokenToShare(amount: SupportedNumbers, pricePerShare: SupportedNumbers, decimals: number): BigDecimal {
+  const precisionDenominator = new BigDecimal(`1.0e${decimals * 2}`);
+
+  const bigDecimalAmount = new BigDecimal(amount.toString()).multiply(precisionDenominator);
+  const bigDecimalPricePerShare = new BigDecimal(pricePerShare.toString());
+
+  return bigDecimalAmount.divide(bigDecimalPricePerShare, 64).floor();
+}
+
+export function getMaxDepositAmount(userBalance: BigNumber, totalAssets: BigNumber, depositLimit?: BigNumber) {
+  if (depositLimit && !isZero(depositLimit)) {
+    const spaceLeft = depositLimit.sub(totalAssets);
+
+    if (spaceLeft.lt(userBalance)) {
+      return spaceLeft;
+    } else {
+      return userBalance;
+    }
+  } else {
+    return userBalance;
+  }
 }

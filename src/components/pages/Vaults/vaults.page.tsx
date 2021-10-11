@@ -134,7 +134,7 @@ const VaultsPage: React.FC = () => {
               {tokens.length} Vaults
             </Trans>
           </Typography>
-          <div className="d-flex flex-column">
+          <div className="d-flex flex-column align-items-end">
             <Typography
               variant={ETypographyVariant.TITLE}
               element={"h3"}
@@ -145,7 +145,7 @@ const VaultsPage: React.FC = () => {
               variant={ETypographyVariant.TITLE}
               element={"h5"}
             >
-              <Trans>Deposited</Trans>&nbsp;${formatAssetDisplayValue(totalDeposited.getValue())}
+              <Trans>Total Deposited Value</Trans>&nbsp;${formatAssetDisplayValue(totalDeposited.getValue())}
             </Typography>
           </div>
         </div>

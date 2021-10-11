@@ -58,6 +58,7 @@ const ModalConnectWallet: React.FC = () => {
   useEffect(() => {
     if (active) {
       setCurrentScreen(EModalConnectWalletScreens.CurrentWallet);
+      closeModal();
     }
   }, [active]);
 
