@@ -73,9 +73,14 @@ const Header: React.FC<IHeaderProps> = (props) => {
     [isMenuOpaque, styles.opaque]
   );
 
+  const isLandingPage = props.type === EHeaderType.LANDING;
+
   return (
     <Nav className={headerClassName}>
-      <Container className={styles.container}>
+      <Container
+        className={classes(styles.container, [isLandingPage, styles.landingPage])}
+        fluid={isLandingPage}
+      >
         <RouterLink to={ERoutes.LANDING}>
           <TesseractLogoSVG className={styles.logo}/>
         </RouterLink>

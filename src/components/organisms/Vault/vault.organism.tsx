@@ -67,20 +67,16 @@ const Vault: React.FC<IVaultProps> = (props) => {
     amountApproved
   } = useSelector<RootState, ITokenReduxState>(state => state.tokens[token]);
 
-  const isFetchingTokenBalance = useSelector<RootState, boolean>(createLoadingSelector([ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_BALANCE, token)]));
-  const isFetchingTokenDetails = useSelector<RootState, boolean>(createLoadingSelector([ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_DETAILS, token)]));
-  const isFetchingTokenVault = useSelector<RootState, boolean>(createLoadingSelector([ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_VAULT, token)]));
-  const isFetchingVaultTvl = useSelector<RootState, boolean>(createLoadingSelector([ActionUtil.actionName(EVaultReduxActions.FETCH_VAULT_TVL, vaultAddress)]));
-  const isFetchingVaultDetails = useSelector<RootState, boolean>(createLoadingSelector([ActionUtil.actionName(EVaultReduxActions.FETCH_VAULT_DETAILS, vaultAddress)]));
-  const isFetchingUserVaultShares = useSelector<RootState, boolean>(createLoadingSelector([ActionUtil.actionName(EVaultReduxActions.FETCH_USER_VAULT_SHARES, vaultAddress)]));
-
-  const isFetchingAnyData =
-    isFetchingTokenBalance ||
-    isFetchingTokenDetails ||
-    isFetchingTokenVault ||
-    isFetchingVaultTvl ||
-    isFetchingVaultDetails ||
-    isFetchingUserVaultShares;
+  const isFetchingAnyData = useSelector<RootState, boolean>(
+    createLoadingSelector([
+      ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_BALANCE, token),
+      ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_DETAILS, token),
+      ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_VAULT, token),
+      ActionUtil.actionName(EVaultReduxActions.FETCH_VAULT_TVL, vaultAddress),
+      ActionUtil.actionName(EVaultReduxActions.FETCH_VAULT_DETAILS, vaultAddress),
+      ActionUtil.actionName(EVaultReduxActions.FETCH_USER_VAULT_SHARES, vaultAddress)
+    ])
+  );
 
   const isFetchingApprovedTokenAmount = useSelector<RootState, boolean>(
     createLoadingSelector([ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_APPROVED_AMOUNT, token)])
@@ -299,22 +295,22 @@ const Vault: React.FC<IVaultProps> = (props) => {
               <tbody>
                 <tr>
                   <td>
-                    <Skeleton loading={isFetchingVaultDetails}>
+                    <Skeleton loading={isFetchingAnyData}>
                       {formatAssetDisplayValue(vaultAPY?.toPrecision(3))}%
                     </Skeleton>
                   </td>
                   <td>
-                    <Skeleton loading={isFetchingVaultTvl}>
+                    <Skeleton loading={isFetchingAnyData}>
                       ${formatAssetDisplayValue(tvl?.getValue())}
                     </Skeleton>
                   </td>
                   <td>
-                    <Skeleton loading={isFetchingUserVaultShares}>
+                    <Skeleton loading={isFetchingAnyData}>
                       {formatAssetDisplayValue(formattedUserShares?.getValue())} {token}
                     </Skeleton>
                   </td>
                   <td>
-                    <Skeleton loading={isFetchingTokenBalance}>
+                    <Skeleton loading={isFetchingAnyData}>
                       {formatAssetDisplayValue(formattedBalance?.getValue())} {token}
                     </Skeleton>
                   </td>
