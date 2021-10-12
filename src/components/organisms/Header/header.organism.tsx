@@ -1,27 +1,35 @@
 import React, { Fragment, useState } from "react";
 import { Container, Nav } from "react-bootstrap";
-import styles from "./header.organism.module.scss";
 import { ReactComponent as TesseractLogoSVG } from "../../../shared/assets/tesseract-logo.svg";
 import ConnectWallet from "../../molecules/ConnectWalletButton/connectWalletButton.molecule";
 import { EHeaderType, IHeaderProps } from "./header.organism.types";
 import Button from "../../atoms/Button/button.atom";
 import { Trans } from "@lingui/macro";
 import Typography from "../../atoms/Typography/typography.atom";
-import { EColor } from "../../../shared/types/styles.types";
+import { EColor, EFontWeight } from "../../../shared/types/styles.types";
 import Link from "../../atoms/Link/link.atom";
 import { Link as RouterLink } from "react-router-dom";
 import { ERoutes } from "../../../router";
 import LanguagePicker from "../../molecules/LanguagePicker/languagePicker.molecule";
 import { classes } from "../../../shared/utils/styles.util";
+import useOnScroll from "../../../hooks/useOnScroll";
+import styles from "./header.organism.module.scss";
 
 const Header: React.FC<IHeaderProps> = (props) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [isMenuOpaque, setIsMenuOpaque] = useState<boolean>(true);
+
+  const onScroll = (offsetVertical: number) => {
+    setIsMenuOpaque(offsetVertical < 100);
+  };
+
+  useOnScroll(onScroll);
 
   const AppHeaderContent = () => {
     return (
       <Fragment>
         <LanguagePicker/>
-        <ConnectWallet/>
+        <ConnectWallet className={styles.ctaBTN}/>
       </Fragment>
     );
   };
@@ -38,8 +46,8 @@ const Header: React.FC<IHeaderProps> = (props) => {
         </Link>
         <LanguagePicker/>
         <RouterLink to={ERoutes.VAULTS}>
-          <Button>
-            <Typography uppercase={true}>
+          <Button className={styles.ctaBTN}>
+            <Typography uppercase={true} fontWeight={EFontWeight.BOLD}>
               <Trans>Launch app</Trans>
             </Typography>
           </Button>
@@ -62,7 +70,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
 
   const headerClassName = classes(
     styles.header,
-    isMenuOpen ? "" : styles.navCollapsed
+    [isMenuOpaque, styles.opaque]
   );
 
   return (
@@ -85,7 +93,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
           </Button>
         </div>
       </Container>
-      <Container className={classes(styles.mobileMenu, isMenuOpen ? "" : styles.menuClosed)}>
+      <Container className={classes(styles.mobileMenu, [!isMenuOpen, styles.menuClosed])}>
         {
           isMenuOpen &&
           <div className={styles.content}>

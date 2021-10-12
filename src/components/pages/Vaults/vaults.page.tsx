@@ -174,10 +174,7 @@ const VaultsPage: React.FC = () => {
   };
 
   return (
-    <PageOrganism
-      containerEnabled={true}
-      className={styles.vaultsPage}
-    >
+    <PageOrganism className={styles.vaultsPage}>
       {renderContent()}
     </PageOrganism>
   );

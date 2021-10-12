@@ -2,7 +2,8 @@
 @import "src/shared/styles/mixins";
 
 .header {
-  background-color: transparentize(map-get($colors, "americanBlue"), 0.6);
+  $headerBgColor: map-get($colors, "americanBlue");
+  background-color: $headerBgColor;
   padding-top: 22px;
   padding-bottom: 22px;
   position: sticky;
@@ -10,6 +11,15 @@
   width: 100%;
   flex-direction: column;
   z-index: 10;
+
+  -webkit-transition: background .5s ease-out;
+  -moz-transition: background .5s ease-out;
+  -o-transition: background .5s ease-out;
+  transition: background .5s ease-out;
+
+  &.opaque {
+    background-color: transparentize($headerBgColor , 0.6);
+  }
 
   @include md() {
     flex-direction: row;
@@ -46,6 +56,10 @@
     @include md() {
       display: none;
     }
+  }
+
+  .ctaBTN {
+    min-width: 240px;
   }
 
   .content {

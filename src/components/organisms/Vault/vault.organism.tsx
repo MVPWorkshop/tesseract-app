@@ -46,6 +46,7 @@ import {
 } from "../../../shared/utils/vault.util";
 import BigDecimal from "js-big-decimal";
 import { BigNumber } from "ethers";
+import Skeleton from "../../atoms/Skeleton/skeleton.atom";
 
 const Vault: React.FC<IVaultProps> = (props) => {
   const {
@@ -54,6 +55,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     account,
     signer
   } = props;
+
 
   const dispatch = useDispatch();
 
@@ -65,16 +67,21 @@ const Vault: React.FC<IVaultProps> = (props) => {
     amountApproved
   } = useSelector<RootState, ITokenReduxState>(state => state.tokens[token]);
 
-  const isFetchingAnyData = useSelector<RootState, boolean>(
-    createLoadingSelector([
-      ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_BALANCE, token),
-      ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_DETAILS, token),
-      ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_VAULT, token),
-      ActionUtil.actionName(EVaultReduxActions.FETCH_VAULT_TVL, vaultAddress),
-      ActionUtil.actionName(EVaultReduxActions.FETCH_VAULT_DETAILS, vaultAddress),
-      ActionUtil.actionName(EVaultReduxActions.FETCH_USER_VAULT_SHARES, vaultAddress)
-    ])
-  );
+  const isFetchingTokenBalance = useSelector<RootState, boolean>(createLoadingSelector([ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_BALANCE, token)]));
+  const isFetchingTokenDetails = useSelector<RootState, boolean>(createLoadingSelector([ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_DETAILS, token)]));
+  const isFetchingTokenVault = useSelector<RootState, boolean>(createLoadingSelector([ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_VAULT, token)]));
+  const isFetchingVaultTvl = useSelector<RootState, boolean>(createLoadingSelector([ActionUtil.actionName(EVaultReduxActions.FETCH_VAULT_TVL, vaultAddress)]));
+  const isFetchingVaultDetails = useSelector<RootState, boolean>(createLoadingSelector([ActionUtil.actionName(EVaultReduxActions.FETCH_VAULT_DETAILS, vaultAddress)]));
+  const isFetchingUserVaultShares = useSelector<RootState, boolean>(createLoadingSelector([ActionUtil.actionName(EVaultReduxActions.FETCH_USER_VAULT_SHARES, vaultAddress)]));
+
+  const isFetchingAnyData =
+    isFetchingTokenBalance ||
+    isFetchingTokenDetails ||
+    isFetchingTokenVault ||
+    isFetchingVaultTvl ||
+    isFetchingVaultDetails ||
+    isFetchingUserVaultShares;
+
   const isFetchingApprovedTokenAmount = useSelector<RootState, boolean>(
     createLoadingSelector([ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_APPROVED_AMOUNT, token)])
   );
@@ -291,10 +298,26 @@ const Vault: React.FC<IVaultProps> = (props) => {
               </thead>
               <tbody>
                 <tr>
-                  <td>{formatAssetDisplayValue(vaultAPY?.toPrecision(3))}%</td>
-                  <td>${formatAssetDisplayValue(tvl?.getValue())}</td>
-                  <td>{formatAssetDisplayValue(formattedUserShares?.getValue())} {token}</td>
-                  <td>{formatAssetDisplayValue(formattedBalance?.getValue())} {token}</td>
+                  <td>
+                    <Skeleton loading={isFetchingVaultDetails}>
+                      {formatAssetDisplayValue(vaultAPY?.toPrecision(3))}%
+                    </Skeleton>
+                  </td>
+                  <td>
+                    <Skeleton loading={isFetchingVaultTvl}>
+                      ${formatAssetDisplayValue(tvl?.getValue())}
+                    </Skeleton>
+                  </td>
+                  <td>
+                    <Skeleton loading={isFetchingUserVaultShares}>
+                      {formatAssetDisplayValue(formattedUserShares?.getValue())} {token}
+                    </Skeleton>
+                  </td>
+                  <td>
+                    <Skeleton loading={isFetchingTokenBalance}>
+                      {formatAssetDisplayValue(formattedBalance?.getValue())} {token}
+                    </Skeleton>
+                  </td>
                 </tr>
               </tbody>
             </Table>
@@ -336,11 +359,13 @@ const Vault: React.FC<IVaultProps> = (props) => {
               <br/>
               <Row>
                 <Col className="mb-4 mb-md-0">
-                  <Typography variant={ETypographyVariant.BODY} small={true}>
-                    <Trans>Balance</Trans>:
-                    &nbsp;
-                    {`${formatAssetDisplayValue(formattedBalance?.getValue())} ${token}`}
-                  </Typography>
+                  <div className="mb-2">
+                    <Typography variant={ETypographyVariant.BODY} small={true}>
+                      <Trans>Balance</Trans>:
+                      &nbsp;
+                      {`${formatAssetDisplayValue(formattedBalance?.getValue())} ${token}`}
+                    </Typography>
+                  </div>
                   <Input
                     type={EInputType.NUMBER}
                     onChange={onDepositValueChange}
@@ -383,11 +408,13 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   </Row>
                 </Col>
                 <Col>
-                  <Typography variant={ETypographyVariant.BODY} small={true}>
-                    <Trans>Available to withdraw</Trans>:
-                    &nbsp;
-                    {`${formattedUserShares?.getValue()} ${token}`}
-                  </Typography>
+                  <div className="mb-2">
+                    <Typography variant={ETypographyVariant.BODY} small={true}>
+                      <Trans>Available to withdraw</Trans>:
+                      &nbsp;
+                      {`${formattedUserShares?.getValue()} ${token}`}
+                    </Typography>
+                  </div>
                   <Input
                     type={EInputType.NUMBER}
                     onChange={onWithdrawValueChange}
@@ -442,4 +469,14 @@ const Vault: React.FC<IVaultProps> = (props) => {
   );
 };
 
-export default Vault;
+export default React.memo(Vault, (prevProps, nextProps) => {
+  const isTokenEqual = prevProps.token === nextProps.token;
+  const isChainIdEqual = prevProps.chainId === nextProps.chainId;
+  const isAccountEqual = prevProps.account === nextProps.account;
+
+  return (
+    isTokenEqual &&
+    isChainIdEqual &&
+    isAccountEqual
+  );
+});

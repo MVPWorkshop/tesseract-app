@@ -20,6 +20,9 @@ $errorButtonColor: map-get($colors, 'red');
 
 .btn-primary {
   @include btnNormal($primaryButtonColor);
+
+  padding-top: 18px;
+  padding-bottom: 18px;
 }
 
 .btn-outline-primary {
@@ -29,6 +32,9 @@ $errorButtonColor: map-get($colors, 'red');
 .btn-secondary {
   @include btnNormal($secondaryButtonColor);
   border-color: transparentize($secondaryButtonColor, 0.6);
+
+  padding-top: 18px;
+  padding-bottom: 18px;
 
   &:disabled {
     border-color: transparentize($secondaryButtonColor, 0.6);

@@ -18,25 +18,15 @@ const PageOrganism: React.FC<IPageProps> = (props) => {
     ...otherProps
   } = props;
 
-  const MainContent = () => (
-    <Container
-      {...otherProps}
-      className={classes(styles.page, props.className)}
-    >
-      { containerEnabled ?
-        <div className={styles.container}>
-          {children}
-        </div>
-        :
-        children
-      }
-    </Container>
-  );
-
   return (
     <Fragment>
       {!disableHeader && <Header type={headerType}/>}
-      <MainContent/>
+      <Container
+        {...otherProps}
+        className={classes(styles.page, props.className)}
+      >
+        {children}
+      </Container>
       {!disableFooter && <Footer/>}
     </Fragment>
   );

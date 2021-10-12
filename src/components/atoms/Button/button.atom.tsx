@@ -53,7 +53,7 @@ const Button: FC<IButtonProps> = (props) => {
     >
       {loading ?
         <div className="d-flex align-items-center justify-content-center mh-100">
-          <Loader width="40px" height="40px"/>
+          <Loader width="20px" height="20px"/>
           { !disableLoadingText &&
             (
               loadingTextComponent ?

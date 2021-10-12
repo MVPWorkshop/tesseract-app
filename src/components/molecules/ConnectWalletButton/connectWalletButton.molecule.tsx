@@ -10,8 +10,11 @@ import Button from "../../atoms/Button/button.atom";
 import Typography from "../../atoms/Typography/typography.atom";
 import styles from "./connectWalletButton.molecule.module.scss";
 import useWeb3 from "../../../hooks/useWeb3";
+import { IClassableComponent } from "../../../shared/types/util.types";
+import { classes } from "../../../shared/utils/styles.util";
+import { EFontWeight } from "../../../shared/types/styles.types";
 
-const ConnectWallet: React.FC = () => {
+const ConnectWallet: React.FC<IClassableComponent> = (props) => {
 
   const dispatch = useDispatch();
   const context = useWeb3();
@@ -38,9 +41,9 @@ const ConnectWallet: React.FC = () => {
     <Button
       theme={"secondary"}
       onClick={onButtonClick}
-      className={styles.connectWalletButton}
+      className={classes(styles.connectWalletButton, props.className)}
     >
-      <Typography uppercase={true}>
+      <Typography uppercase={true} fontWeight={EFontWeight.BOLD}>
         {renderLabel()}
       </Typography>
     </Button>
