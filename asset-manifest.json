@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/tesseract-app/static/css/main.645de121.chunk.css",
-    "main.js": "/tesseract-app/static/js/main.dcb4956b.chunk.js",
-    "main.js.map": "/tesseract-app/static/js/main.dcb4956b.chunk.js.map",
+    "main.css": "/tesseract-app/static/css/main.8afb22a1.chunk.css",
+    "main.js": "/tesseract-app/static/js/main.298fae20.chunk.js",
+    "main.js.map": "/tesseract-app/static/js/main.298fae20.chunk.js.map",
     "runtime-main.js": "/tesseract-app/static/js/runtime-main.7271bdf2.js",
     "runtime-main.js.map": "/tesseract-app/static/js/runtime-main.7271bdf2.js.map",
     "static/css/2.49cb0487.chunk.css": "/tesseract-app/static/css/2.49cb0487.chunk.css",
-    "static/js/2.bd52ff61.chunk.js": "/tesseract-app/static/js/2.bd52ff61.chunk.js",
-    "static/js/2.bd52ff61.chunk.js.map": "/tesseract-app/static/js/2.bd52ff61.chunk.js.map",
+    "static/js/2.25fd9409.chunk.js": "/tesseract-app/static/js/2.25fd9409.chunk.js",
+    "static/js/2.25fd9409.chunk.js.map": "/tesseract-app/static/js/2.25fd9409.chunk.js.map",
     "static/js/3.fdc22a11.chunk.js": "/tesseract-app/static/js/3.fdc22a11.chunk.js",
     "static/js/3.fdc22a11.chunk.js.map": "/tesseract-app/static/js/3.fdc22a11.chunk.js.map",
     "static/js/4.e5a80696.chunk.js": "/tesseract-app/static/js/4.e5a80696.chunk.js",
@@ -18,8 +18,8 @@
     "static/js/6.a91c8af1.chunk.js.map": "/tesseract-app/static/js/6.a91c8af1.chunk.js.map",
     "index.html": "/tesseract-app/index.html",
     "static/css/2.49cb0487.chunk.css.map": "/tesseract-app/static/css/2.49cb0487.chunk.css.map",
-    "static/css/main.645de121.chunk.css.map": "/tesseract-app/static/css/main.645de121.chunk.css.map",
-    "static/js/2.bd52ff61.chunk.js.LICENSE.txt": "/tesseract-app/static/js/2.bd52ff61.chunk.js.LICENSE.txt",
+    "static/css/main.8afb22a1.chunk.css.map": "/tesseract-app/static/css/main.8afb22a1.chunk.css.map",
+    "static/js/2.25fd9409.chunk.js.LICENSE.txt": "/tesseract-app/static/js/2.25fd9409.chunk.js.LICENSE.txt",
     "static/js/3.fdc22a11.chunk.js.LICENSE.txt": "/tesseract-app/static/js/3.fdc22a11.chunk.js.LICENSE.txt",
     "static/media/404.3b2d610b.svg": "/tesseract-app/static/media/404.3b2d610b.svg",
     "static/media/index.scss": "/tesseract-app/static/media/bg.b1f255d3.svg",
@@ -46,8 +46,8 @@
   "entrypoints": [
     "static/js/runtime-main.7271bdf2.js",
     "static/css/2.49cb0487.chunk.css",
-    "static/js/2.bd52ff61.chunk.js",
-    "static/css/main.645de121.chunk.css",
-    "static/js/main.dcb4956b.chunk.js"
+    "static/js/2.25fd9409.chunk.js",
+    "static/css/main.8afb22a1.chunk.css",
+    "static/js/main.298fae20.chunk.js"
   ]
 }
