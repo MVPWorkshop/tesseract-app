@@ -2,7 +2,7 @@
 	"name": "tesseract-app",
 	"version": "1.0.0",
 	"private": true,
-	"homepage": "https://mvpworkshop.github.io/tesseract-app",
+	"homepage": "https://tesr.finance",
 	"dependencies": {
 		"@ethersproject/providers": "^5.4.4",
 		"@lingui/react": "^3.10.2",
