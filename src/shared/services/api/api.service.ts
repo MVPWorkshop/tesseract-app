@@ -14,7 +14,7 @@ class ApiService extends RestService {
       url: "/query",
       config: {
         params: {
-          query: `rate(price{ticker="${vaultSymbol}"}[1d])*60*60*24*365`
+          query: `rate(price{ticker="${vaultSymbol}"}[7d])*60*60*24*365`
         }
       }
     });
