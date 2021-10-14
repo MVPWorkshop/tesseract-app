@@ -50,6 +50,9 @@ const ModalConnectWallet: React.FC = () => {
       if (connector instanceof WalletConnectConnector && connector.walletConnectProvider?.wc?.uri) {
         connector.walletConnectProvider = undefined;
       }
+      if (Web3Util.mapConnectorError(error) === EErrorTypes.UNSUPPORTED_CHAIN) {
+        closeModal();
+      }
     } else if (!error) {
       setErroredConnector(null);
     }

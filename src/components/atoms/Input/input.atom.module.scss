@@ -13,6 +13,7 @@
     font-size: pxToRem(18px);
     color: white;
     padding: 24px 21px;
+    transition: border-color 0.2s;
 
     &:focus {
       outline: none;
@@ -20,6 +21,10 @@
       ~ .corner {
         border-color: $mainColor;
       }
+    }
+
+    &:hover {
+      border-color: $mainColor;
     }
   }
 
