@@ -5,7 +5,7 @@ import {
   SetVaultTvlAction
 } from "./vaults.redux.types";
 import { BigNumber, ContractTransaction } from "ethers";
-import { JsonRpcSigner } from "@ethersproject/providers";
+import { JsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
 import { Thunk } from "../redux.types";
 import ActionUtil from "../../shared/utils/action.util";
 import ContractFactory from "../../shared/contracts/contract.factory";
@@ -54,7 +54,7 @@ export function setVaultTvl(vault: string, tvl: BigNumber): SetVaultTvlAction {
   };
 }
 
-export function fetchVaultDetails(vaultAddress: string, provider: JsonRpcSigner): Thunk<void> {
+export function fetchVaultDetails(vaultAddress: string, provider: JsonRpcSigner | JsonRpcProvider): Thunk<void> {
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(EVaultReduxActions.FETCH_VAULT_DETAILS, vaultAddress));
@@ -64,7 +64,7 @@ export function fetchVaultDetails(vaultAddress: string, provider: JsonRpcSigner)
 
       const symbol = await vaultContract.symbol();
       const apy = await apiService.getVaultAPY(symbol);
-      const depositLimit = await vaultContract.depositLimit();
+      const depositLimit = await vaultContract.availableDepositLimit();
 
       dispatch(setVaultDetails(vaultAddress, symbol, parseFloat(apy), depositLimit));
       dispatch(ActionUtil.successAction(EVaultReduxActions.FETCH_VAULT_DETAILS, vaultAddress));
@@ -74,7 +74,7 @@ export function fetchVaultDetails(vaultAddress: string, provider: JsonRpcSigner)
   };
 }
 
-export function fetchUserVaultShares(vaultAddress: string, userAddress: string, provider: JsonRpcSigner): Thunk<void> {
+export function fetchUserVaultShares(vaultAddress: string, userAddress: string, provider: JsonRpcSigner | JsonRpcProvider): Thunk<void> {
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(EVaultReduxActions.FETCH_USER_VAULT_SHARES, vaultAddress));
@@ -91,7 +91,7 @@ export function fetchUserVaultShares(vaultAddress: string, userAddress: string, 
   };
 }
 
-export function fetchVaultTvl(vaultAddress: string, provider: JsonRpcSigner): Thunk<void> {
+export function fetchVaultTvl(vaultAddress: string, provider: JsonRpcSigner | JsonRpcProvider): Thunk<void> {
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(EVaultReduxActions.FETCH_VAULT_TVL, vaultAddress));

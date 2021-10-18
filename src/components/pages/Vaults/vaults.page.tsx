@@ -24,7 +24,15 @@ import WalletService from "../../../shared/services/wallet/wallet.service";
 
 const VaultsPage: React.FC = () => {
   const dispatch = useDispatch();
-  const { chainId, isChainSupported, active, library, account, getSigner } = useWeb3();
+  const {
+    chainId,
+    isChainSupported,
+    active,
+    library,
+    account,
+    getSigner,
+    alchemyProvider
+  } = useWeb3();
 
   const [signer, setSigner] = useState<Nullable<JsonRpcSigner>>();
   const [isSwitchingNetwork, setIsSwitchingNetwork] = useState<boolean>(false);
@@ -156,6 +164,7 @@ const VaultsPage: React.FC = () => {
             token={token}
             signer={signer!}
             account={account}
+            provider={alchemyProvider}
           />
         ))}
       </Fragment>

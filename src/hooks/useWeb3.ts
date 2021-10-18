@@ -3,12 +3,14 @@ import { Web3ReactContextInterface } from "@web3-react/core/dist/types";
 import { EErrorTypes, WalletConnectorError } from "../shared/types/error.types";
 import Web3Util from "../shared/utils/web3.util";
 import { Nullable } from "../shared/types/util.types";
-import { JsonRpcSigner, Web3Provider } from "@ethersproject/providers";
+import { JsonRpcProvider, JsonRpcSigner, Web3Provider } from "@ethersproject/providers";
+import WalletService from "../shared/services/wallet/wallet.service";
 
 interface IUseWeb3Context<ProviderType extends any> extends Web3ReactContextInterface<ProviderType> {
   mappedError: Nullable<WalletConnectorError>;
   isChainSupported: boolean;
   getSigner: () => Promise<Nullable<JsonRpcSigner>>;
+  alchemyProvider: JsonRpcProvider;
 }
 
 function useWeb3(): IUseWeb3Context<Web3Provider> {
@@ -34,7 +36,8 @@ function useWeb3(): IUseWeb3Context<Web3Provider> {
     library,
     mappedError,
     isChainSupported,
-    getSigner
+    getSigner,
+    alchemyProvider: WalletService.alchemyProvider
   };
 }
 

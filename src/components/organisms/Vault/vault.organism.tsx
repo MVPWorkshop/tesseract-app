@@ -2,10 +2,10 @@ import React, { MouseEventHandler, useEffect, useState } from "react";
 import styles from "./vault.organism.module.scss";
 import { IVaultProps } from "./vault.organism.types";
 import { tokenIcons } from "../../../shared/constants/common.constants";
-import { Table } from "react-bootstrap";
+import { Col, Row, Table } from "react-bootstrap";
 import { Trans } from "@lingui/macro";
 import Typography from "../../atoms/Typography/typography.atom";
-import { EFontWeight } from "../../../shared/types/styles.types";
+import { EColor, EFontWeight } from "../../../shared/types/styles.types";
 import DropdownArrow from "../../atoms/DropdownArrow/dropdownArrow.atom";
 import Button from "../../atoms/Button/button.atom";
 import { classes } from "../../../shared/utils/styles.util";
@@ -14,7 +14,6 @@ import Link from "../../atoms/Link/link.atom";
 import { ETypographyVariant } from "../../atoms/Typography/typography.atom.types";
 import Input from "../../atoms/Input/input.atom";
 import { EInputType } from "../../atoms/Input/input.atom.types";
-import { Row, Col } from "react-bootstrap";
 import Slider from "../../atoms/Slider/slider.atom";
 import Web3Util from "../../../shared/utils/web3.util";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,7 +32,8 @@ import {
   depositAssetsIntoVault,
   fetchUserVaultShares,
   fetchVaultDetails,
-  fetchVaultTvl, withdrawAssetsFromVault
+  fetchVaultTvl,
+  withdrawAssetsFromVault
 } from "../../../redux/vaults/vaults.redux.actions";
 import { formatAssetDisplayValue, hasMoreDecimalsThan, isEmptyValue, isZero } from "../../../shared/utils/common.util";
 import { EVaultReduxActions, IVaultReduxState } from "../../../redux/vaults/vaults.redux.types";
@@ -53,9 +53,9 @@ const Vault: React.FC<IVaultProps> = (props) => {
     token,
     chainId,
     account,
-    signer
+    signer,
+    provider
   } = props;
-
 
   const dispatch = useDispatch();
 
@@ -107,32 +107,32 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const [withdrawValue, setWithdrawValue] = useState<{actual: number, percent: number}>({actual: 0, percent: 0});
 
   useEffect(() => {
-    dispatch(fetchTokenDetails(token, signer, chainId));
-    dispatch(fetchTokenVault(token, signer, chainId));
+    dispatch(fetchTokenDetails(token, provider, chainId));
+    dispatch(fetchTokenVault(token, provider, chainId));
   }, []);
 
   useEffect(() => {
     if (account) {
-      dispatch(fetchTokenBalance(token, account, signer, chainId));
+      dispatch(fetchTokenBalance(token, account, provider, chainId));
     }
   }, [account]);
 
   useEffect(() => {
     if (account && vaultAddress) {
-      dispatch(fetchUserVaultShares(vaultAddress, account, signer));
+      dispatch(fetchUserVaultShares(vaultAddress, account, provider));
     }
   }, [account, vaultAddress]);
 
   useEffect(() => {
     if (isOpen && account && vaultAddress) {
-      dispatch(fetchTokenApprovedAmount(token, account, vaultAddress, signer, chainId));
+      dispatch(fetchTokenApprovedAmount(token, account, vaultAddress, provider, chainId));
     }
   }, [isOpen, account, vaultAddress]);
 
   useEffect(() => {
     if (vaultAddress) {
-      dispatch(fetchVaultDetails(vaultAddress, signer));
-      dispatch(fetchVaultTvl(vaultAddress, signer));
+      dispatch(fetchVaultDetails(vaultAddress, provider));
+      dispatch(fetchVaultTvl(vaultAddress, provider));
     }
   }, [vaultAddress]);
 
@@ -191,8 +191,10 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const tvl = (vaultData && vaultData.tvl && priceUSD && decimals) ? getTokenInUSD(vaultData.tvl, priceUSD, decimals) : undefined;
   const formattedBalance = (balance && decimals) ? Web3Util.formatTokenNumber(balance, decimals, 6) : undefined;
   const formattedUserShares = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInFormattedToken(vaultData.userShares, vaultData.sharePrice, decimals).round(6) : undefined;
-  const maxDepositAmount = (balance && decimals && vaultData && vaultData.tvl) ?
-    Web3Util.formatTokenNumber(getMaxDepositAmount(balance, vaultData.tvl, vaultData.depositLimit), decimals) : new BigDecimal(0);
+  const maxDepositAmount = (balance && decimals && vaultData && vaultData.depositLimit) ?
+    Web3Util.formatTokenNumber(getMaxDepositAmount(balance, vaultData.depositLimit), decimals) : new BigDecimal(0);
+
+  const isDepositDisabled = isZero(maxDepositAmount);
 
   const onDepositValueChange = (value: number) => {
     if (decimals && hasMoreDecimalsThan(value, decimals)) {
@@ -329,6 +331,14 @@ const Vault: React.FC<IVaultProps> = (props) => {
           </div>
           <div className={classes(styles.body, [isOpen, styles.open])}>
             <div className={styles.content}>
+              { isZero(vaultData?.depositLimit || 0) ?
+                <Typography
+                  color={EColor.RED}
+                  element={"p"}
+                >
+                  <Trans>Deposit limit reached, stay tuned till we increase the limit again</Trans>
+                </Typography> : undefined
+              }
               <Separator marginAfter={55}/>
               <Typography
                 variant={ETypographyVariant.BODY}
@@ -366,12 +376,14 @@ const Vault: React.FC<IVaultProps> = (props) => {
                     type={EInputType.NUMBER}
                     onChange={onDepositValueChange}
                     value={depositValue.actual}
+                    disabled={isDepositDisabled}
                     min={0}
                     max={parseFloat(maxDepositAmount?.getValue() || "0")}
                   />
                   <Slider
                     value={depositValue.percent}
                     onChange={onDepositPercentageChange}
+                    disabled={isDepositDisabled}
                     min={1}
                     max={100}
                     marks={sliderMarks}

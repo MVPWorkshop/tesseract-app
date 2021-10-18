@@ -1,6 +1,10 @@
 @import '../../../shared/styles/variables';
 
 .slider {
+  :global(.rc-slider-disabled) {
+    background-color: transparent;
+  }
+
   :global(.rc-slider-rail) {
     border-radius: 0;
     background-color: map-get($colors, "darkJungleGreen");

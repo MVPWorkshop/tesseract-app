@@ -2,13 +2,19 @@ import { AbstractConnector } from "@web3-react/abstract-connector";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { EChainId, EConnectorType } from "../../types/web3.types";
-import { PROVIDER_POLLING_INTERVAL } from "../../constants/config.constants";
+import { ALCHEMY_RPC, PROVIDER_POLLING_INTERVAL } from "../../constants/config.constants";
 import { RPC_URLS, supportedChainIds } from "../../constants/web3.constants";
-import { Web3Provider } from "@ethersproject/providers";
+import { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import { hexStripZeros } from "ethers/lib/utils";
 import { BigNumber } from "ethers";
 
 class WalletService {
+  private static _alchemyProvider = new JsonRpcProvider(ALCHEMY_RPC);
+
+  public static get alchemyProvider() {
+    return this._alchemyProvider;
+  }
+
   private static _injectedProvider = new InjectedConnector({ supportedChainIds })
 
   public static get injected() {

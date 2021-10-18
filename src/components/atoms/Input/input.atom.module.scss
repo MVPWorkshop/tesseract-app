@@ -23,8 +23,12 @@
       }
     }
 
-    &:hover {
+    &:not([disabled]):hover {
       border-color: $mainColor;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
     }
   }
 
