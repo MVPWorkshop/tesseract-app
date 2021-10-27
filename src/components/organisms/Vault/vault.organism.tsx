@@ -163,7 +163,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const approveAssets = () => {
     if (!isApproveAssetsDisabled) {
       const amountToApprove = parseUnits(depositValue.actual.toString(), decimals);
-      dispatch(approveTokenSpending(token, amountToApprove, account!, vaultAddress!, signer, chainId!));
+      dispatch(approveTokenSpending(token, amountToApprove, account!, vaultAddress!, signer, chainId));
     }
   };
 
@@ -171,7 +171,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const depositAssets =  () => {
     if (!isDepositSomeAssetsDisabled) {
       const amountToSpend = parseUnits(depositValue.actual.toString(), decimals);
-      dispatch(depositAssetsIntoVault(token, vaultAddress!, account!, amountToSpend, signer, chainId!));
+      dispatch(depositAssetsIntoVault(token, vaultAddress!, account!, amountToSpend, signer, chainId));
     }
   };
 
@@ -180,10 +180,10 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const withdrawAssets = (withdrawAll: boolean) => () => {
     if (withdrawAll && !isWithdrawAllAssetsDisabled) {
       const amountToWithdraw = -1; // Deposit all
-      dispatch(withdrawAssetsFromVault(token, vaultAddress!, account!, amountToWithdraw, signer, chainId!));
+      dispatch(withdrawAssetsFromVault(token, vaultAddress!, account!, amountToWithdraw, signer, chainId));
     } else if (!isWithdrawSomeAssetsDisabled) {
       const amountToWithdraw = formattedTokenToShare(withdrawValue.actual.toString(), vaultData!.sharePrice!, decimals!);
-      dispatch(withdrawAssetsFromVault(token, vaultAddress!, account!, BigNumber.from(amountToWithdraw.getValue()), signer, chainId!));
+      dispatch(withdrawAssetsFromVault(token, vaultAddress!, account!, BigNumber.from(amountToWithdraw.getValue()), signer, chainId));
     }
   };
 
@@ -357,7 +357,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
               >
                 <Trans>Link to contract</Trans>:
                 &nbsp;
-                <Link link={Web3Util.getExplorerLink(chainId!, vaultAddress!, "account")!}>
+                <Link link={Web3Util.getExplorerLink(chainId, vaultAddress!, "account")!}>
                   {vaultAddress}
                 </Link>
               </Typography>

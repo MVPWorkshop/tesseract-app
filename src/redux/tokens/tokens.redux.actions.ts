@@ -64,7 +64,7 @@ export function setTokenApprovedAmount(token: ESupportedTokens, amount: BigNumbe
   };
 }
 
-export function fetchTokenBalance(token: ESupportedTokens, userAddress: string, provider: JsonRpcSigner | JsonRpcProvider, chainId?: EChainId): Thunk<void> {
+export function fetchTokenBalance(token: ESupportedTokens, userAddress: string, provider: JsonRpcProvider, chainId: EChainId): Thunk<void> {
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(ETokenReduxActions.FETCH_TOKEN_BALANCE, token));
@@ -80,7 +80,7 @@ export function fetchTokenBalance(token: ESupportedTokens, userAddress: string, 
   };
 }
 
-export function fetchTokenDetails(token: ESupportedTokens, provider: JsonRpcSigner | JsonRpcProvider, chainId?: EChainId): Thunk<void> {
+export function fetchTokenDetails(token: ESupportedTokens, provider: JsonRpcProvider, chainId: EChainId): Thunk<void> {
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(ETokenReduxActions.FETCH_TOKEN_DETAILS, token));
@@ -100,12 +100,12 @@ export function fetchTokenDetails(token: ESupportedTokens, provider: JsonRpcSign
   };
 }
 
-export function fetchTokenVault(token: ESupportedTokens, provider: JsonRpcSigner | JsonRpcProvider, chainId?: EChainId): Thunk<void> {
+export function fetchTokenVault(token: ESupportedTokens, provider: JsonRpcProvider, chainId: EChainId): Thunk<void> {
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(ETokenReduxActions.FETCH_TOKEN_VAULT, token));
-      const registryContract = await (new RegistryContractFactory(provider)).getInstance(chainId!);
-      const tokenAddress = addressByNetworkAndToken[token][chainId!];
+      const registryContract = await (new RegistryContractFactory(provider)).getInstance(chainId);
+      const tokenAddress = addressByNetworkAndToken[token][chainId];
       if (!tokenAddress) {
         throw new Error("Token not supported on current network");
       }
@@ -119,7 +119,7 @@ export function fetchTokenVault(token: ESupportedTokens, provider: JsonRpcSigner
   };
 }
 
-export function fetchTokenApprovedAmount(token: ESupportedTokens, userAddress: string, vaultAddress: string, provider: JsonRpcSigner | JsonRpcProvider, chainId?: EChainId): Thunk<void> {
+export function fetchTokenApprovedAmount(token: ESupportedTokens, userAddress: string, vaultAddress: string, provider: JsonRpcProvider, chainId: EChainId): Thunk<void> {
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(ETokenReduxActions.FETCH_TOKEN_APPROVED_AMOUNT, token));
@@ -135,14 +135,14 @@ export function fetchTokenApprovedAmount(token: ESupportedTokens, userAddress: s
   };
 }
 
-export function approveTokenSpending(token: ESupportedTokens, amount: BigNumber, userAddress: string, spender: string, provider: JsonRpcSigner, chainId: EChainId): Thunk<void> {
+export function approveTokenSpending(token: ESupportedTokens, amount: BigNumber, userAddress: string, spender: string, signer: JsonRpcSigner, chainId: EChainId): Thunk<void> {
   let toastId: React.ReactText;
 
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(ETokenReduxActions.APPROVE_TOKEN_SPENDING, token));
 
-      const tokenContract = await (new Erc20ContractFactory(token, provider)).getInstance(chainId);
+      const tokenContract = await (new Erc20ContractFactory(token, signer)).getInstance(chainId);
       const tx = await tokenContract.approve(spender, amount);
       toastId = toast.loading(i18n._(t`Waiting for confirmations`));
       const receipt = await tx.wait(CONFIRMATIONS_SUCCESS);
@@ -155,7 +155,8 @@ export function approveTokenSpending(token: ESupportedTokens, amount: BigNumber,
         isLoading: false,
         autoClose: 3500
       });
-      dispatch(fetchTokenApprovedAmount(token, userAddress, spender, provider, chainId));
+      dispatch(setTokenApprovedAmount(token, amount));
+      dispatch(fetchTokenApprovedAmount(token, userAddress, spender, signer.provider, chainId));
       dispatch(ActionUtil.successAction(ETokenReduxActions.APPROVE_TOKEN_SPENDING, token));
     } catch (error) {
       if (toastId) {

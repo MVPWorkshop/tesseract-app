@@ -54,7 +54,7 @@ export function setVaultTvl(vault: string, tvl: BigNumber): SetVaultTvlAction {
   };
 }
 
-export function fetchVaultDetails(vaultAddress: string, provider: JsonRpcSigner | JsonRpcProvider): Thunk<void> {
+export function fetchVaultDetails(vaultAddress: string, provider: JsonRpcProvider): Thunk<void> {
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(EVaultReduxActions.FETCH_VAULT_DETAILS, vaultAddress));
@@ -74,7 +74,7 @@ export function fetchVaultDetails(vaultAddress: string, provider: JsonRpcSigner 
   };
 }
 
-export function fetchUserVaultShares(vaultAddress: string, userAddress: string, provider: JsonRpcSigner | JsonRpcProvider): Thunk<void> {
+export function fetchUserVaultShares(vaultAddress: string, userAddress: string, provider: JsonRpcProvider): Thunk<void> {
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(EVaultReduxActions.FETCH_USER_VAULT_SHARES, vaultAddress));
@@ -91,7 +91,7 @@ export function fetchUserVaultShares(vaultAddress: string, userAddress: string, 
   };
 }
 
-export function fetchVaultTvl(vaultAddress: string, provider: JsonRpcSigner | JsonRpcProvider): Thunk<void> {
+export function fetchVaultTvl(vaultAddress: string, provider: JsonRpcProvider): Thunk<void> {
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(EVaultReduxActions.FETCH_VAULT_TVL, vaultAddress));
@@ -107,22 +107,22 @@ export function fetchVaultTvl(vaultAddress: string, provider: JsonRpcSigner | Js
   };
 }
 
-export function depositAssetsIntoVault(token: ESupportedTokens, vaultAddress: string, userAddress: string, amount: BigNumber, provider: JsonRpcSigner, chainId: EChainId): Thunk<void> {
+export function depositAssetsIntoVault(token: ESupportedTokens, vaultAddress: string, userAddress: string, amount: BigNumber, signer: JsonRpcSigner, chainId: EChainId): Thunk<void> {
   let toastId: React.ReactText;
 
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(EVaultReduxActions.DEPOSIT_ASSETS, vaultAddress));
 
-      const vaultContract = (new ContractFactory(EContractType.VAULT)).createContract(vaultAddress, provider);
+      const vaultContract = (new ContractFactory(EContractType.VAULT)).createContract(vaultAddress, signer);
       const tx = await vaultContract["deposit(uint256)"](amount);
       toastId = toast.loading(i18n._(t`Waiting for confirmations`));
       const receipt = await tx.wait(CONFIRMATIONS_SUCCESS);
       const txHash = receipt.transactionHash;
       const txLink = Web3Util.getExplorerLink(chainId, txHash, "tx");
 
-      dispatch(fetchUserVaultShares(vaultAddress, userAddress, provider));
-      dispatch(fetchTokenBalance(token, userAddress, provider, chainId));
+      dispatch(fetchUserVaultShares(vaultAddress, userAddress, signer.provider));
+      dispatch(fetchTokenBalance(token, userAddress, signer.provider, chainId));
 
       toast.update(toastId, {
         type: "success",
@@ -146,7 +146,7 @@ export function depositAssetsIntoVault(token: ESupportedTokens, vaultAddress: st
   };
 }
 
-export function withdrawAssetsFromVault(token: ESupportedTokens, vaultAddress: string, userAddress: string, amount: BigNumber | -1, provider: JsonRpcSigner, chainId: EChainId): Thunk<void> {
+export function withdrawAssetsFromVault(token: ESupportedTokens, vaultAddress: string, userAddress: string, amount: BigNumber | -1, signer: JsonRpcSigner, chainId: EChainId): Thunk<void> {
   let toastId: React.ReactText;
   const actionName = amount === -1 ? EVaultReduxActions.WITHDRAW_ALL_ASSETS : EVaultReduxActions.WITHDRAW_ASSETS;
 
@@ -154,7 +154,7 @@ export function withdrawAssetsFromVault(token: ESupportedTokens, vaultAddress: s
     try {
       dispatch(ActionUtil.requestAction(actionName, vaultAddress));
 
-      const vaultContract = (new ContractFactory(EContractType.VAULT)).createContract(vaultAddress, provider);
+      const vaultContract = (new ContractFactory(EContractType.VAULT)).createContract(vaultAddress, signer);
       let tx: ContractTransaction;
       if (amount === -1) {
         tx = await vaultContract["withdraw()"]();
@@ -166,8 +166,8 @@ export function withdrawAssetsFromVault(token: ESupportedTokens, vaultAddress: s
       const txHash = receipt.transactionHash;
       const txLink = Web3Util.getExplorerLink(chainId, txHash, "tx");
 
-      dispatch(fetchUserVaultShares(vaultAddress, userAddress, provider));
-      dispatch(fetchTokenBalance(token, userAddress, provider, chainId));
+      dispatch(fetchUserVaultShares(vaultAddress, userAddress, signer.provider));
+      dispatch(fetchTokenBalance(token, userAddress, signer.provider, chainId));
 
       toast.update(toastId, {
         type: "success",

@@ -14,8 +14,8 @@ class Erc20ContractFactory {
     this._tokenType = token;
   }
 
-  public async getInstance(chainId?: EChainId) {
-    const tokenAddress = addressByNetworkAndToken[this._tokenType][chainId!];
+  public async getInstance(chainId: EChainId) {
+    const tokenAddress = addressByNetworkAndToken[this._tokenType][chainId];
     if (!tokenAddress) {
       throw new Error("Token not available on current network");
     }
