@@ -56,16 +56,14 @@ export function formattedTokenToShare(amount: SupportedNumbers, pricePerShare: S
   return bigDecimalAmount.divide(bigDecimalPricePerShare, 64).floor();
 }
 
-export function getMaxDepositAmount(userBalance: BigNumber, totalAssets: BigNumber, depositLimit?: BigNumber) {
-  if (depositLimit && !isZero(depositLimit)) {
-    const spaceLeft = depositLimit.sub(totalAssets);
-
-    if (spaceLeft.lt(userBalance)) {
-      return spaceLeft;
+export function getMaxDepositAmount(userBalance: BigNumber, availableDepositLimit: BigNumber) {
+  if (availableDepositLimit && !isZero(availableDepositLimit)) {
+    if (availableDepositLimit.lt(userBalance)) {
+      return availableDepositLimit;
     } else {
       return userBalance;
     }
   } else {
-    return userBalance;
+    return BigNumber.from(0);
   }
 }

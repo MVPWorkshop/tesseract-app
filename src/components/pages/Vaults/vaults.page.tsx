@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import PageOrganism from "../../organisms/Page/page.organism";
 import { getSupportedTokensByChain } from "../../../shared/utils/vault.util";
 import useWeb3 from "../../../hooks/useWeb3";
-import { EChainId } from "../../../shared/types/web3.types";
 import Vault from "../../organisms/Vault/vault.organism";
 import TextDialog from "../../atoms/TextDialog/textDialog.atom";
 import Typography from "../../atoms/Typography/typography.atom";
@@ -24,7 +23,15 @@ import WalletService from "../../../shared/services/wallet/wallet.service";
 
 const VaultsPage: React.FC = () => {
   const dispatch = useDispatch();
-  const { chainId, isChainSupported, active, library, account, getSigner } = useWeb3();
+  const {
+    isChainSupported,
+    active,
+    library,
+    account,
+    getSigner,
+    rpcProvider,
+    displayChainId
+  } = useWeb3();
 
   const [signer, setSigner] = useState<Nullable<JsonRpcSigner>>();
   const [isSwitchingNetwork, setIsSwitchingNetwork] = useState<boolean>(false);
@@ -35,7 +42,6 @@ const VaultsPage: React.FC = () => {
       .catch(() => setSigner(null));
   }, [library, account]);
 
-  const displayChainId = (chainId && isChainSupported) ? chainId : EChainId.POLYGON_MAINNET;
   const tokens = getSupportedTokensByChain(displayChainId);
   const isProviderAvailable = active && library && signer;
 
@@ -156,6 +162,7 @@ const VaultsPage: React.FC = () => {
             token={token}
             signer={signer!}
             account={account}
+            provider={rpcProvider}
           />
         ))}
       </Fragment>

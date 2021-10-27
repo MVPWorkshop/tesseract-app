@@ -14,6 +14,7 @@ interface IBaseInputProps extends IClassableComponent {
   placeholder?: string;
   onChange: OnChange<any>;
   value: any;
+  disabled?: boolean;
 }
 
 interface ITextInputProps extends IBaseInputProps {

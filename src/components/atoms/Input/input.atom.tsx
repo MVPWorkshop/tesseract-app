@@ -13,7 +13,8 @@ const Input: React.FC<IInputProps> = (props) => {
     placeholder,
     min,
     max,
-    className
+    className,
+    disabled
   } = props;
 
   const validateNumberRange = (num: number) => {
@@ -55,6 +56,7 @@ const Input: React.FC<IInputProps> = (props) => {
         onChange={onChangeHandler}
         min={min}
         max={max}
+        disabled={disabled}
       />
 
       <span className={classes(styles.corner, styles.top, styles.left)}/>
