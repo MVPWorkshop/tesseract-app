@@ -38,7 +38,8 @@ export enum ESupportedTokens {
   USDT = "USDT",
   DAI = "DAI",
   WETH = "WETH",
-  WBTC = "WBTC"
+  WBTC = "WBTC",
+  WMATIC = "WMATIC"
 }
 
 // Every tokens needs to have an object, but doesn't have to be supported by every network

@@ -1,6 +1,6 @@
 import { EChainId } from "../types/web3.types";
 import { ESupportedTokens } from "../types/contract.types";
-import { addressByNetworkAndToken } from "../constants/web3.constants";
+import { addressByNetworkAndToken, nativeTokenTickers } from "../constants/web3.constants";
 import { isZero, keys } from "./common.util";
 import BigDecimal from "js-big-decimal";
 import Web3Util from "./web3.util";
@@ -66,4 +66,20 @@ export function getMaxDepositAmount(userBalance: BigNumber, availableDepositLimi
   } else {
     return BigNumber.from(0);
   }
+}
+
+export function getTokenTicker(tokenSymbol: string, chaindId: EChainId): string {
+  if (chaindId === EChainId.POLYGON_MAINNET && tokenSymbol === "WMATIC") {
+    return nativeTokenTickers[chaindId];
+  }
+
+  return tokenSymbol;
+}
+
+export function getVaultTicker(vaultSymbol: string, apiVersion: string): string {
+  if (apiVersion === "0.4.3.1") {
+    return `${vaultSymbol}_V2`;
+  }
+
+  return vaultSymbol;
 }

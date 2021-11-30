@@ -7,7 +7,8 @@ const initialState: ITokensReduxReducerState = {
   [ESupportedTokens.USDT]: {},
   [ESupportedTokens.DAI]: {},
   [ESupportedTokens.WETH]: {},
-  [ESupportedTokens.WBTC]: {}
+  [ESupportedTokens.WBTC]: {},
+  [ESupportedTokens.WMATIC]: {}
 };
 
 const tokensReduxReducer: Reducer<ITokensReduxReducerState, TokenReduxActions> = (state = initialState, action) => {

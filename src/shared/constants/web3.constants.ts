@@ -46,8 +46,15 @@ export const addressByNetworkAndToken: TokenAddressByNetwork = {
   },
   [ESupportedTokens.WBTC]: {
     [EChainId.POLYGON_MAINNET]: "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6"
+  },
+  [ESupportedTokens.WMATIC]: {
+    [EChainId.POLYGON_MAINNET]: "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270"
   }
 };
+
+export const nativeTokenTickers: DynamicObject<string, EChainId, AllKeysRequired> = {
+  [EChainId.POLYGON_MAINNET]: "MATIC"
+}
 
 export const chainLabels: DynamicObject<string, EChainId, AllKeysRequired> = {
   [EChainId.POLYGON_MAINNET]: "POLYGON"

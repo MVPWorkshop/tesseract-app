@@ -63,7 +63,9 @@ export function fetchVaultDetails(vaultAddress: string, provider: JsonRpcProvide
       const apiService = new ApiService();
 
       const symbol = await vaultContract.symbol();
-      const apy = await apiService.getVaultAPY(symbol);
+      const apiVersion = await vaultContract.apiVersion();
+
+      const apy = await apiService.getVaultAPY(symbol, apiVersion);
       const depositLimit = await vaultContract.availableDepositLimit();
 
       dispatch(setVaultDetails(vaultAddress, symbol, parseFloat(apy), depositLimit));

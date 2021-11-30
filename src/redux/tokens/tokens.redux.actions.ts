@@ -90,7 +90,7 @@ export function fetchTokenDetails(token: ESupportedTokens, provider: JsonRpcProv
 
       const tokenDecimals = await tokenContract.decimals();
       const tokenSymbol = await tokenContract.symbol();
-      const tokenPriceUSD = await apiService.getTokenPrice(tokenSymbol);
+      const tokenPriceUSD = await apiService.getTokenPrice(tokenSymbol, chainId);
 
       dispatch(setTokenDetails(token, tokenDecimals, parseFloat(tokenPriceUSD)));
       dispatch(ActionUtil.successAction(ETokenReduxActions.FETCH_TOKEN_DETAILS, token));
