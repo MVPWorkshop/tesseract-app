@@ -59,6 +59,10 @@ export function areBigDecimalsEqual(a: BigDecimal, b: BigDecimal): boolean {
   return a.getValue() === b.getValue();
 }
 
+export function areArraysEqual(a: any[], b: any[]): boolean {
+  return JSON.stringify(a) === JSON.stringify(b);
+}
+
 export function countDecimals(value: number) {
   if (Math.floor(value) === value) {
     return 0;

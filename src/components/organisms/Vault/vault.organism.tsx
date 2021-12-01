@@ -19,10 +19,7 @@ import Web3Util from "../../../shared/utils/web3.util";
 import { useDispatch, useSelector } from "react-redux";
 import {
   approveTokenSpending,
-  fetchTokenApprovedAmount,
-  fetchTokenBalance,
-  fetchTokenDetails,
-  fetchTokenVault
+  fetchTokenApprovedAmount
 } from "../../../redux/tokens/tokens.redux.actions";
 import { RootState } from "../../../redux/redux.types";
 import { createLoadingSelector } from "../../../redux/loading/loading.redux.reducer";
@@ -51,6 +48,7 @@ import Skeleton from "../../atoms/Skeleton/skeleton.atom";
 const Vault: React.FC<IVaultProps> = (props) => {
   const {
     token,
+    vaultAddress,
     chainId,
     account,
     signer,
@@ -60,7 +58,6 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const dispatch = useDispatch();
 
   const {
-    vaultAddress,
     balance,
     decimals,
     priceUSD,
@@ -71,7 +68,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     createLoadingSelector([
       ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_BALANCE, token),
       ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_DETAILS, token),
-      ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_VAULT, token),
+      ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_VAULTS, token),
       ActionUtil.actionName(EVaultReduxActions.FETCH_VAULT_TVL, vaultAddress),
       ActionUtil.actionName(EVaultReduxActions.FETCH_VAULT_DETAILS, vaultAddress),
       ActionUtil.actionName(EVaultReduxActions.FETCH_USER_VAULT_SHARES, vaultAddress)
@@ -105,17 +102,6 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [depositValue, setDepositValue] = useState<{actual: number, percent: number}>({actual: 0, percent: 0});
   const [withdrawValue, setWithdrawValue] = useState<{actual: number, percent: number}>({actual: 0, percent: 0});
-
-  useEffect(() => {
-    dispatch(fetchTokenDetails(token, provider, chainId));
-    dispatch(fetchTokenVault(token, provider, chainId));
-  }, []);
-
-  useEffect(() => {
-    if (account) {
-      dispatch(fetchTokenBalance(token, account, provider, chainId));
-    }
-  }, [account]);
 
   useEffect(() => {
     if (account && vaultAddress) {

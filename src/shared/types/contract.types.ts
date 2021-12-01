@@ -1,10 +1,14 @@
-import { Event } from "ethers";
+import { Event, EventFilter } from "ethers";
 import { Result } from "@ethersproject/abi";
 import { AllKeysRequired, DynamicObject } from "./util.types";
 import { EChainId } from "./web3.types";
+import { ESupportedTokens } from "./vault.types";
 
 export interface TypedEvent<EventArgs extends Result> extends Event {
   args: EventArgs;
+}
+
+export interface TypedEventFilter<EventArgsArray, EventArgsObject> extends EventFilter {
 }
 
 export type TypedListener<
@@ -31,15 +35,6 @@ export enum EContractType {
   ERC20 = "ERC20",
   VAULT = "VAULT",
   REGISTRY = "REGISTRY"
-}
-
-export enum ESupportedTokens {
-  USDC = "USDC",
-  USDT = "USDT",
-  DAI = "DAI",
-  WETH = "WETH",
-  WBTC = "WBTC",
-  WMATIC = "WMATIC"
 }
 
 // Every tokens needs to have an object, but doesn't have to be supported by every network

@@ -3,7 +3,8 @@ import { EChainId, EConnectorType } from "../types/web3.types";
 import { EXPLORER_POLYGON_MAINNET, POLYGON_MAINNET_RPC_URL } from "./config.constants";
 import { ReactComponent as MetamaskLogoSVG } from "../assets/metamask-logo.svg";
 import { ReactComponent as WalletConnectLogoSVG } from "../assets/walletconnect-logo.svg";
-import { ESupportedTokens, TokenAddressByNetwork } from "../types/contract.types";
+import { TokenAddressByNetwork } from "../types/contract.types";
+import { ESupportedTokens } from "../types/vault.types";
 
 export const RPC_URLS: DynamicObject<string, EChainId, AllKeysRequired> = {
   [EChainId.POLYGON_MAINNET]: POLYGON_MAINNET_RPC_URL

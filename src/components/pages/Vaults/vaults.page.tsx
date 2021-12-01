@@ -18,8 +18,17 @@ import { Nullable } from "../../../shared/types/util.types";
 import { RootState } from "../../../redux/redux.types";
 import BigDecimal from "js-big-decimal";
 import { createTotalDepositedSelector, createTotalTvlSelector } from "../../../redux/vaults/vaults.redux.reducer";
-import { areBigDecimalsEqual, formatAssetDisplayValue } from "../../../shared/utils/common.util";
+import { areArraysEqual, areBigDecimalsEqual, formatAssetDisplayValue } from "../../../shared/utils/common.util";
 import WalletService from "../../../shared/services/wallet/wallet.service";
+import {
+  fetchAllAvailableVaults,
+  fetchTokenBalance,
+  fetchTokenDetails
+} from "../../../redux/tokens/tokens.redux.actions";
+import { createAllVaultsSelector, IFlattenedVaultState } from "../../../redux/tokens/tokens.redux.reducer";
+import { createLoadingSelector } from "../../../redux/loading/loading.redux.reducer";
+import { ETokenReduxActions } from "../../../redux/tokens/tokens.redux.types";
+import Loader from "../../atoms/Loader/loader.atom";
 
 const VaultsPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -43,6 +52,25 @@ const VaultsPage: React.FC = () => {
   }, [library, account]);
 
   const tokens = getSupportedTokensByChain(displayChainId);
+
+  useEffect(() => {
+    if (rpcProvider) {
+      tokens.forEach(token => {
+        dispatch(fetchTokenDetails(token, rpcProvider, displayChainId))
+      })
+    }
+  }, [rpcProvider])
+
+  useEffect(() => {
+    if (rpcProvider && account) {
+      dispatch(fetchAllAvailableVaults(tokens, account, rpcProvider, displayChainId))
+      tokens.forEach(token => {
+        dispatch(fetchTokenBalance(token, account, rpcProvider, displayChainId));
+      })
+    }
+  }, [rpcProvider, account])
+
+
   const isProviderAvailable = active && library && signer;
 
   const getChainLabelList = () => {
@@ -56,6 +84,10 @@ const VaultsPage: React.FC = () => {
 
   const totalTvl = useSelector<RootState, BigDecimal>(createTotalTvlSelector(tokens), areBigDecimalsEqual);
   const totalDeposited = useSelector<RootState, BigDecimal>(createTotalDepositedSelector(tokens), areBigDecimalsEqual);
+  const allVaults = useSelector<RootState, IFlattenedVaultState[]>(createAllVaultsSelector(tokens), areArraysEqual);
+  const isLoadingAnyData = useSelector<RootState, boolean>(createLoadingSelector([
+    ETokenReduxActions.FETCH_ALL_AVAILABLE_VAULTS,
+  ]))
 
   const switchToPolygonChain = async () => {
     setIsSwitchingNetwork(true);
@@ -155,11 +187,12 @@ const VaultsPage: React.FC = () => {
             </Typography>
           </div>
         </div>
-        {tokens.map(token => (
+        {allVaults.map(vaultData => (
           <Vault
-            key={`${token}-${displayChainId}`}
+            key={`${vaultData.address}-${displayChainId}`}
             chainId={displayChainId}
-            token={token}
+            token={vaultData.token}
+            vaultAddress={vaultData.address}
             signer={signer!}
             account={account}
             provider={rpcProvider}
@@ -175,6 +208,9 @@ const VaultsPage: React.FC = () => {
     }
     if (!isProviderAvailable) {
       return renderProviderUnavailable();
+    }
+    if (isLoadingAnyData) {
+      return <Loader/>;
     }
 
     return renderVaults();

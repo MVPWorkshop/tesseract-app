@@ -1,17 +1,18 @@
 import { ReduxAction } from "../redux.types";
-import { ESupportedTokens } from "../../shared/types/contract.types";
 import { BigNumber } from "ethers";
+import { ESupportedTokens, EVaultState, IRegistryVault } from "../../shared/types/vault.types";
 
 export enum ETokenReduxActions {
   SET_TOKEN_BALANCE = "SET_TOKEN_BALANCE",
   SET_TOKEN_DETAILS = "SET_TOKEN_DETAILS",
-  SET_TOKEN_VAULT = "SET_TOKEN_VAULT",
+  SET_TOKEN_VAULTS = "SET_TOKEN_VAULTS",
   SET_TOKEN_APPROVED_AMOUNT = "SET_TOKEN_APPROVED_AMOUNT",
   FETCH_TOKEN_BALANCE = "FETCH_TOKEN_BALANCE",
   FETCH_TOKEN_DETAILS = "FETCH_TOKEN_DETAILS",
-  FETCH_TOKEN_VAULT = "FETCH_TOKEN_VAULT",
+  FETCH_TOKEN_VAULTS = "FETCH_TOKEN_VAULTS",
   FETCH_TOKEN_APPROVED_AMOUNT = "FETCH_TOKEN_APPROVED_AMOUNT",
-  APPROVE_TOKEN_SPENDING = "APPROVE_TOKEN_SPENDING"
+  APPROVE_TOKEN_SPENDING = "APPROVE_TOKEN_SPENDING",
+  FETCH_ALL_AVAILABLE_VAULTS = "FETCH_ALL_AVAILABLE_VAULTS"
 }
 
 export type SetTokenBalanceAction = ReduxAction<ETokenReduxActions.SET_TOKEN_BALANCE, {
@@ -25,9 +26,9 @@ export type SetTokenDetailsAction = ReduxAction<ETokenReduxActions.SET_TOKEN_DET
   tokenPriceUSD: number;
 }>
 
-export type SetTokenVault = ReduxAction<ETokenReduxActions.SET_TOKEN_VAULT, {
+export type SetTokenVaults = ReduxAction<ETokenReduxActions.SET_TOKEN_VAULTS, {
   token: ESupportedTokens;
-  vaultAddress: string;
+  vaults: IRegistryVault[];
 }>
 
 export type SetTokenApprovedAmount = ReduxAction<ETokenReduxActions.SET_TOKEN_APPROVED_AMOUNT, {
@@ -38,11 +39,14 @@ export type SetTokenApprovedAmount = ReduxAction<ETokenReduxActions.SET_TOKEN_AP
 export type TokenReduxActions =
   SetTokenBalanceAction |
   SetTokenDetailsAction |
-  SetTokenVault |
+  SetTokenVaults |
   SetTokenApprovedAmount
 
 export interface ITokenReduxState {
-  vaultAddress?: string;
+  vaults?: {
+    address: string;
+    state: EVaultState;
+  }[];
   balance?: BigNumber;
   amountApproved?: BigNumber;
   priceUSD?: number;

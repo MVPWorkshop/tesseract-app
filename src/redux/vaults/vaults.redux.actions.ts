@@ -9,7 +9,7 @@ import { JsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
 import { Thunk } from "../redux.types";
 import ActionUtil from "../../shared/utils/action.util";
 import ContractFactory from "../../shared/contracts/contract.factory";
-import { EContractType, ESupportedTokens } from "../../shared/types/contract.types";
+import { EContractType} from "../../shared/types/contract.types";
 import ApiService from "../../shared/services/api/api.service";
 import { CONFIRMATIONS_SUCCESS } from "../../shared/constants/config.constants";
 import { fetchTokenBalance } from "../tokens/tokens.redux.actions";
@@ -20,6 +20,7 @@ import { i18n } from "@lingui/core";
 import { t } from "@lingui/macro";
 import Link from "../../components/atoms/Link/link.atom";
 import Web3Util from "../../shared/utils/web3.util";
+import { ESupportedTokens } from "../../shared/types/vault.types";
 
 export function setVaultDetails(vault: string, symbol: string, apy: number, depositLimit: BigNumber): SetVaultDetailsAction {
   return {

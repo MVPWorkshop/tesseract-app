@@ -1,10 +1,10 @@
 import { EChainId } from "../types/web3.types";
-import { ESupportedTokens } from "../types/contract.types";
 import { addressByNetworkAndToken, nativeTokenTickers } from "../constants/web3.constants";
 import { isZero, keys } from "./common.util";
 import BigDecimal from "js-big-decimal";
 import Web3Util from "./web3.util";
 import { BigNumber } from "ethers";
+import { ESupportedTokens } from "../types/vault.types";
 
 export function getSupportedTokensByChain(chain: EChainId): ESupportedTokens[] {
   const allTokens = keys(ESupportedTokens);
