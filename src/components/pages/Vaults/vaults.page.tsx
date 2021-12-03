@@ -37,6 +37,8 @@ import Loader from "../../atoms/Loader/loader.atom";
 import { EVaultState } from "../../../shared/types/vault.types";
 import { IVaultProps } from "../../organisms/Vault/vault.organism.types";
 import { EFontWeight } from "../../../shared/types/styles.types";
+import WarningBanner from "../../atoms/WarningBanner/warningBanner.atom";
+import { BANNER_ENABLED, BANNER_TEXT } from "../../../shared/constants/config.constants";
 
 const VaultsPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -194,6 +196,11 @@ const VaultsPage: React.FC = () => {
               <Trans>Total Deposited Value</Trans>&nbsp;${formatAssetDisplayValue(totalDeposited.getValue())}
             </Typography>
           </div>
+          { BANNER_ENABLED &&
+            <div className="mt-6">
+              <WarningBanner text={BANNER_TEXT} />
+            </div>
+          }
         </div>
         {allVaults.map(vaultData => {
           // Meaning, if user can see more than 1 vault, it should be flagged, otherwise don't do anything

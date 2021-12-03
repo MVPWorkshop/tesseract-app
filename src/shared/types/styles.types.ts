@@ -16,7 +16,10 @@ export enum EColor {
   JACARTA = "JACARTA",
   AMERICAN_BLUE = "AMERICAN_BLUE",
   DARK_JUNGLE_GREEN = "DARK_JUNGLE_GREEN",
-  RED = "RED"
+  RED = "RED",
+  STRONGER_RED = "STRONGER_RED",
+  GREEN = "GREEN",
+  BLACK = "BLACK"
 }
 
 export enum EFontFamily {

@@ -1,0 +1,18 @@
+@import "../../../shared/styles/mixins";
+
+.warningBanner {
+  background-color: #ECFABD;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+
+  @include md() {
+    padding: 16px 93px 16px 66px;
+  }
+
+  .icon {
+    width: 27px;
+    height: 27px;
+    margin-right: 27px;
+  }
+}
