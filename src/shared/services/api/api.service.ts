@@ -12,7 +12,7 @@ class ApiService extends RestService {
   }
 
   public async getVaultAPY(vaultSymbol: string, apiVersion: string, dayRange = 7): Promise<string> {
-    const vaultTicker = getVaultTicker(vaultSymbol, apiVersion)
+    const vaultTicker = getVaultTicker(vaultSymbol, apiVersion);
 
     const { data } = await this.get<IGetVaultAPYResponse>({
       url: "/query",
@@ -27,7 +27,7 @@ class ApiService extends RestService {
   }
 
   public async getTokenPrice(tokenSymbol: string, chainId: EChainId): Promise<string> {
-    const tokenTicker = getTokenTicker(tokenSymbol, chainId)
+    const tokenTicker = getTokenTicker(tokenSymbol, chainId);
 
     const { data } = await this.get<IGetVaultAPYResponse>({
       url: "/query",

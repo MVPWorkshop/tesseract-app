@@ -7,7 +7,6 @@ import {
 import { Reducer } from "redux";
 import { ESupportedTokens, EVaultState, IRegistryVault } from "../../shared/types/vault.types";
 import { RootState } from "../redux.types";
-import { BigNumber } from "ethers";
 
 const initialState: ITokensReduxReducerState = {
   [ESupportedTokens.USDC]: {},
@@ -83,13 +82,13 @@ export const createAllVaultsSelector = (tokens: ESupportedTokens[], disableShare
           flattenedVaults.push({
             ...registryVault,
             token
-          })
+          });
         }
-      })
+      });
     }
-  })
+  });
 
   return flattenedVaults;
-}
+};
 
 export default tokensReduxReducer;

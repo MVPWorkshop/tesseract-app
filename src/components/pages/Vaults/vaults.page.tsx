@@ -18,7 +18,12 @@ import { Nullable } from "../../../shared/types/util.types";
 import { RootState } from "../../../redux/redux.types";
 import BigDecimal from "js-big-decimal";
 import { createTotalDepositedSelector, createTotalTvlSelector } from "../../../redux/vaults/vaults.redux.reducer";
-import { areArraysEqual, areBigDecimalsEqual, formatAssetDisplayValue } from "../../../shared/utils/common.util";
+import {
+  areArraysEqual,
+  areBigDecimalsEqual,
+  formatAssetDisplayValue,
+  objectListToArrayByConditionalKey
+} from "../../../shared/utils/common.util";
 import WalletService from "../../../shared/services/wallet/wallet.service";
 import {
   fetchAllAvailableVaults,
@@ -29,6 +34,9 @@ import { createAllVaultsSelector, IFlattenedVaultState } from "../../../redux/to
 import { createLoadingSelector } from "../../../redux/loading/loading.redux.reducer";
 import { ETokenReduxActions } from "../../../redux/tokens/tokens.redux.types";
 import Loader from "../../atoms/Loader/loader.atom";
+import { EVaultState } from "../../../shared/types/vault.types";
+import { IVaultProps } from "../../organisms/Vault/vault.organism.types";
+import { EFontWeight } from "../../../shared/types/styles.types";
 
 const VaultsPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -56,19 +64,19 @@ const VaultsPage: React.FC = () => {
   useEffect(() => {
     if (rpcProvider) {
       tokens.forEach(token => {
-        dispatch(fetchTokenDetails(token, rpcProvider, displayChainId))
-      })
+        dispatch(fetchTokenDetails(token, rpcProvider, displayChainId));
+      });
     }
-  }, [rpcProvider])
+  }, [rpcProvider]);
 
   useEffect(() => {
     if (rpcProvider && account) {
-      dispatch(fetchAllAvailableVaults(tokens, account, rpcProvider, displayChainId))
+      dispatch(fetchAllAvailableVaults(tokens, account, rpcProvider, displayChainId));
       tokens.forEach(token => {
         dispatch(fetchTokenBalance(token, account, rpcProvider, displayChainId));
-      })
+      });
     }
-  }, [rpcProvider, account])
+  }, [rpcProvider, account]);
 
 
   const isProviderAvailable = active && library && signer;
@@ -87,7 +95,7 @@ const VaultsPage: React.FC = () => {
   const allVaults = useSelector<RootState, IFlattenedVaultState[]>(createAllVaultsSelector(tokens), areArraysEqual);
   const isLoadingAnyData = useSelector<RootState, boolean>(createLoadingSelector([
     ETokenReduxActions.FETCH_ALL_AVAILABLE_VAULTS,
-  ]))
+  ]));
 
   const switchToPolygonChain = async () => {
     setIsSwitchingNetwork(true);
@@ -169,7 +177,7 @@ const VaultsPage: React.FC = () => {
             className={"mr-4"}
           >
             <Trans>
-              {tokens.length} Vaults
+              {allVaults.length} Vaults
             </Trans>
           </Typography>
           <div className="d-flex flex-column align-items-end">
@@ -187,18 +195,46 @@ const VaultsPage: React.FC = () => {
             </Typography>
           </div>
         </div>
-        {allVaults.map(vaultData => (
-          <Vault
-            key={`${vaultData.address}-${displayChainId}`}
-            chainId={displayChainId}
-            token={vaultData.token}
-            vaultAddress={vaultData.address}
-            signer={signer!}
-            account={account}
-            provider={rpcProvider}
-          />
-        ))}
+        {allVaults.map(vaultData => {
+          // Meaning, if user can see more than 1 vault, it should be flagged, otherwise don't do anything
+          let flag: IVaultProps["flag"];
+          if (vaultData.state === EVaultState.OBSOLETE) {
+            flag = "obsolete";
+          } else {
+            const vaultsByToken = objectListToArrayByConditionalKey(allVaults, "token", vaultData.token);
+            if (vaultsByToken.length > 1) {
+              flag = "new";
+            }
+          }
+
+          return (
+            <Vault
+              key={`${vaultData.address}-${displayChainId}`}
+              flag={flag}
+              chainId={displayChainId}
+              token={vaultData.token}
+              vaultAddress={vaultData.address}
+              signer={signer!}
+              account={account}
+              provider={rpcProvider}
+            />
+          );
+        })}
       </Fragment>
+    );
+  };
+
+  const renderLoadingVaults = () => {
+    return (
+      <div className="d-flex justify-content-center align-items-center">
+        <Loader height={"48px"}/>
+        <Typography
+          fontSize={24}
+          fontWeight={EFontWeight.BOLD}
+        >
+          <Trans>Loading Vaults...</Trans>
+        </Typography>
+      </div>
     );
   };
 
@@ -210,7 +246,7 @@ const VaultsPage: React.FC = () => {
       return renderProviderUnavailable();
     }
     if (isLoadingAnyData) {
-      return <Loader/>;
+      return renderLoadingVaults();
     }
 
     return renderVaults();

@@ -56,6 +56,23 @@
       padding-right: 30px;
     }
 
+    .vaultStateFlag {
+      clip-path: polygon(0% 0%, 80% 0%, 100% 40%, 100% 100%, 0% 100%);;
+      width: 50px;
+      height: 20px;
+      left: 0;
+      top: 0;
+      background-color: map-get($colors, "green");
+      position: absolute;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+
+      &.obsolete {
+        background-color: map-get($colors, "strongerRed");
+      }
+    }
+
     .header {
       min-height: 118px;
       display: flex;
@@ -95,6 +112,16 @@
       max-height: 0;
       transition: max-height 0.3s ease-out;
 
+      .warningContent {
+        background-color: transparentize(map-get($colors, "strongerRed"), 0.9);
+        border: 1px solid map-get($colors, "strongerRed");
+        padding: 16px 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 16.8px;
+      }
+
       .actionButton {
         min-width: 160px;
       }
@@ -103,7 +130,7 @@
         max-height: 1000px;
 
         @include md() {
-          max-height: 500px;
+          max-height: 700px;
         }
       }
 

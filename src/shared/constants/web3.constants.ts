@@ -55,7 +55,7 @@ export const addressByNetworkAndToken: TokenAddressByNetwork = {
 
 export const nativeTokenTickers: DynamicObject<string, EChainId, AllKeysRequired> = {
   [EChainId.POLYGON_MAINNET]: "MATIC"
-}
+};
 
 export const chainLabels: DynamicObject<string, EChainId, AllKeysRequired> = {
   [EChainId.POLYGON_MAINNET]: "POLYGON"

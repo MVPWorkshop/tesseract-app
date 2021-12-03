@@ -59,17 +59,18 @@ export const createTotalTvlSelector = (tokens: ESupportedTokens[]) => (state: Ro
     const { vaults, decimals, priceUSD } = state.tokens[tokens[i]];
 
     if (vaults && decimals && priceUSD) {
-      vaults.forEach(vault => {
+      for (let j = 0; j < vaults.length; j++) {
+        const vault = vaults[j];
         const vaultData = state.vaults[vault.address];
 
         if (vaultData) {
-          const { tvl } = vaultData;
+          const {tvl} = vaultData;
 
           if (tvl) {
             totalSumUsd = totalSumUsd.add(getTokenInUSD(tvl.toString(), priceUSD.toString(), decimals));
           }
         }
-      })
+      }
     }
   }
   return totalSumUsd;
@@ -82,7 +83,8 @@ export const createTotalDepositedSelector = (tokens: ESupportedTokens[]) => (sta
     const { vaults, decimals, priceUSD } = state.tokens[tokens[i]];
 
     if (vaults && decimals && priceUSD) {
-      vaults.forEach(vault => {
+      for (let j = 0; j < vaults.length; j++) {
+        const vault = vaults[j];
         const vaultData = state.vaults[vault.address];
 
         if (vaultData) {
@@ -93,7 +95,7 @@ export const createTotalDepositedSelector = (tokens: ESupportedTokens[]) => (sta
             totalSumUsd = totalSumUsd.add(valueOfShareUsd);
           }
         }
-      })
+      }
     }
   }
   return totalSumUsd;

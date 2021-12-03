@@ -22,10 +22,9 @@ import Link from "../../components/atoms/Link/link.atom";
 import Web3Util from "../../shared/utils/web3.util";
 import { t } from "@lingui/macro";
 import { ESupportedTokens, IRegistryVault } from "../../shared/types/vault.types";
-import { RegistryAbi } from "../../shared/contracts/types/registry.contract.abi";
 import { getAllVaultsForToken } from "../../shared/utils/registry.util";
 import { createAllVaultsSelector } from "./tokens.redux.reducer";
-import { fetchUserVaultShares } from "../vaults/vaults.redux.actions";
+import { fetchUserVaultShares, fetchVaultTvl } from "../vaults/vaults.redux.actions";
 
 export function setTokenBalance(token: ESupportedTokens, newBalance: BigNumber): SetTokenBalanceAction {
   return {
@@ -120,7 +119,7 @@ export function fetchTokenVaults(token: ESupportedTokens, provider: JsonRpcProvi
     } catch {
       dispatch(ActionUtil.errorAction(ETokenReduxActions.FETCH_TOKEN_VAULTS, token));
     }
-  }
+  };
 }
 
 export function fetchAllAvailableVaults(tokens: ESupportedTokens[], account: string, provider: JsonRpcProvider, chainId: EChainId): Thunk<void> {
@@ -137,13 +136,14 @@ export function fetchAllAvailableVaults(tokens: ESupportedTokens[], account: str
       for (let i = 0; i < vaults.length; i++) {
         const vault = vaults[i];
         await dispatch(fetchUserVaultShares(vault.address, account, provider));
+        await dispatch(fetchVaultTvl(vault.address, provider));
       }
 
       dispatch(ActionUtil.successAction(ETokenReduxActions.FETCH_ALL_AVAILABLE_VAULTS));
     } catch {
       dispatch(ActionUtil.errorAction(ETokenReduxActions.FETCH_ALL_AVAILABLE_VAULTS));
     }
-  }
+  };
 }
 
 export function fetchTokenApprovedAmount(token: ESupportedTokens, userAddress: string, vaultAddress: string, provider: JsonRpcProvider, chainId: EChainId): Thunk<void> {

@@ -8,6 +8,7 @@ export interface TypedEvent<EventArgs extends Result> extends Event {
   args: EventArgs;
 }
 
+// eslint-disable-next-line
 export interface TypedEventFilter<EventArgsArray, EventArgsObject> extends EventFilter {
 }
 

@@ -1,10 +1,10 @@
 export enum ESupportedTokens {
+  WMATIC = "WMATIC",
   USDC = "USDC",
   USDT = "USDT",
   DAI = "DAI",
   WETH = "WETH",
-  WBTC = "WBTC",
-  WMATIC = "WMATIC"
+  WBTC = "WBTC"
 }
 
 export enum EVaultState {
