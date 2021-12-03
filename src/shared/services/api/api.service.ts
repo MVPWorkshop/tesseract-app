@@ -2,7 +2,7 @@ import RestService from "../rest/rest.service";
 import { API_BASE_URL } from "../../constants/config.constants";
 import { IGetVaultAPYResponse } from "./api.service.types";
 import { EChainId } from "../../types/web3.types";
-import { getTokenTicker, getVaultTicker } from "../../utils/vault.util";
+import { getTokenTicker } from "../../utils/vault.util";
 
 class ApiService extends RestService {
   constructor() {
@@ -12,13 +12,11 @@ class ApiService extends RestService {
   }
 
   public async getVaultAPY(vaultSymbol: string, apiVersion: string, dayRange = 7): Promise<string> {
-    const vaultTicker = getVaultTicker(vaultSymbol, apiVersion);
-
     const { data } = await this.get<IGetVaultAPYResponse>({
       url: "/query",
       config: {
         params: {
-          query: `rate(price{ticker="${vaultTicker}"}[${dayRange}d])*60*60*24*365`
+          query: `rate(price{ticker="${vaultSymbol}", version="${apiVersion}"}[${dayRange}d])*60*60*24*365`
         }
       }
     });

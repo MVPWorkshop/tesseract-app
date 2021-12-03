@@ -75,11 +75,3 @@ export function getTokenTicker(tokenSymbol: string, chaindId: EChainId): string 
 
   return tokenSymbol;
 }
-
-export function getVaultTicker(vaultSymbol: string, apiVersion: string): string {
-  if (apiVersion === "0.4.3.1") {
-    return `${vaultSymbol}_V2`;
-  }
-
-  return vaultSymbol;
-}
