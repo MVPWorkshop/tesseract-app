@@ -1,11 +1,10 @@
-import { ESupportedTokens } from "../../shared/types/contract.types";
 import { BigNumber } from "ethers";
 import {
   ETokenReduxActions,
   SetTokenApprovedAmount,
   SetTokenBalanceAction,
   SetTokenDetailsAction,
-  SetTokenVault
+  SetTokenVaults
 } from "./tokens.redux.types";
 import { Thunk } from "../redux.types";
 import { JsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
@@ -22,6 +21,10 @@ import React from "react";
 import Link from "../../components/atoms/Link/link.atom";
 import Web3Util from "../../shared/utils/web3.util";
 import { t } from "@lingui/macro";
+import { ESupportedTokens, IRegistryVault } from "../../shared/types/vault.types";
+import { getAllVaultsForToken } from "../../shared/utils/registry.util";
+import { createAllVaultsSelector } from "./tokens.redux.reducer";
+import { fetchUserVaultShares, fetchVaultTvl } from "../vaults/vaults.redux.actions";
 
 export function setTokenBalance(token: ESupportedTokens, newBalance: BigNumber): SetTokenBalanceAction {
   return {
@@ -44,12 +47,12 @@ export function setTokenDetails(token: ESupportedTokens, decimals: number, token
   };
 }
 
-export function setTokenVault(token: ESupportedTokens, vaultAddress: string): SetTokenVault {
+export function setTokenVaults(token: ESupportedTokens, vaults: IRegistryVault[]): SetTokenVaults {
   return {
-    type: ETokenReduxActions.SET_TOKEN_VAULT,
+    type: ETokenReduxActions.SET_TOKEN_VAULTS,
     payload: {
       token,
-      vaultAddress
+      vaults
     }
   };
 }
@@ -90,7 +93,7 @@ export function fetchTokenDetails(token: ESupportedTokens, provider: JsonRpcProv
 
       const tokenDecimals = await tokenContract.decimals();
       const tokenSymbol = await tokenContract.symbol();
-      const tokenPriceUSD = await apiService.getTokenPrice(tokenSymbol);
+      const tokenPriceUSD = await apiService.getTokenPrice(tokenSymbol, chainId);
 
       dispatch(setTokenDetails(token, tokenDecimals, parseFloat(tokenPriceUSD)));
       dispatch(ActionUtil.successAction(ETokenReduxActions.FETCH_TOKEN_DETAILS, token));
@@ -100,21 +103,45 @@ export function fetchTokenDetails(token: ESupportedTokens, provider: JsonRpcProv
   };
 }
 
-export function fetchTokenVault(token: ESupportedTokens, provider: JsonRpcProvider, chainId: EChainId): Thunk<void> {
+export function fetchTokenVaults(token: ESupportedTokens, provider: JsonRpcProvider, chainId: EChainId): Thunk<void> {
   return async dispatch => {
     try {
-      dispatch(ActionUtil.requestAction(ETokenReduxActions.FETCH_TOKEN_VAULT, token));
+      dispatch(ActionUtil.requestAction(ETokenReduxActions.FETCH_TOKEN_VAULTS, token));
       const registryContract = await (new RegistryContractFactory(provider)).getInstance(chainId);
       const tokenAddress = addressByNetworkAndToken[token][chainId];
       if (!tokenAddress) {
         throw new Error("Token not supported on current network");
       }
-      const vaultAddress = await registryContract.latestVault(tokenAddress);
+      const vaults = await getAllVaultsForToken(tokenAddress, registryContract);
 
-      dispatch(setTokenVault(token, vaultAddress));
-      dispatch(ActionUtil.successAction(ETokenReduxActions.FETCH_TOKEN_VAULT, token));
+      dispatch(setTokenVaults(token, vaults));
+      dispatch(ActionUtil.successAction(ETokenReduxActions.FETCH_TOKEN_VAULTS, token));
     } catch {
-      dispatch(ActionUtil.errorAction(ETokenReduxActions.FETCH_TOKEN_VAULT, token));
+      dispatch(ActionUtil.errorAction(ETokenReduxActions.FETCH_TOKEN_VAULTS, token));
+    }
+  };
+}
+
+export function fetchAllAvailableVaults(tokens: ESupportedTokens[], account: string, provider: JsonRpcProvider, chainId: EChainId): Thunk<void> {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(ActionUtil.requestAction(ETokenReduxActions.FETCH_ALL_AVAILABLE_VAULTS));
+
+      for (let i = 0; i < tokens.length; i++) {
+        await dispatch(fetchTokenVaults(tokens[i], provider, chainId));
+      }
+
+      const vaults = createAllVaultsSelector(tokens, true)(getState());
+
+      for (let i = 0; i < vaults.length; i++) {
+        const vault = vaults[i];
+        await dispatch(fetchUserVaultShares(vault.address, account, provider));
+        await dispatch(fetchVaultTvl(vault.address, provider));
+      }
+
+      dispatch(ActionUtil.successAction(ETokenReduxActions.FETCH_ALL_AVAILABLE_VAULTS));
+    } catch {
+      dispatch(ActionUtil.errorAction(ETokenReduxActions.FETCH_ALL_AVAILABLE_VAULTS));
     }
   };
 }

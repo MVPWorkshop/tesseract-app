@@ -1,8 +1,9 @@
 import { JsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
 import ContractFactory from "./contract.factory";
-import { EContractType, ESupportedTokens } from "../types/contract.types";
+import { EContractType} from "../types/contract.types";
 import { EChainId } from "../types/web3.types";
 import { addressByNetworkAndToken } from "../constants/web3.constants";
+import { ESupportedTokens } from "../types/vault.types";
 
 class Erc20ContractFactory {
   private readonly _provider: JsonRpcSigner | JsonRpcProvider;

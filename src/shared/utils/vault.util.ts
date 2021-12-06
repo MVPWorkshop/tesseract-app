@@ -1,10 +1,10 @@
 import { EChainId } from "../types/web3.types";
-import { ESupportedTokens } from "../types/contract.types";
-import { addressByNetworkAndToken } from "../constants/web3.constants";
+import { addressByNetworkAndToken, nativeTokenTickers } from "../constants/web3.constants";
 import { isZero, keys } from "./common.util";
 import BigDecimal from "js-big-decimal";
 import Web3Util from "./web3.util";
 import { BigNumber } from "ethers";
+import { ESupportedTokens } from "../types/vault.types";
 
 export function getSupportedTokensByChain(chain: EChainId): ESupportedTokens[] {
   const allTokens = keys(ESupportedTokens);
@@ -66,4 +66,12 @@ export function getMaxDepositAmount(userBalance: BigNumber, availableDepositLimi
   } else {
     return BigNumber.from(0);
   }
+}
+
+export function getTokenTicker(tokenSymbol: string, chaindId: EChainId): string {
+  if (chaindId === EChainId.POLYGON_MAINNET && tokenSymbol === "WMATIC") {
+    return nativeTokenTickers[chaindId];
+  }
+
+  return tokenSymbol;
 }

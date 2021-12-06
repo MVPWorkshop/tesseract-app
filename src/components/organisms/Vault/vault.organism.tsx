@@ -19,10 +19,7 @@ import Web3Util from "../../../shared/utils/web3.util";
 import { useDispatch, useSelector } from "react-redux";
 import {
   approveTokenSpending,
-  fetchTokenApprovedAmount,
-  fetchTokenBalance,
-  fetchTokenDetails,
-  fetchTokenVault
+  fetchTokenApprovedAmount
 } from "../../../redux/tokens/tokens.redux.actions";
 import { RootState } from "../../../redux/redux.types";
 import { createLoadingSelector } from "../../../redux/loading/loading.redux.reducer";
@@ -51,6 +48,8 @@ import Skeleton from "../../atoms/Skeleton/skeleton.atom";
 const Vault: React.FC<IVaultProps> = (props) => {
   const {
     token,
+    flag,
+    vaultAddress,
     chainId,
     account,
     signer,
@@ -60,18 +59,20 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const dispatch = useDispatch();
 
   const {
-    vaultAddress,
     balance,
     decimals,
     priceUSD,
     amountApproved
   } = useSelector<RootState, ITokenReduxState>(state => state.tokens[token]);
 
+  const isVaultObsolete = flag === "obsolete";
+  const isVaultNew = flag === "new";
+
   const isFetchingAnyData = useSelector<RootState, boolean>(
     createLoadingSelector([
       ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_BALANCE, token),
       ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_DETAILS, token),
-      ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_VAULT, token),
+      ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_VAULTS, token),
       ActionUtil.actionName(EVaultReduxActions.FETCH_VAULT_TVL, vaultAddress),
       ActionUtil.actionName(EVaultReduxActions.FETCH_VAULT_DETAILS, vaultAddress),
       ActionUtil.actionName(EVaultReduxActions.FETCH_USER_VAULT_SHARES, vaultAddress)
@@ -105,17 +106,6 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [depositValue, setDepositValue] = useState<{actual: number, percent: number}>({actual: 0, percent: 0});
   const [withdrawValue, setWithdrawValue] = useState<{actual: number, percent: number}>({actual: 0, percent: 0});
-
-  useEffect(() => {
-    dispatch(fetchTokenDetails(token, provider, chainId));
-    dispatch(fetchTokenVault(token, provider, chainId));
-  }, []);
-
-  useEffect(() => {
-    if (account) {
-      dispatch(fetchTokenBalance(token, account, provider, chainId));
-    }
-  }, [account]);
 
   useEffect(() => {
     if (account && vaultAddress) {
@@ -272,6 +262,15 @@ const Vault: React.FC<IVaultProps> = (props) => {
     <div className={styles.vault}>
       <div className={styles.outer}>
         <div className={styles.inner}>
+          {flag &&
+            <div className={classes(
+              styles.vaultStateFlag,
+              [isVaultObsolete, styles.obsolete]
+            )}>
+              {isVaultNew ? <Trans>NEW</Trans> : null}
+              {isVaultObsolete ? <Trans>OLD</Trans> : null}
+            </div>
+          }
           <div className={styles.header} onClick={toggleDropdown}>
             <div className={styles.tokenLogoContainer}>
               <TokenLogo className="d-inline mr-2"/>
@@ -340,28 +339,44 @@ const Vault: React.FC<IVaultProps> = (props) => {
                 </Typography> : undefined
               }
               <Separator marginAfter={55}/>
-              <Typography
-                variant={ETypographyVariant.BODY}
-                small={true}
-                element={"p"}
-              >
-                <Trans>
-                  Deposit {token} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield.
-                </Trans>
-              </Typography>
-              <Typography
-                variant={ETypographyVariant.BODY}
-                small={true}
-                element="p"
-                className="text-break"
-              >
-                <Trans>Link to contract</Trans>:
-                &nbsp;
-                <Link link={Web3Util.getExplorerLink(chainId, vaultAddress!, "account")!}>
-                  {vaultAddress}
-                </Link>
-              </Typography>
-
+              <Row>
+                <Col>
+                  <Typography
+                    variant={ETypographyVariant.BODY}
+                    small={true}
+                    element={"p"}
+                  >
+                    <Trans>
+                      Deposit {token} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield.
+                    </Trans>
+                  </Typography>
+                  <Typography
+                    variant={ETypographyVariant.BODY}
+                    small={true}
+                    element="p"
+                    className="text-break"
+                  >
+                    <Trans>Link to contract</Trans>:
+                    &nbsp;
+                    <Link link={Web3Util.getExplorerLink(chainId, vaultAddress!, "account")!}>
+                      {vaultAddress}
+                    </Link>
+                  </Typography>
+                </Col>
+                { isVaultObsolete &&
+                  <Col>
+                    <div className={styles.warningContent}>
+                      <Typography textAlign={"center"}>
+                        <Trans>
+                          This vault is being retired. A new, better, more optimised vault is coming in its place.
+                          Please withdraw your assets below by clicking "withdraw all"
+                          and deposit them to the <span className="color-green">new</span> vault.
+                        </Trans>
+                      </Typography>
+                    </div>
+                  </Col>
+                }
+              </Row>
               <br/>
               <Row>
                 <Col className="mb-4 mb-md-0">
@@ -478,12 +493,12 @@ const Vault: React.FC<IVaultProps> = (props) => {
 };
 
 export default React.memo(Vault, (prevProps, nextProps) => {
-  const isTokenEqual = prevProps.token === nextProps.token;
+  const isAddressEqual = prevProps.vaultAddress === nextProps.vaultAddress;
   const isChainIdEqual = prevProps.chainId === nextProps.chainId;
   const isAccountEqual = prevProps.account === nextProps.account;
 
   return (
-    isTokenEqual &&
+    isAddressEqual &&
     isChainIdEqual &&
     isAccountEqual
   );

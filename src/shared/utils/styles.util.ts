@@ -19,7 +19,10 @@ export function colorToClassName(color: EColor) {
     [EColor.JACARTA]: "jacarta",
     [EColor.AMERICAN_BLUE]: "americanBlue",
     [EColor.DARK_JUNGLE_GREEN]: "darkJungleGreen",
-    [EColor.RED]: "red"
+    [EColor.RED]: "red",
+    [EColor.STRONGER_RED]: "strongerRed",
+    [EColor.GREEN]: "green",
+    [EColor.BLACK]: "black"
   };
 
   return {

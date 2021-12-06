@@ -59,6 +59,37 @@ export function areBigDecimalsEqual(a: BigDecimal, b: BigDecimal): boolean {
   return a.getValue() === b.getValue();
 }
 
+export function areArraysEqual(a: any[], b: any[]): boolean {
+  return JSON.stringify(a) === JSON.stringify(b);
+}
+
+/**
+ * Extract properties from object array by their key
+ *
+ * @example
+ * input =>
+ * list: [{foo: 'a1', bar: 'b1'}, {foo: 'a2', bar: 'b2'}, {foo: 'a3', bar: 'b3'}, {foo: 'a4', bar: 'b4'}]
+ * key: 'foo'
+ *
+ * returns =>
+ * ['a1', 'a2', 'a3', 'a4']
+ */
+export function objectListToArrayByConditionalKey<T extends Array<any>, R extends (T extends Array<infer ArrType> ? ArrType : never), K extends keyof R>(list: T, key: K, conditionValue: R[K]): Array<R[K]> {
+  if (!list || !key) {
+    return [];
+  }
+
+  const finalList: Array<R[K]> = [];
+
+  list.forEach(item => {
+    if (item[key] === conditionValue) {
+      finalList.push(item[key]);
+    }
+  });
+
+  return finalList;
+}
+
 export function countDecimals(value: number) {
   if (Math.floor(value) === value) {
     return 0;
