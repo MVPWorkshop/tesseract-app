@@ -11,12 +11,12 @@ class ApiService extends RestService {
     });
   }
 
-  public async getVaultAPY(vaultSymbol: string, apiVersion: string, dayRange = 7): Promise<string> {
+  public async getVaultAPY(vaultSymbol: string, apiVersion: string, hourRange = 12): Promise<string> {
     const { data } = await this.get<IGetVaultAPYResponse>({
       url: "/query",
       config: {
         params: {
-          query: `rate(price{ticker="${vaultSymbol}", version="${apiVersion}"}[${dayRange}d])*60*60*24*365`
+          query: `rate(price{ticker="${vaultSymbol}", version="${apiVersion}"}[${hourRange}h])*60*60*24*365`
         }
       }
     });
