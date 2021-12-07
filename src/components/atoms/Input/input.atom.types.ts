@@ -1,6 +1,7 @@
 import { IClassableComponent } from "../../../shared/types/util.types";
+import BigDecimal from "js-big-decimal";
 
-type SupportedValues = string | number;
+type SupportedValues = string | BigDecimal;
 
 export type OnChange<T extends SupportedValues> = (callbackValue: T) => void;
 
@@ -27,10 +28,10 @@ interface ITextInputProps extends IBaseInputProps {
 
 interface INumberInputProps extends IBaseInputProps {
   type: EInputType.NUMBER,
-  onChange: OnChange<number>
-  value: number;
-  min?: number;
-  max?: number;
+  onChange: OnChange<string>
+  value: string;
+  min?: string;
+  max?: string;
 }
 
 export type IInputProps = ITextInputProps | INumberInputProps;

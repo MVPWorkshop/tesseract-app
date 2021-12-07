@@ -32,7 +32,13 @@ import {
   fetchVaultTvl,
   withdrawAssetsFromVault
 } from "../../../redux/vaults/vaults.redux.actions";
-import { formatAssetDisplayValue, hasMoreDecimalsThan, isEmptyValue, isZero } from "../../../shared/utils/common.util";
+import {
+  formatAssetDisplayValue,
+  hasMoreDecimalsThan,
+  isBigDecimalGt,
+  isEmptyValue,
+  isZero
+} from "../../../shared/utils/common.util";
 import { EVaultReduxActions, IVaultReduxState } from "../../../redux/vaults/vaults.redux.types";
 import { parseUnits } from "ethers/lib/utils";
 import {
@@ -104,8 +110,8 @@ const Vault: React.FC<IVaultProps> = (props) => {
   });
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [depositValue, setDepositValue] = useState<{actual: number, percent: number}>({actual: 0, percent: 0});
-  const [withdrawValue, setWithdrawValue] = useState<{actual: number, percent: number}>({actual: 0, percent: 0});
+  const [depositValue, setDepositValue] = useState<{actual: BigDecimal, percent: number}>({actual: new BigDecimal(0), percent: 0});
+  const [withdrawValue, setWithdrawValue] = useState<{actual: BigDecimal, percent: number}>({actual: new BigDecimal(0), percent: 0});
 
   useEffect(() => {
     if (account && vaultAddress) {
@@ -140,7 +146,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const getIsEnoughTokensApproved = () => {
     if (depositValue.actual && amountApproved && decimals) {
       const equality =
-        Web3Util.formatTokenNumber(amountApproved, decimals).compareTo(new BigDecimal(depositValue.actual));
+        Web3Util.formatTokenNumber(amountApproved, decimals).compareTo(depositValue.actual);
 
       return (equality === 1 || equality === 0);
     } else {
@@ -152,7 +158,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const isApproveAssetsDisabled = !(depositValue.actual && !isEmptyValue(decimals) && account && vaultAddress && signer && chainId);
   const approveAssets = () => {
     if (!isApproveAssetsDisabled) {
-      const amountToApprove = parseUnits(depositValue.actual.toString(), decimals);
+      const amountToApprove = parseUnits(depositValue.actual.getValue(), decimals);
       dispatch(approveTokenSpending(token, amountToApprove, account!, vaultAddress!, signer, chainId));
     }
   };
@@ -160,13 +166,13 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const isDepositSomeAssetsDisabled = !(vaultAddress && account && chainId && depositValue.actual && decimals);
   const depositAssets =  () => {
     if (!isDepositSomeAssetsDisabled) {
-      const amountToSpend = parseUnits(depositValue.actual.toString(), decimals);
+      const amountToSpend = parseUnits(depositValue.actual.getValue(), decimals);
       dispatch(depositAssetsIntoVault(token, vaultAddress!, account!, amountToSpend, signer, chainId));
     }
   };
 
   const isWithdrawAllAssetsDisabled = !(vaultAddress && account && chainId);
-  const isWithdrawSomeAssetsDisabled = isWithdrawAllAssetsDisabled || !(withdrawValue.actual > 0 && decimals && vaultData?.sharePrice);
+  const isWithdrawSomeAssetsDisabled = isWithdrawAllAssetsDisabled || !(isBigDecimalGt(withdrawValue.actual, new BigDecimal(0)) && decimals && vaultData?.sharePrice);
   const withdrawAssets = (withdrawAll: boolean) => () => {
     if (withdrawAll && !isWithdrawAllAssetsDisabled) {
       const amountToWithdraw = -1; // Deposit all
@@ -186,16 +192,17 @@ const Vault: React.FC<IVaultProps> = (props) => {
 
   const isDepositDisabled = isZero(maxDepositAmount);
 
-  const onDepositValueChange = (value: number) => {
+  const onDepositValueChange = (value: string) => {
     if (decimals && hasMoreDecimalsThan(value, decimals)) {
       return;
     }
 
     let percent = "0";
+    const parsedValue = new BigDecimal(value);
 
     if (formattedBalance && !isZero(formattedBalance) && value) {
       percent =
-        new BigDecimal(value)
+        parsedValue
           .divide(formattedBalance, 64)
           .multiply(new BigDecimal(100))
           .round(2)
@@ -203,7 +210,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     }
 
     setDepositValue({
-      actual: value,
+      actual: parsedValue,
       percent: parseFloat(percent)
     });
   };
@@ -213,25 +220,25 @@ const Vault: React.FC<IVaultProps> = (props) => {
       (maxDepositAmount || new BigDecimal(0))
         .multiply(new BigDecimal(percentage))
         .divide(new BigDecimal(100), 64)
-        .round(decimals)
-        .getValue();
+        .round(decimals);
 
     setDepositValue({
-      actual: parseFloat(value),
+      actual: value,
       percent: percentage
     });
   };
 
-  const onWithdrawValueChange = (value: number) => {
+  const onWithdrawValueChange = (value: string) => {
     if (decimals && hasMoreDecimalsThan(value, decimals)) {
       return;
     }
 
     let percent = "0";
+    const parsedValue = new BigDecimal(value);
 
     if (formattedUserShares && !isZero(formattedUserShares) && value) {
       percent =
-        new BigDecimal(value)
+        parsedValue
           .divide(formattedUserShares, 64)
           .multiply(new BigDecimal(100))
           .round(2)
@@ -239,7 +246,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     }
 
     setWithdrawValue({
-      actual: value,
+      actual: parsedValue,
       percent: parseFloat(percent)
     });
   };
@@ -249,11 +256,10 @@ const Vault: React.FC<IVaultProps> = (props) => {
       (formattedUserShares || new BigDecimal(0))
         .multiply(new BigDecimal(percentage))
         .divide(new BigDecimal(100), 64)
-        .round(decimals)
-        .getValue();
+        .round(decimals);
 
     setWithdrawValue({
-      actual: parseFloat(value),
+      actual: value,
       percent: percentage
     });
   };
@@ -390,10 +396,10 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   <Input
                     type={EInputType.NUMBER}
                     onChange={onDepositValueChange}
-                    value={depositValue.actual}
+                    value={depositValue.actual.getValue()}
                     disabled={isDepositDisabled}
-                    min={0}
-                    max={parseFloat(maxDepositAmount?.getValue() || "0")}
+                    min={"0"}
+                    max={maxDepositAmount?.getValue() || "0"}
                   />
                   <Slider
                     value={depositValue.percent}
@@ -441,9 +447,9 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   <Input
                     type={EInputType.NUMBER}
                     onChange={onWithdrawValueChange}
-                    value={withdrawValue.actual}
-                    min={0}
-                    max={parseFloat(formattedUserShares?.getValue() || "0")}
+                    value={withdrawValue.actual.getValue()}
+                    min={"0"}
+                    max={formattedUserShares?.getValue() || "0"}
                   />
                   <Slider
                     value={withdrawValue.percent}

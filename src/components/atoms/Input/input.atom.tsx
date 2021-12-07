@@ -1,8 +1,9 @@
 import React, { ChangeEventHandler } from "react";
 import { EInputType, IInputProps, OnChange } from "./input.atom.types";
-import { isEmptyValue } from "../../../shared/utils/common.util";
+import { isBigDecimalGte, isBigDecimalLte, isEmptyValue } from "../../../shared/utils/common.util";
 import styles from "./input.atom.module.scss";
 import { classes } from "../../../shared/utils/styles.util";
+import BigDecimal from "js-big-decimal";
 
 const Input: React.FC<IInputProps> = (props) => {
 
@@ -17,14 +18,14 @@ const Input: React.FC<IInputProps> = (props) => {
     disabled
   } = props;
 
-  const validateNumberRange = (num: number) => {
+  const validateNumberRange = (num: BigDecimal) => {
     let isValid = true;
 
     if (!isEmptyValue(min)) {
-      isValid = isValid && (num >= min!);
+      isValid = isValid && (isBigDecimalGte(num, new BigDecimal(min)));
     }
     if (!isEmptyValue(max)) {
-      isValid = isValid && (num <= max!);
+      isValid = isValid && (isBigDecimalLte(num, new BigDecimal(max)));
     }
 
     return isValid;
@@ -36,8 +37,10 @@ const Input: React.FC<IInputProps> = (props) => {
     if (type === EInputType.TEXT) {
       (onChange as OnChange<string>)(newValue as string);
     } else if (type === EInputType.NUMBER) {
-      if (validateNumberRange(newValue as number)) {
-        (onChange as OnChange<number>)(newValue as number);
+      const parsedValue = new BigDecimal(newValue as string);
+
+      if (validateNumberRange(parsedValue)) {
+        (onChange as OnChange<string>)(parsedValue.getValue());
       }
     }
   };

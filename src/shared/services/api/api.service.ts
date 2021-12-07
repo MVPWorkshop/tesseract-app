@@ -11,7 +11,7 @@ class ApiService extends RestService {
     });
   }
 
-  public async getVaultAPY(vaultSymbol: string, apiVersion: string, hourRange = 12): Promise<string> {
+  public async getVaultAPY(vaultSymbol: string, apiVersion: string, hourRange = 24): Promise<string> {
     const { data } = await this.get<IGetVaultAPYResponse>({
       url: "/query",
       config: {

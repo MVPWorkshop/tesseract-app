@@ -90,8 +90,8 @@ export function objectListToArrayByConditionalKey<T extends Array<any>, R extend
   return finalList;
 }
 
-export function countDecimals(value: number) {
-  if (Math.floor(value) === value) {
+export function countDecimals(value: number | string) {
+  if (typeof value === "number" && Math.floor(value) === value) {
     return 0;
   } else {
     const decimalPart = value.toString().split(".")[1];
@@ -99,10 +99,28 @@ export function countDecimals(value: number) {
   }
 }
 
-export function hasMoreDecimalsThan(value: number, requiredDecimals: number) {
+export function hasMoreDecimalsThan(value: number | string, requiredDecimals: number) {
   const actualDecimals = countDecimals(value);
 
   return actualDecimals > requiredDecimals;
+}
+
+export function isBigDecimalGte(a: BigDecimal, b: BigDecimal) {
+  const equality = a.compareTo(b);
+
+  return (equality === 1 || equality === 0);
+}
+
+export function isBigDecimalLte(a: BigDecimal, b: BigDecimal) {
+  const equality = a.compareTo(b);
+
+  return (equality === -1 || equality === 0);
+}
+
+export function isBigDecimalGt(a: BigDecimal, b: BigDecimal) {
+  const equality = a.compareTo(b);
+
+  return equality === 1;
 }
 
 export function isZero(value: string | number | BigDecimal | BigNumber) {
