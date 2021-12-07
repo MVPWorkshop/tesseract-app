@@ -239,7 +239,7 @@ const VaultsPage: React.FC = () => {
           fontSize={24}
           fontWeight={EFontWeight.BOLD}
         >
-          <Trans>Loading Vaults...</Trans>
+          <Trans>Loading Vaults, this will take some time, please don't refresh...</Trans>
         </Typography>
       </div>
     );
