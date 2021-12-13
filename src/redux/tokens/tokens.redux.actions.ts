@@ -19,13 +19,7 @@ import React from "react";
 import Link from "../../components/atoms/Link/link.atom";
 import Web3Util from "../../shared/utils/web3.util";
 import { t } from "@lingui/macro";
-import { ESupportedTokens, EVaultState, IRegistryVault } from "../../shared/types/vault.types";
-import MultiCallService from "../../shared/services/multicall/multicall.service";
-import RegistryContractFactory from "../../shared/contracts/registryContract.factory";
-import { addressByNetworkAndToken } from "../../shared/constants/web3.constants";
-import ContractFactory from "../../shared/contracts/contract.factory";
-import { EContractType } from "../../shared/types/contract.types";
-import { setUserVaultShares, setVaultTvl } from "../vaults/vaults.redux.actions";
+import { ESupportedTokens, IRegistryVault } from "../../shared/types/vault.types";
 
 export function setTokenBalance(token: ESupportedTokens, newBalance: BigNumber): SetTokenBalanceAction {
   return {
@@ -100,72 +94,6 @@ export function fetchTokenDetails(token: ESupportedTokens, provider: JsonRpcProv
       dispatch(ActionUtil.successAction(ETokenReduxActions.FETCH_TOKEN_DETAILS, token));
     } catch {
       dispatch(ActionUtil.errorAction(ETokenReduxActions.FETCH_TOKEN_DETAILS, token));
-    }
-  };
-}
-
-export function fetchAllAvailableVaults(tokens: ESupportedTokens[], account: string, provider: JsonRpcProvider, chainId: EChainId): Thunk<void> {
-  return async (dispatch) => {
-    try {
-      dispatch(ActionUtil.requestAction(ETokenReduxActions.FETCH_ALL_AVAILABLE_VAULTS));
-
-      const registryContract = await RegistryContractFactory.getMultiCallInstance(chainId);
-      const vaultIdsBatch = new MultiCallService(provider, chainId);
-      const vaultAddressesBatch = new MultiCallService(provider, chainId);
-      const vaultDataBatch = new MultiCallService(provider, chainId);
-
-      // Get number of vaults per token in a batch
-      tokens.forEach(token => {
-        const tokenAddress = addressByNetworkAndToken[token][chainId];
-        const contractCall = registryContract.numVaults(tokenAddress);
-        vaultIdsBatch.batch(contractCall);
-      });
-      const vaultIdsByToken = await vaultIdsBatch.execute() as BigNumber[];
-
-      // Get all vault addresses in a batch
-      tokens.forEach((token, index) => {
-        const tokenAddress = addressByNetworkAndToken[token][chainId];
-        const numberOfVaults = vaultIdsByToken[index];
-
-        for (let j = 0; j < numberOfVaults.toNumber(); j++) {
-          const contractCall = registryContract.vaults(tokenAddress, BigNumber.from(j));
-          vaultAddressesBatch.batch(contractCall, (address: string) => {
-            dispatch(addTokenVault(token, {
-              address,
-              state: EVaultState.STABLE
-            }));
-          });
-        }
-      });
-      const vaultAddresses = await vaultAddressesBatch.execute() as string[];
-
-      // Get all vault user shares and tvl
-      vaultAddresses.forEach(vaultAddress => {
-        const vaultContract = new ContractFactory(EContractType.VAULT).createMultiCallContract(vaultAddress);
-
-        const tvlCall = vaultContract.totalAssets();
-        vaultDataBatch.batch(tvlCall, (result: BigNumber) => dispatch(setVaultTvl(vaultAddress, result)));
-
-        function *userSharesCallback(): Generator<void, void, BigNumber> {
-          const userVaultShares: BigNumber = yield;
-          const pricePerShare: BigNumber = yield;
-
-          dispatch(setUserVaultShares(vaultAddress, userVaultShares, pricePerShare));
-        }
-
-        const generator = userSharesCallback();
-        generator.next();
-
-        const userVaultSharesCall = vaultContract.balanceOf(account);
-        vaultDataBatch.batch(userVaultSharesCall, (result: BigNumber) => generator.next(result));
-        const pricePerShareCall = vaultContract.pricePerShare();
-        vaultDataBatch.batch(pricePerShareCall, (result: BigNumber) => generator.next(result));
-      });
-      await vaultDataBatch.execute();
-
-      dispatch(ActionUtil.successAction(ETokenReduxActions.FETCH_ALL_AVAILABLE_VAULTS));
-    } catch(error) {
-      dispatch(ActionUtil.errorAction(ETokenReduxActions.FETCH_ALL_AVAILABLE_VAULTS));
     }
   };
 }
