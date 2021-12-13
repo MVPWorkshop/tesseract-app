@@ -1,19 +1,17 @@
 import { BigNumber } from "ethers";
 import {
+  AddTokenVault,
   ETokenReduxActions,
   SetTokenApprovedAmount,
   SetTokenBalanceAction,
-  SetTokenDetailsAction,
-  SetTokenVaults
+  SetTokenDetailsAction
 } from "./tokens.redux.types";
 import { Thunk } from "../redux.types";
 import { JsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
 import ActionUtil from "../../shared/utils/action.util";
 import { EChainId } from "../../shared/types/web3.types";
-import { addressByNetworkAndToken } from "../../shared/constants/web3.constants";
 import Erc20ContractFactory from "../../shared/contracts/erc20Contract.factory";
 import ApiService from "../../shared/services/api/api.service";
-import RegistryContractFactory from "../../shared/contracts/registryContract.factory";
 import { CONFIRMATIONS_SUCCESS } from "../../shared/constants/config.constants";
 import { toast } from "react-toastify";
 import { i18n } from "@lingui/core";
@@ -22,9 +20,6 @@ import Link from "../../components/atoms/Link/link.atom";
 import Web3Util from "../../shared/utils/web3.util";
 import { t } from "@lingui/macro";
 import { ESupportedTokens, IRegistryVault } from "../../shared/types/vault.types";
-import { getAllVaultsForToken } from "../../shared/utils/registry.util";
-import { createAllVaultsSelector } from "./tokens.redux.reducer";
-import { fetchUserVaultShares, fetchVaultTvl } from "../vaults/vaults.redux.actions";
 
 export function setTokenBalance(token: ESupportedTokens, newBalance: BigNumber): SetTokenBalanceAction {
   return {
@@ -47,12 +42,12 @@ export function setTokenDetails(token: ESupportedTokens, decimals: number, token
   };
 }
 
-export function setTokenVaults(token: ESupportedTokens, vaults: IRegistryVault[]): SetTokenVaults {
+export function addTokenVault(token: ESupportedTokens, vault: IRegistryVault): AddTokenVault {
   return {
-    type: ETokenReduxActions.SET_TOKEN_VAULTS,
+    type: ETokenReduxActions.ADD_TOKEN_VAULT,
     payload: {
       token,
-      vaults
+      vault
     }
   };
 }
@@ -99,49 +94,6 @@ export function fetchTokenDetails(token: ESupportedTokens, provider: JsonRpcProv
       dispatch(ActionUtil.successAction(ETokenReduxActions.FETCH_TOKEN_DETAILS, token));
     } catch {
       dispatch(ActionUtil.errorAction(ETokenReduxActions.FETCH_TOKEN_DETAILS, token));
-    }
-  };
-}
-
-export function fetchTokenVaults(token: ESupportedTokens, provider: JsonRpcProvider, chainId: EChainId): Thunk<void> {
-  return async dispatch => {
-    try {
-      dispatch(ActionUtil.requestAction(ETokenReduxActions.FETCH_TOKEN_VAULTS, token));
-      const registryContract = await (new RegistryContractFactory(provider)).getInstance(chainId);
-      const tokenAddress = addressByNetworkAndToken[token][chainId];
-      if (!tokenAddress) {
-        throw new Error("Token not supported on current network");
-      }
-      const vaults = await getAllVaultsForToken(tokenAddress, registryContract);
-
-      dispatch(setTokenVaults(token, vaults));
-      dispatch(ActionUtil.successAction(ETokenReduxActions.FETCH_TOKEN_VAULTS, token));
-    } catch {
-      dispatch(ActionUtil.errorAction(ETokenReduxActions.FETCH_TOKEN_VAULTS, token));
-    }
-  };
-}
-
-export function fetchAllAvailableVaults(tokens: ESupportedTokens[], account: string, provider: JsonRpcProvider, chainId: EChainId): Thunk<void> {
-  return async (dispatch, getState) => {
-    try {
-      dispatch(ActionUtil.requestAction(ETokenReduxActions.FETCH_ALL_AVAILABLE_VAULTS));
-
-      for (let i = 0; i < tokens.length; i++) {
-        await dispatch(fetchTokenVaults(tokens[i], provider, chainId));
-      }
-
-      const vaults = createAllVaultsSelector(tokens, true)(getState());
-
-      for (let i = 0; i < vaults.length; i++) {
-        const vault = vaults[i];
-        await dispatch(fetchUserVaultShares(vault.address, account, provider));
-        await dispatch(fetchVaultTvl(vault.address, provider));
-      }
-
-      dispatch(ActionUtil.successAction(ETokenReduxActions.FETCH_ALL_AVAILABLE_VAULTS));
-    } catch {
-      dispatch(ActionUtil.errorAction(ETokenReduxActions.FETCH_ALL_AVAILABLE_VAULTS));
     }
   };
 }

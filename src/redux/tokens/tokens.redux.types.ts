@@ -5,7 +5,7 @@ import { ESupportedTokens, EVaultState, IRegistryVault } from "../../shared/type
 export enum ETokenReduxActions {
   SET_TOKEN_BALANCE = "SET_TOKEN_BALANCE",
   SET_TOKEN_DETAILS = "SET_TOKEN_DETAILS",
-  SET_TOKEN_VAULTS = "SET_TOKEN_VAULTS",
+  ADD_TOKEN_VAULT = "ADD_TOKEN_VAULT",
   SET_TOKEN_APPROVED_AMOUNT = "SET_TOKEN_APPROVED_AMOUNT",
   FETCH_TOKEN_BALANCE = "FETCH_TOKEN_BALANCE",
   FETCH_TOKEN_DETAILS = "FETCH_TOKEN_DETAILS",
@@ -26,9 +26,9 @@ export type SetTokenDetailsAction = ReduxAction<ETokenReduxActions.SET_TOKEN_DET
   tokenPriceUSD: number;
 }>
 
-export type SetTokenVaults = ReduxAction<ETokenReduxActions.SET_TOKEN_VAULTS, {
+export type AddTokenVault = ReduxAction<ETokenReduxActions.ADD_TOKEN_VAULT, {
   token: ESupportedTokens;
-  vaults: IRegistryVault[];
+  vault: IRegistryVault;
 }>
 
 export type SetTokenApprovedAmount = ReduxAction<ETokenReduxActions.SET_TOKEN_APPROVED_AMOUNT, {
@@ -39,7 +39,7 @@ export type SetTokenApprovedAmount = ReduxAction<ETokenReduxActions.SET_TOKEN_AP
 export type TokenReduxActions =
   SetTokenBalanceAction |
   SetTokenDetailsAction |
-  SetTokenVaults |
+  AddTokenVault |
   SetTokenApprovedAmount
 
 export interface ITokenReduxState {

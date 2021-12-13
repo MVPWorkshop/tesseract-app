@@ -1,4 +1,5 @@
 import { Contract, utils } from "ethers";
+import { Contract as MultiCallContract } from "ethers-multicall";
 import { Provider, JsonRpcSigner } from "@ethersproject/providers";
 import type { VaultAbi, VaultAbiInterface } from "./types/vault.contract.abi";
 
@@ -45,6 +46,10 @@ class ContractFactory<T extends EContractType> {
 
   public createContract(address: string, provider: Provider | JsonRpcSigner): CreateContract<T> {
     return new Contract(address, this.abi as any, provider) as CreateContract<T>;
+  }
+
+  public createMultiCallContract(address: string): MultiCallContract {
+    return new MultiCallContract(address, this.abi as any);
   }
 }
 
