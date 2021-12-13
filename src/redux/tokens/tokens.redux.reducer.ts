@@ -41,12 +41,13 @@ const tokensReduxReducer: Reducer<ITokensReduxReducerState, TokenReduxActions> =
     case ETokenReduxActions.ADD_TOKEN_VAULT: {
       const oldVaults = state[action.payload.token].vaults || [];
 
-      const newVaults = oldVaults.map(oldVault => {
+      const newVaults: IRegistryVault[] = [];
+      oldVaults.forEach(oldVault => {
         if (oldVault.address !== action.payload.vault.address) {
-          return {
+          newVaults.push({
             ...oldVault,
             state: EVaultState.OBSOLETE
-          };
+          });
         }
       });
       newVaults.push(action.payload.vault);

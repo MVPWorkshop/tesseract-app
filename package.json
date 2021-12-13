@@ -82,7 +82,6 @@
 			"no-obj-calls": "off",
 			"no-sparse-arrays": "off",
 			"no-unreachable": "warn",
-			"array-callback-return": "off",
 			"indent": [
 				"warn",
 				2,
