@@ -7,9 +7,9 @@ import { EContractType } from "../types/contract.types";
 
 class RegistryContractFactory {
   private readonly _provider: JsonRpcSigner | JsonRpcProvider;
-  private _factory = new ContractFactory(EContractType.REGISTRY);
+  private static _factory = new ContractFactory(EContractType.REGISTRY);
 
-  private _addressByChain: DynamicObject<string, EChainId, AllKeysRequired> = {
+  private static _addressByChain: DynamicObject<string, EChainId, AllKeysRequired> = {
     [EChainId.POLYGON_MAINNET]: REGISTRY_ADDRESS_POLYGON_MAINNET
   };
 
@@ -18,9 +18,13 @@ class RegistryContractFactory {
   }
 
   public async getInstance(chainId: EChainId) {
-    const registryAddress = this._addressByChain[chainId];
+    const registryAddress = RegistryContractFactory._addressByChain[chainId];
 
-    return this._factory.createContract(registryAddress, this._provider);
+    return RegistryContractFactory._factory.createContract(registryAddress, this._provider);
+  }
+
+  public static async getMultiCallInstance(chainId: EChainId) {
+    return this._factory.createMultiCallContract(this._addressByChain[chainId]);
   }
 }
 

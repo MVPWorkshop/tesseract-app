@@ -38,12 +38,24 @@ const tokensReduxReducer: Reducer<ITokensReduxReducerState, TokenReduxActions> =
         } as ITokenReduxState)
       };
     }
-    case ETokenReduxActions.SET_TOKEN_VAULTS: {
+    case ETokenReduxActions.ADD_TOKEN_VAULT: {
+      const oldVaults = state[action.payload.token].vaults || [];
+
+      const newVaults = oldVaults.map(oldVault => {
+        if (oldVault.address !== action.payload.vault.address) {
+          return {
+            ...oldVault,
+            state: EVaultState.OBSOLETE
+          };
+        }
+      });
+      newVaults.push(action.payload.vault);
+
       return {
         ...state,
         [action.payload.token]: ({
           ...state[action.payload.token],
-          vaults: [...action.payload.vaults]
+          vaults: [...newVaults]
         } as ITokenReduxState)
       };
     }
