@@ -178,7 +178,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
       const amountToWithdraw = -1; // Deposit all
       dispatch(withdrawAssetsFromVault(token, vaultAddress!, account!, amountToWithdraw, signer, chainId));
     } else if (!isWithdrawSomeAssetsDisabled) {
-      const amountToWithdraw = formattedTokenToShare(withdrawValue.actual.toString(), vaultData!.sharePrice!, decimals!);
+      const amountToWithdraw = formattedTokenToShare(withdrawValue.actual.getValue(), vaultData!.sharePrice!, decimals!);
       dispatch(withdrawAssetsFromVault(token, vaultAddress!, account!, BigNumber.from(amountToWithdraw.getValue()), signer, chainId));
     }
   };
