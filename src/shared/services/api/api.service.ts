@@ -16,7 +16,7 @@ class ApiService extends RestService {
       url: "/query",
       config: {
         params: {
-          query: `rate(price{ticker="${vaultSymbol}", version="${apiVersion}"}[${dayRange}d])*60*60*24*365`
+          query: `deriv(price{network="matic", ticker="${vaultSymbol}", version="${apiVersion}"}[${dayRange}d])*60*60*24*365`
         }
       }
     });
@@ -31,7 +31,7 @@ class ApiService extends RestService {
       url: "/query",
       config: {
         params: {
-          query: `price{ticker="${tokenTicker}",dex="Quickswap"}`
+          query: `price{network="matic", ticker="${tokenTicker}",dex="Quickswap"}`
         }
       }
     });
