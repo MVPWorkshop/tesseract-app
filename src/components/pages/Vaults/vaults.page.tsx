@@ -26,6 +26,7 @@ import {
 } from "../../../shared/utils/common.util";
 import WalletService from "../../../shared/services/wallet/wallet.service";
 import {
+  clearAllTokensState,
   fetchTokenBalance,
   fetchTokenDetails
 } from "../../../redux/tokens/tokens.redux.actions";
@@ -38,7 +39,7 @@ import { IVaultProps } from "../../organisms/Vault/vault.organism.types";
 import { EFontWeight } from "../../../shared/types/styles.types";
 import WarningBanner from "../../atoms/WarningBanner/warningBanner.atom";
 import { BANNER_ENABLED, BANNER_TEXT } from "../../../shared/constants/config.constants";
-import { fetchAllAvailableVaults } from "../../../redux/vaults/vaults.redux.actions";
+import { clearAllVaultsState, fetchAllAvailableVaults } from "../../../redux/vaults/vaults.redux.actions";
 
 const VaultsPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -65,6 +66,8 @@ const VaultsPage: React.FC = () => {
 
   useEffect(() => {
     if (rpcProvider) {
+      dispatch(clearAllTokensState());
+      dispatch(clearAllVaultsState());
       tokens.forEach(token => {
         dispatch(fetchTokenDetails(token, rpcProvider, displayChainId));
       });

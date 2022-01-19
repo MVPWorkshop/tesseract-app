@@ -1,17 +1,24 @@
 import { AllKeysRequired, DynamicObject, SvgComponent } from "../types/util.types";
 import { EChainId, EConnectorType } from "../types/web3.types";
-import { EXPLORER_POLYGON_MAINNET, POLYGON_MAINNET_RPC_URL } from "./config.constants";
+import {
+  EXPLORER_POLYGON_MAINNET,
+  EXPLORER_AVAX_MAINNET,
+  RPC_PROVIDER_POLYGON,
+  RPC_PROVIDER_AVAX
+} from "./config.constants";
 import { ReactComponent as MetamaskLogoSVG } from "../assets/metamask-logo.svg";
 import { ReactComponent as WalletConnectLogoSVG } from "../assets/walletconnect-logo.svg";
 import { TokenAddressByNetwork } from "../types/contract.types";
 import { ESupportedTokens } from "../types/vault.types";
 
 export const RPC_URLS: DynamicObject<string, EChainId, AllKeysRequired> = {
-  [EChainId.POLYGON_MAINNET]: POLYGON_MAINNET_RPC_URL
+  [EChainId.POLYGON_MAINNET]: RPC_PROVIDER_POLYGON,
+  [EChainId.AVAX_MAINNET]: RPC_PROVIDER_AVAX
 };
 
 export const EXPLORER_URLS: DynamicObject<string, EChainId, AllKeysRequired> = {
-  [EChainId.POLYGON_MAINNET]: EXPLORER_POLYGON_MAINNET
+  [EChainId.POLYGON_MAINNET]: EXPLORER_POLYGON_MAINNET,
+  [EChainId.AVAX_MAINNET]: EXPLORER_AVAX_MAINNET
 };
 
 export const CONNECTOR_LABELS: DynamicObject<string, EConnectorType, AllKeysRequired> = {
@@ -30,17 +37,20 @@ export const supportedConnectorList: EConnectorType[] = [
 ];
 
 export const supportedChainIds: EChainId[] = [
-  EChainId.POLYGON_MAINNET
+  EChainId.POLYGON_MAINNET,
+  EChainId.AVAX_MAINNET
 ];
 
 export const addressByNetworkAndToken: TokenAddressByNetwork = {
   [ESupportedTokens.USDC]: {
-    [EChainId.POLYGON_MAINNET]: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174"
+    [EChainId.POLYGON_MAINNET]: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+    [EChainId.AVAX_MAINNET]: "0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664"
   },
   [ESupportedTokens.USDT]: {
   },
   [ESupportedTokens.DAI]: {
-    [EChainId.POLYGON_MAINNET]: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"
+    [EChainId.POLYGON_MAINNET]: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
+    [EChainId.AVAX_MAINNET]: "0xd586E7F844cEa2F87f50152665BCbc2C279D8d70"
   },
   [ESupportedTokens.WETH]: {
     [EChainId.POLYGON_MAINNET]: "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"
@@ -50,13 +60,23 @@ export const addressByNetworkAndToken: TokenAddressByNetwork = {
   },
   [ESupportedTokens.WMATIC]: {
     [EChainId.POLYGON_MAINNET]: "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270"
+  },
+  [ESupportedTokens.WAVAX]: {
+    [EChainId.AVAX_MAINNET]: "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7"
   }
 };
 
 export const nativeTokenTickers: DynamicObject<string, EChainId, AllKeysRequired> = {
-  [EChainId.POLYGON_MAINNET]: "MATIC"
+  [EChainId.POLYGON_MAINNET]: "MATIC",
+  [EChainId.AVAX_MAINNET]: "AVAX"
 };
 
 export const chainLabels: DynamicObject<string, EChainId, AllKeysRequired> = {
-  [EChainId.POLYGON_MAINNET]: "POLYGON"
+  [EChainId.POLYGON_MAINNET]: "POLYGON",
+  [EChainId.AVAX_MAINNET]: "AVALANCHE"
+};
+
+export const multicallAddressByNetwork: DynamicObject<string, EChainId, AllKeysRequired> = {
+  [EChainId.POLYGON_MAINNET]: "0xc4f1501f337079077842343Ce02665D8960150B0",
+  [EChainId.AVAX_MAINNET]: "0x7f3aC7C283d7E6662D886F494f7bc6F1993cDacf"
 };

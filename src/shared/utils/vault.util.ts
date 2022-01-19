@@ -68,9 +68,12 @@ export function getMaxDepositAmount(userBalance: BigNumber, availableDepositLimi
   }
 }
 
-export function getTokenTicker(tokenSymbol: string, chaindId: EChainId): string {
-  if (chaindId === EChainId.POLYGON_MAINNET && tokenSymbol === "WMATIC") {
-    return nativeTokenTickers[chaindId];
+export function getTokenTicker(tokenSymbol: string, chainId: EChainId): string {
+  if (chainId === EChainId.POLYGON_MAINNET && tokenSymbol === "WMATIC") {
+    return nativeTokenTickers[chainId];
+  }
+  if (chainId === EChainId.AVAX_MAINNET && tokenSymbol === "WAVAX") {
+    return nativeTokenTickers[chainId];
   }
 
   return tokenSymbol;

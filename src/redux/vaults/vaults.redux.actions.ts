@@ -1,4 +1,5 @@
 import {
+  ClearAllVaultsStateAction,
   EVaultReduxActions,
   SetUserVaultSharesAction,
   SetVaultDetailsAction,
@@ -56,6 +57,13 @@ export function setVaultTvl(vault: string, tvl: BigNumber): SetVaultTvlAction {
       vault,
       tvl
     }
+  };
+}
+
+export function clearAllVaultsState(): ClearAllVaultsStateAction {
+  return {
+    type: EVaultReduxActions.CLEAR_ALL_VAULTS_STATE,
+    payload: {}
   };
 }
 

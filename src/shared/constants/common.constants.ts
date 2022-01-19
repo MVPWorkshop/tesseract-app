@@ -7,6 +7,8 @@ import { ReactComponent as DAISVG } from "../assets/tokens/dai.svg";
 import { ReactComponent as WETHSVG } from "../assets/tokens/weth.svg";
 import { ReactComponent as WBTCSVG } from "../assets/tokens/wbtc.svg";
 import { ReactComponent as WMATICSVG } from "../assets/tokens/wmatic.svg";
+import { ReactComponent as WAVAXSVG } from "../assets/tokens/wavax.svg";
+
 import { ESupportedTokens } from "../types/vault.types";
 
 export const supportedLocaleList: ESupportedLocales[] = [
@@ -20,5 +22,6 @@ export const tokenIcons: DynamicObject<SvgComponent, ESupportedTokens, AllKeysRe
   [ESupportedTokens.DAI]: DAISVG,
   [ESupportedTokens.WETH]: WETHSVG,
   [ESupportedTokens.WBTC]: WBTCSVG,
-  [ESupportedTokens.WMATIC]: WMATICSVG
+  [ESupportedTokens.WMATIC]: WMATICSVG,
+  [ESupportedTokens.WAVAX]: WAVAXSVG
 };

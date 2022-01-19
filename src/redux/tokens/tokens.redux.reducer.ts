@@ -14,7 +14,8 @@ const initialState: ITokensReduxReducerState = {
   [ESupportedTokens.DAI]: {},
   [ESupportedTokens.WETH]: {},
   [ESupportedTokens.WBTC]: {},
-  [ESupportedTokens.WMATIC]: {}
+  [ESupportedTokens.WMATIC]: {},
+  [ESupportedTokens.WAVAX]: {}
 };
 
 const tokensReduxReducer: Reducer<ITokensReduxReducerState, TokenReduxActions> = (state = initialState, action) => {
@@ -67,6 +68,11 @@ const tokensReduxReducer: Reducer<ITokensReduxReducerState, TokenReduxActions> =
           ...state[action.payload.token],
           amountApproved: action.payload.amount
         } as ITokenReduxState)
+      };
+    }
+    case ETokenReduxActions.CLEAR_ALL_TOKENS_STATE: {
+      return {
+        ...initialState
       };
     }
     default: {

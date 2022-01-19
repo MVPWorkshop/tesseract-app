@@ -1,5 +1,6 @@
 export enum ESupportedTokens {
   WMATIC = "WMATIC",
+  WAVAX = "WAVAX",
   USDC = "USDC",
   USDT = "USDT",
   DAI = "DAI",

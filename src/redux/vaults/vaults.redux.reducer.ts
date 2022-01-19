@@ -46,6 +46,11 @@ const vaultsReduxReducer: Reducer<IVaultsReduxReducerState, VaultsReduxActions> 
         }
       };
     }
+    case EVaultReduxActions.CLEAR_ALL_VAULTS_STATE: {
+      return {
+        ...initialState
+      };
+    }
     default: {
       return state;
     }

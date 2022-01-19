@@ -1,6 +1,7 @@
 import { BigNumber } from "ethers";
 import {
   AddTokenVault,
+  ClearAllTokensStateAction,
   ETokenReduxActions,
   SetTokenApprovedAmount,
   SetTokenBalanceAction,
@@ -59,6 +60,13 @@ export function setTokenApprovedAmount(token: ESupportedTokens, amount: BigNumbe
       token,
       amount
     }
+  };
+}
+
+export function clearAllTokensState(): ClearAllTokensStateAction {
+  return {
+    type: ETokenReduxActions.CLEAR_ALL_TOKENS_STATE,
+    payload: {}
   };
 }
 

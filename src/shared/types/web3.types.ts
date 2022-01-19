@@ -12,5 +12,6 @@ export enum EConnectorType {
 }
 
 export enum EChainId {
-  POLYGON_MAINNET = 137
+  POLYGON_MAINNET = 137,
+  AVAX_MAINNET = 43114
 }
