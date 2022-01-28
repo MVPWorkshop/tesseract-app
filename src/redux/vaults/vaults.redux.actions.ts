@@ -26,25 +26,26 @@ import { ETokenReduxActions } from "../tokens/tokens.redux.types";
 import RegistryContractFactory from "../../shared/contracts/registryContract.factory";
 import MultiCallService from "../../shared/services/multicall/multicall.service";
 import { addressByNetworkAndToken } from "../../shared/constants/web3.constants";
+import { Nullable } from "../../shared/types/util.types";
 
-export function setVaultDetails(vault: string, symbol: string, apy: number, depositLimit: BigNumber): SetVaultDetailsAction {
+export function setVaultDetails(vault: string, symbol: string, apy: number, depositLimit: BigNumber, sharePrice: BigNumber): SetVaultDetailsAction {
   return {
     type: EVaultReduxActions.SET_VAULT_DETAILS,
     payload: {
       vault,
       symbol,
       apy,
-      depositLimit
+      depositLimit,
+      sharePrice
     }
   };
 }
 
-export function setUserVaultShares(vault: string, userShares: BigNumber, sharePrice: BigNumber): SetUserVaultSharesAction {
+export function setUserVaultShares(vault: string, userShares: BigNumber): SetUserVaultSharesAction {
   return {
     type: EVaultReduxActions.SET_USER_VAULT_SHARES,
     payload: {
       vault,
-      sharePrice,
       userShares
     }
   };
@@ -72,16 +73,19 @@ export function fetchVaultDetails(vaultAddress: string, chainId: EChainId, provi
     try {
       dispatch(ActionUtil.requestAction(EVaultReduxActions.FETCH_VAULT_DETAILS, vaultAddress));
 
-      const vaultContract = (new ContractFactory(EContractType.VAULT)).createContract(vaultAddress, provider);
+      const vaultContract = (new ContractFactory(EContractType.VAULT)).createMultiCallContract(vaultAddress);
       const apiService = new ApiService();
 
-      const symbol = await vaultContract.symbol();
-      const apiVersion = await vaultContract.apiVersion();
+      const chainDataBatch = new MultiCallService(provider, chainId);
+      chainDataBatch.batch(vaultContract.symbol());
+      chainDataBatch.batch(vaultContract.apiVersion());
+      chainDataBatch.batch(vaultContract.availableDepositLimit());
+      chainDataBatch.batch(vaultContract.pricePerShare());
 
+      const [symbol, apiVersion, depositLimit, pricePerShare] = await chainDataBatch.execute();
       const apy = await apiService.getVaultAPY(symbol, apiVersion, chainId);
-      const depositLimit = await vaultContract.availableDepositLimit();
 
-      dispatch(setVaultDetails(vaultAddress, symbol, parseFloat(apy), depositLimit));
+      dispatch(setVaultDetails(vaultAddress, symbol, parseFloat(apy), depositLimit, pricePerShare));
       dispatch(ActionUtil.successAction(EVaultReduxActions.FETCH_VAULT_DETAILS, vaultAddress));
     } catch {
       dispatch(ActionUtil.errorAction(EVaultReduxActions.FETCH_VAULT_DETAILS, vaultAddress));
@@ -96,9 +100,8 @@ export function fetchUserVaultShares(vaultAddress: string, userAddress: string, 
 
       const vaultContract = (new ContractFactory(EContractType.VAULT)).createContract(vaultAddress, provider);
       const userVaultShares = await vaultContract.balanceOf(userAddress);
-      const sharePrice = await vaultContract.pricePerShare();
 
-      dispatch(setUserVaultShares(vaultAddress, userVaultShares, sharePrice));
+      dispatch(setUserVaultShares(vaultAddress, userVaultShares));
       dispatch(ActionUtil.successAction(EVaultReduxActions.FETCH_USER_VAULT_SHARES, vaultAddress));
     } catch {
       dispatch(ActionUtil.errorAction(EVaultReduxActions.FETCH_USER_VAULT_SHARES, vaultAddress));
@@ -206,7 +209,7 @@ export function withdrawAssetsFromVault(token: ESupportedTokens, vaultAddress: s
   };
 }
 
-export function fetchAllAvailableVaults(tokens: ESupportedTokens[], account: string, provider: JsonRpcProvider, chainId: EChainId): Thunk<void> {
+export function fetchAllAvailableVaults(tokens: ESupportedTokens[], account: Nullable<string>, provider: JsonRpcProvider, chainId: EChainId): Thunk<void> {
   return async (dispatch) => {
     try {
       dispatch(ActionUtil.requestAction(ETokenReduxActions.FETCH_ALL_AVAILABLE_VAULTS));
@@ -248,20 +251,10 @@ export function fetchAllAvailableVaults(tokens: ESupportedTokens[], account: str
         const tvlCall = vaultContract.totalAssets();
         vaultDataBatch.batch(tvlCall, (result: BigNumber) => dispatch(setVaultTvl(vaultAddress, result)));
 
-        function* userSharesCallback(): Generator<void, void, BigNumber> {
-          const userVaultShares: BigNumber = yield;
-          const pricePerShare: BigNumber = yield;
-
-          dispatch(setUserVaultShares(vaultAddress, userVaultShares, pricePerShare));
+        if (account) {
+          const userVaultSharesCall = vaultContract.balanceOf(account);
+          vaultDataBatch.batch(userVaultSharesCall, (result: BigNumber) => dispatch(setUserVaultShares(vaultAddress, result)));
         }
-
-        const generator = userSharesCallback();
-        generator.next();
-
-        const userVaultSharesCall = vaultContract.balanceOf(account);
-        vaultDataBatch.batch(userVaultSharesCall, (result: BigNumber) => generator.next(result));
-        const pricePerShareCall = vaultContract.pricePerShare();
-        vaultDataBatch.batch(pricePerShareCall, (result: BigNumber) => generator.next(result));
       });
       await vaultDataBatch.execute();
 

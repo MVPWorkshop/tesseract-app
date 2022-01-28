@@ -11,7 +11,7 @@ const initialState: IVaultsReduxReducerState = {
 const vaultsReduxReducer: Reducer<IVaultsReduxReducerState, VaultsReduxActions> = (state = initialState, action) => {
   switch (action.type) {
     case EVaultReduxActions.SET_VAULT_DETAILS: {
-      const { vault, apy, symbol, depositLimit } = action.payload;
+      const { vault, apy, symbol, depositLimit, sharePrice } = action.payload;
 
       return {
         ...state,
@@ -19,18 +19,18 @@ const vaultsReduxReducer: Reducer<IVaultsReduxReducerState, VaultsReduxActions> 
           ...(state[vault] || {}),
           apy,
           symbol,
-          depositLimit
+          depositLimit,
+          sharePrice
         }
       };
     }
     case EVaultReduxActions.SET_USER_VAULT_SHARES: {
-      const { vault, sharePrice, userShares } = action.payload;
+      const { vault, userShares } = action.payload;
 
       return {
         ...state,
         [vault]: {
           ...(state[vault] || {}),
-          sharePrice,
           userShares
         }
       };

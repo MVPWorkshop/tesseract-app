@@ -7,7 +7,7 @@ export interface IVaultProps {
   token: ESupportedTokens;
   flag?: "obsolete" | "new";
   vaultAddress: string;
-  signer: JsonRpcSigner;
+  signer: Nullable<JsonRpcSigner>;
   chainId: EChainId;
   account: Nullable<string>;
   provider: JsonRpcProvider;

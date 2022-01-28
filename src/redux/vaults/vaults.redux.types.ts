@@ -19,12 +19,12 @@ export type SetVaultDetailsAction = ReduxAction<EVaultReduxActions.SET_VAULT_DET
   symbol: string;
   apy: number;
   depositLimit: BigNumber;
+  sharePrice: BigNumber;
 }>
 
 export type SetUserVaultSharesAction = ReduxAction<EVaultReduxActions.SET_USER_VAULT_SHARES, {
   vault: string;
   userShares: BigNumber;
-  sharePrice: BigNumber;
 }>
 
 export type SetVaultTvlAction = ReduxAction<EVaultReduxActions.SET_VAULT_TVL, {

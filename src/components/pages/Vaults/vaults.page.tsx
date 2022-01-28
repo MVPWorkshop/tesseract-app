@@ -41,6 +41,7 @@ const VaultsPage: React.FC<RouteComponentProps<IVaultPageParams>> = (props) => {
   const dispatch = useDispatch();
   const pageNetwork = props.match.params.network;
 
+  //@TODO Make network base parameter of every chain related route and handle this on global level
   useEffect(() => {
     if (!Object.keys(ERouteNetwork).includes(pageNetwork || "")) {
       const defaultRouteParam = arbirtrayChainDataById[DEFAULT_CHAIN_ID].routeParam;
@@ -58,34 +59,46 @@ const VaultsPage: React.FC<RouteComponentProps<IVaultPageParams>> = (props) => {
     displayChainId
   } = useWeb3(pageNetwork ? chainIdByRouteNetwork[pageNetwork] : DEFAULT_CHAIN_ID);
 
+  const [isGettingSigner, setIsGettingSigner] = useState(true)
   const [signer, setSigner] = useState<Nullable<JsonRpcSigner>>();
 
   useEffect(() => {
+    setIsGettingSigner(true)
+
     getSigner()
-      .then(setSigner)
-      .catch(() => setSigner(null));
+      .then(result => {
+        setSigner(result);
+        setIsGettingSigner(false);
+      })
+      .catch(() => {
+        setSigner(null);
+        setIsGettingSigner(false)
+      });
   }, [library, account]);
 
   const tokens = getSupportedTokensByChain(displayChainId);
 
   useEffect(() => {
-    if (rpcProvider) {
-      dispatch(clearAllTokensState());
-      dispatch(clearAllVaultsState());
-      tokens.forEach(token => {
-        dispatch(fetchTokenDetails(token, rpcProvider, displayChainId));
-      });
-    }
-  }, [rpcProvider]);
+    dispatch(clearAllTokensState());
+    dispatch(clearAllVaultsState());
+    tokens.forEach(token => {
+      dispatch(fetchTokenDetails(token, rpcProvider, displayChainId));
+    });
+  }, []);
 
   useEffect(() => {
-    if (rpcProvider && account) {
+    if (!isGettingSigner) {
       dispatch(fetchAllAvailableVaults(tokens, account, rpcProvider, displayChainId));
+    }
+  }, [isGettingSigner]);
+
+  useEffect(() => {
+    if (!isGettingSigner && account) {
       tokens.forEach(token => {
         dispatch(fetchTokenBalance(token, account, rpcProvider, displayChainId));
       });
     }
-  }, [rpcProvider, account]);
+  }, [account, isGettingSigner])
 
   const isSignerAvailable = !!(active && library && signer);
 
@@ -152,7 +165,7 @@ const VaultsPage: React.FC<RouteComponentProps<IVaultPageParams>> = (props) => {
               chainId={displayChainId}
               token={vaultData.token}
               vaultAddress={vaultData.address}
-              signer={signer!}
+              signer={signer}
               account={account}
               provider={rpcProvider}
             />

@@ -107,8 +107,7 @@
 			"@typescript-eslint/adjacent-overload-signatures": "off",
 			"@typescript-eslint/no-non-null-assertion": "off",
 			"react-hooks/exhaustive-deps": "off",
-			"@typescript-eslint/no-var-requires": "off",
-			"no-restricted-globals": "off"
+			"@typescript-eslint/no-var-requires": "off"
 		}
 	},
 	"browserslist": {
