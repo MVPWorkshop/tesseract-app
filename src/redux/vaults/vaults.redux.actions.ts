@@ -67,7 +67,7 @@ export function clearAllVaultsState(): ClearAllVaultsStateAction {
   };
 }
 
-export function fetchVaultDetails(vaultAddress: string, provider: JsonRpcProvider): Thunk<void> {
+export function fetchVaultDetails(vaultAddress: string, chainId: EChainId, provider: JsonRpcProvider): Thunk<void> {
   return async dispatch => {
     try {
       dispatch(ActionUtil.requestAction(EVaultReduxActions.FETCH_VAULT_DETAILS, vaultAddress));
@@ -78,7 +78,7 @@ export function fetchVaultDetails(vaultAddress: string, provider: JsonRpcProvide
       const symbol = await vaultContract.symbol();
       const apiVersion = await vaultContract.apiVersion();
 
-      const apy = await apiService.getVaultAPY(symbol, apiVersion);
+      const apy = await apiService.getVaultAPY(symbol, apiVersion, chainId);
       const depositLimit = await vaultContract.availableDepositLimit();
 
       dispatch(setVaultDetails(vaultAddress, symbol, parseFloat(apy), depositLimit));

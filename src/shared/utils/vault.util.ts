@@ -1,5 +1,5 @@
 import { EChainId } from "../types/web3.types";
-import { addressByNetworkAndToken, nativeTokenTickers } from "../constants/web3.constants";
+import { addressByNetworkAndToken, arbirtrayChainDataById } from "../constants/web3.constants";
 import { isZero, keys } from "./common.util";
 import BigDecimal from "js-big-decimal";
 import Web3Util from "./web3.util";
@@ -70,10 +70,10 @@ export function getMaxDepositAmount(userBalance: BigNumber, availableDepositLimi
 
 export function getTokenTicker(tokenSymbol: string, chainId: EChainId): string {
   if (chainId === EChainId.POLYGON_MAINNET && tokenSymbol === "WMATIC") {
-    return nativeTokenTickers[chainId];
+    return arbirtrayChainDataById[chainId].tokenTicker;
   }
   if (chainId === EChainId.AVAX_MAINNET && tokenSymbol === "WAVAX") {
-    return nativeTokenTickers[chainId];
+    return arbirtrayChainDataById[chainId].tokenTicker;
   }
 
   return tokenSymbol;

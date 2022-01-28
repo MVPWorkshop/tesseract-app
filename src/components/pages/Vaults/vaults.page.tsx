@@ -3,17 +3,12 @@ import PageOrganism from "../../organisms/Page/page.organism";
 import { getSupportedTokensByChain } from "../../../shared/utils/vault.util";
 import useWeb3 from "../../../hooks/useWeb3";
 import Vault from "../../organisms/Vault/vault.organism";
-import TextDialog from "../../atoms/TextDialog/textDialog.atom";
 import Typography from "../../atoms/Typography/typography.atom";
 import { Trans } from "@lingui/macro";
-import { chainLabels, supportedChainIds } from "../../../shared/constants/web3.constants";
-import Button from "../../atoms/Button/button.atom";
 import { ETypographyVariant } from "../../atoms/Typography/typography.atom.types";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleModal } from "../../../redux/ui/ui.redux.actions";
-import { EModalName } from "../../../redux/ui/ui.redux.types";
 import styles from "./vaults.page.module.scss";
-import { JsonRpcSigner, Web3Provider } from "@ethersproject/providers";
+import { JsonRpcSigner } from "@ethersproject/providers";
 import { Nullable } from "../../../shared/types/util.types";
 import { RootState } from "../../../redux/redux.types";
 import BigDecimal from "js-big-decimal";
@@ -24,12 +19,7 @@ import {
   formatAssetDisplayValue,
   objectListToArrayByConditionalKey
 } from "../../../shared/utils/common.util";
-import WalletService from "../../../shared/services/wallet/wallet.service";
-import {
-  clearAllTokensState,
-  fetchTokenBalance,
-  fetchTokenDetails
-} from "../../../redux/tokens/tokens.redux.actions";
+import { clearAllTokensState, fetchTokenBalance, fetchTokenDetails } from "../../../redux/tokens/tokens.redux.actions";
 import { createAllVaultsSelector, IFlattenedVaultState } from "../../../redux/tokens/tokens.redux.reducer";
 import { createLoadingSelector } from "../../../redux/loading/loading.redux.reducer";
 import { ETokenReduxActions } from "../../../redux/tokens/tokens.redux.types";
@@ -38,23 +28,37 @@ import { EVaultState } from "../../../shared/types/vault.types";
 import { IVaultProps } from "../../organisms/Vault/vault.organism.types";
 import { EFontWeight } from "../../../shared/types/styles.types";
 import WarningBanner from "../../atoms/WarningBanner/warningBanner.atom";
-import { BANNER_ENABLED, BANNER_TEXT } from "../../../shared/constants/config.constants";
+import { BANNER_ENABLED, BANNER_TEXT, DEFAULT_CHAIN_ID } from "../../../shared/constants/config.constants";
 import { clearAllVaultsState, fetchAllAvailableVaults } from "../../../redux/vaults/vaults.redux.actions";
+import { RouteComponentProps } from "react-router-dom";
+import { ERouteNetwork, IVaultPageParams } from "../../../router/router.types";
+import ChainConstrainDialog from "../../organisms/CCDialog/ccDialog.organism";
+import { arbirtrayChainDataById, chainIdByRouteNetwork } from "../../../shared/constants/web3.constants";
+import { generatePath } from "react-router-dom";
 
-const VaultsPage: React.FC = () => {
+const VaultsPage: React.FC<RouteComponentProps<IVaultPageParams>> = (props) => {
+
   const dispatch = useDispatch();
+  const pageNetwork = props.match.params.network;
+
+  useEffect(() => {
+    if (!Object.keys(ERouteNetwork).includes(pageNetwork || "")) {
+      const defaultRouteParam = arbirtrayChainDataById[DEFAULT_CHAIN_ID].routeParam;
+      const path = generatePath(props.match.path, { network: defaultRouteParam });
+      props.history.replace(path);
+    }
+  }, []);
+
   const {
-    isChainSupported,
     active,
     library,
     account,
     getSigner,
     rpcProvider,
     displayChainId
-  } = useWeb3();
+  } = useWeb3(pageNetwork ? chainIdByRouteNetwork[pageNetwork] : DEFAULT_CHAIN_ID);
 
   const [signer, setSigner] = useState<Nullable<JsonRpcSigner>>();
-  const [isSwitchingNetwork, setIsSwitchingNetwork] = useState<boolean>(false);
 
   useEffect(() => {
     getSigner()
@@ -83,17 +87,7 @@ const VaultsPage: React.FC = () => {
     }
   }, [rpcProvider, account]);
 
-
-  const isProviderAvailable = active && library && signer;
-
-  const getChainLabelList = () => {
-    return supportedChainIds.map((chainId, index) => {
-      const chainLabel = chainLabels[chainId];
-      const isFirst = index === 0;
-
-      return isFirst ? chainLabel : `, ${chainLabel}`;
-    });
-  };
+  const isSignerAvailable = !!(active && library && signer);
 
   const totalTvl = useSelector<RootState, BigDecimal>(createTotalTvlSelector(tokens), areBigDecimalsEqual);
   const totalDeposited = useSelector<RootState, BigDecimal>(createTotalDepositedSelector(tokens), areBigDecimalsEqual);
@@ -102,79 +96,13 @@ const VaultsPage: React.FC = () => {
     ETokenReduxActions.FETCH_ALL_AVAILABLE_VAULTS,
   ]));
 
-  const switchToPolygonChain = async () => {
-    setIsSwitchingNetwork(true);
-
-    if (library) {
-      await WalletService.switchToNetwork(library, displayChainId);
-    } else if (window.ethereum) {
-      const temporaryProvider = new Web3Provider(window.ethereum);
-      await WalletService.switchToNetwork(temporaryProvider, displayChainId);
-    }
-
-    setIsSwitchingNetwork(false);
-  };
-
-  const renderWalletWrongNetwork = () => {
-    return (
-      <TextDialog>
-        <Typography
-          element="p"
-          variant={ETypographyVariant.BODY}
-        >
-          <Trans>
-            This app supports
-            {" "+getChainLabelList()}.
-            You are currently on unsupported network
-          </Trans>
-        </Typography>
-        <Button
-          theme={"tertiary"}
-          onClick={switchToPolygonChain}
-          loading={isSwitchingNetwork}
-        >
-          <Typography>
-            <Trans>Switch to Polygon Network</Trans>
-          </Typography>
-        </Button>
-        <br/>
-        <Typography
-          variant={ETypographyVariant.BODY}
-          small={true}
-          className="d-block"
-        >
-          <Trans>
-            You may need to manually switch network via your wallet.
-          </Trans>
-        </Typography>
-      </TextDialog>
-    );
-  };
-
-  const renderProviderUnavailable = () => {
-    return (
-      <TextDialog>
-        <Typography
-          element="p"
-          variant={ETypographyVariant.BODY}
-        >
-          <Trans>
-            Wallet connection to {getChainLabelList()} required
-          </Trans>
-        </Typography>
-        <Button
-          theme={"tertiary"}
-          onClick={() => dispatch(toggleModal(EModalName.CONNECT_WALLET, true))}
-        >
-          <Trans>Connect wallet</Trans>
-        </Button>
-      </TextDialog>
-    );
-  };
-
   const renderVaults = () => {
     return (
       <Fragment>
+        <ChainConstrainDialog
+          isSignerAvailable={isSignerAvailable}
+          wantedNetwork={displayChainId}
+        />
         <div className={styles.vaultsTitle}>
           <Typography
             variant={ETypographyVariant.TITLE}
@@ -249,12 +177,6 @@ const VaultsPage: React.FC = () => {
   };
 
   const renderContent = () => {
-    if (!isChainSupported) {
-      return renderWalletWrongNetwork();
-    }
-    if (!isProviderAvailable) {
-      return renderProviderUnavailable();
-    }
     if (isLoadingAnyData) {
       return renderLoadingVaults();
     }

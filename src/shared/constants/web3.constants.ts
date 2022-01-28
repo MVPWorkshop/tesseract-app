@@ -1,15 +1,16 @@
 import { AllKeysRequired, DynamicObject, SvgComponent } from "../types/util.types";
 import { EChainId, EConnectorType } from "../types/web3.types";
 import {
-  EXPLORER_POLYGON_MAINNET,
   EXPLORER_AVAX_MAINNET,
-  RPC_PROVIDER_POLYGON,
-  RPC_PROVIDER_AVAX
+  EXPLORER_POLYGON_MAINNET,
+  RPC_PROVIDER_AVAX,
+  RPC_PROVIDER_POLYGON
 } from "./config.constants";
 import { ReactComponent as MetamaskLogoSVG } from "../assets/metamask-logo.svg";
 import { ReactComponent as WalletConnectLogoSVG } from "../assets/walletconnect-logo.svg";
 import { TokenAddressByNetwork } from "../types/contract.types";
 import { ESupportedTokens } from "../types/vault.types";
+import { ERouteNetwork } from "../../router/router.types";
 
 export const RPC_URLS: DynamicObject<string, EChainId, AllKeysRequired> = {
   [EChainId.POLYGON_MAINNET]: RPC_PROVIDER_POLYGON,
@@ -66,17 +67,29 @@ export const addressByNetworkAndToken: TokenAddressByNetwork = {
   }
 };
 
-export const nativeTokenTickers: DynamicObject<string, EChainId, AllKeysRequired> = {
-  [EChainId.POLYGON_MAINNET]: "MATIC",
-  [EChainId.AVAX_MAINNET]: "AVAX"
+interface IUtilChainData {
+  tokenTicker: string;
+  label: string;
+  multicallAddress: string;
+  routeParam: ERouteNetwork;
+}
+
+export const arbirtrayChainDataById: DynamicObject<IUtilChainData, EChainId, AllKeysRequired> = {
+  [EChainId.POLYGON_MAINNET]: {
+    tokenTicker: "MATIC",
+    label: "POLYGON",
+    multicallAddress: "0xc4f1501f337079077842343Ce02665D8960150B0",
+    routeParam: ERouteNetwork.POLYGON
+  },
+  [EChainId.AVAX_MAINNET]: {
+    tokenTicker: "AVAX",
+    label: "AVALANCHE",
+    multicallAddress: "0x7f3aC7C283d7E6662D886F494f7bc6F1993cDacf",
+    routeParam: ERouteNetwork.AVAX
+  }
 };
 
-export const chainLabels: DynamicObject<string, EChainId, AllKeysRequired> = {
-  [EChainId.POLYGON_MAINNET]: "POLYGON",
-  [EChainId.AVAX_MAINNET]: "AVALANCHE"
-};
-
-export const multicallAddressByNetwork: DynamicObject<string, EChainId, AllKeysRequired> = {
-  [EChainId.POLYGON_MAINNET]: "0xc4f1501f337079077842343Ce02665D8960150B0",
-  [EChainId.AVAX_MAINNET]: "0x7f3aC7C283d7E6662D886F494f7bc6F1993cDacf"
+export const chainIdByRouteNetwork: DynamicObject<EChainId, ERouteNetwork, AllKeysRequired> = {
+  [ERouteNetwork.POLYGON]: EChainId.POLYGON_MAINNET,
+  [ERouteNetwork.AVAX]: EChainId.AVAX_MAINNET,
 };

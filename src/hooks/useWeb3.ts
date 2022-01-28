@@ -16,7 +16,7 @@ interface IUseWeb3Context<ProviderType extends any> extends Web3ReactContextInte
   displayChainId: EChainId;
 }
 
-function useWeb3(): IUseWeb3Context<Web3Provider> {
+function useWeb3(wantChainId?: EChainId): IUseWeb3Context<Web3Provider> {
   const {
     account,
     library,
@@ -28,8 +28,12 @@ function useWeb3(): IUseWeb3Context<Web3Provider> {
   const isChainSupported =
     mappedError !== EErrorTypes.UNSUPPORTED_CHAIN;
 
-  const displayChainId =
-    (chainId && isChainSupported) ? chainId : DEFAULT_CHAIN_ID;
+  let displayChainId = DEFAULT_CHAIN_ID;
+  if (wantChainId) {
+    displayChainId = wantChainId;
+  } else if (chainId && isChainSupported) {
+    displayChainId = chainId;
+  }
 
   const rpcProvider = WalletService.rpcProvider(displayChainId);
 

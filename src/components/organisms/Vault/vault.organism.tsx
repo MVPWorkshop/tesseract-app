@@ -127,7 +127,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
 
   useEffect(() => {
     if (vaultAddress) {
-      dispatch(fetchVaultDetails(vaultAddress, provider));
+      dispatch(fetchVaultDetails(vaultAddress, chainId, provider));
       dispatch(fetchVaultTvl(vaultAddress, provider));
     }
   }, [vaultAddress]);
