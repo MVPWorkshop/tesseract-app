@@ -62,7 +62,8 @@ const VaultsPage: React.FC<RouteComponentProps<IVaultPageParams>> = (props) => {
     account,
     getSigner,
     rpcProvider,
-    displayChainId
+    displayChainId,
+    chainId
   } = useWeb3(pageNetwork ? chainIdByRouteNetwork[pageNetwork] : DEFAULT_CHAIN_ID);
 
   const [isGettingSigner, setIsGettingSigner] = useState(true);
@@ -107,6 +108,7 @@ const VaultsPage: React.FC<RouteComponentProps<IVaultPageParams>> = (props) => {
   }, [pageNetwork, account, isGettingSigner]);
 
   const isSignerAvailable = !!(active && library && signer);
+  const isCorrectNetwork = displayChainId === chainId;
 
   const totalTvl = useSelector<RootState, BigDecimal>(createTotalTvlSelector(tokens), areBigDecimalsEqual);
   const totalDeposited = useSelector<RootState, BigDecimal>(createTotalDepositedSelector(tokens), areBigDecimalsEqual);
@@ -180,7 +182,7 @@ const VaultsPage: React.FC<RouteComponentProps<IVaultPageParams>> = (props) => {
               chainId={displayChainId}
               token={vaultData.token}
               vaultAddress={vaultData.address}
-              signer={signer}
+              signer={isCorrectNetwork ? signer : null}
               account={account}
               provider={rpcProvider}
             />
