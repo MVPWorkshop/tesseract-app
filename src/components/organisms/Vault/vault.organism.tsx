@@ -273,7 +273,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
             <Trans>Wallet connection required</Trans>
           </Typography>
         </Fragment>
-      )
+      );
     }
 
     return (
@@ -431,8 +431,8 @@ const Vault: React.FC<IVaultProps> = (props) => {
           </Col>
         </Row>
       </Fragment>
-    )
-  }
+    );
+  };
 
   return (
     <div className={styles.vault}>

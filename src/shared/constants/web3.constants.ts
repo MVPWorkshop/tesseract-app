@@ -6,8 +6,12 @@ import {
   RPC_PROVIDER_AVAX,
   RPC_PROVIDER_POLYGON
 } from "./config.constants";
+
 import { ReactComponent as MetamaskLogoSVG } from "../assets/metamask-logo.svg";
 import { ReactComponent as WalletConnectLogoSVG } from "../assets/walletconnect-logo.svg";
+import { ReactComponent as PolygonLogo } from "../assets/networks/polygon.svg";
+import { ReactComponent as AvaxLogo } from "../assets/networks/avax.svg";
+
 import { TokenAddressByNetwork } from "../types/contract.types";
 import { ESupportedTokens } from "../types/vault.types";
 import { ERouteNetwork } from "../../router/router.types";
@@ -72,6 +76,7 @@ interface IUtilChainData {
   label: string;
   multicallAddress: string;
   routeParam: ERouteNetwork;
+  logo: SvgComponent;
 }
 
 export const arbirtrayChainDataById: DynamicObject<IUtilChainData, EChainId, AllKeysRequired> = {
@@ -79,13 +84,15 @@ export const arbirtrayChainDataById: DynamicObject<IUtilChainData, EChainId, All
     tokenTicker: "MATIC",
     label: "POLYGON",
     multicallAddress: "0xc4f1501f337079077842343Ce02665D8960150B0",
-    routeParam: ERouteNetwork.POLYGON
+    routeParam: ERouteNetwork.POLYGON,
+    logo: PolygonLogo
   },
   [EChainId.AVAX_MAINNET]: {
     tokenTicker: "AVAX",
     label: "AVALANCHE",
     multicallAddress: "0x7f3aC7C283d7E6662D886F494f7bc6F1993cDacf",
-    routeParam: ERouteNetwork.AVAX
+    routeParam: ERouteNetwork.AVAX,
+    logo: AvaxLogo
   }
 };
 

@@ -1,0 +1,38 @@
+@import "src/shared/styles/variables";
+
+.networkPicker {
+  padding: 12px 16px;
+  background-color: map-get($colors, "yankesBlue");
+  display: inline-flex;
+
+  a {
+    text-decoration: none !important;
+  }
+
+  .button {
+    padding: 12px 16px;
+    cursor: pointer;
+
+    .btnLabel {
+      margin-left: 16px;
+    }
+
+    .activeIndicator {
+      width: 10px;
+      height: 10px;
+      background-color: map-get($colors, "tiffanyBlue");
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 4px;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    &.active {
+      background-color: rgba(255, 255, 255, 0.09);
+      cursor: initial;
+    }
+  }
+}

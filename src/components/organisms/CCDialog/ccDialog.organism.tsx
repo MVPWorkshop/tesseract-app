@@ -13,6 +13,8 @@ import { IChainConstrainDialogProps } from "./ccDialog.organism.types";
 import { EChainId } from "../../../shared/types/web3.types";
 import WalletService from "../../../shared/services/wallet/wallet.service";
 import { Web3Provider } from "@ethersproject/providers";
+import { Link as RouterLink } from "react-router-dom";
+import { getVaultPageRoute } from "../../../shared/utils/vault.util";
 
 const ChainConstrainDialog: React.FC<IChainConstrainDialogProps> = (props) => {
   const {
@@ -48,7 +50,7 @@ const ChainConstrainDialog: React.FC<IChainConstrainDialogProps> = (props) => {
       <Trans>unsupported network</Trans>;
 
     return (
-      <TextDialog>
+      <TextDialog className={props.className}>
         <Typography
           element="p"
           variant={ETypographyVariant.BODY}
@@ -68,6 +70,18 @@ const ChainConstrainDialog: React.FC<IChainConstrainDialogProps> = (props) => {
               <Trans>Switch to {arbirtrayChainDataById[wantedNetwork].label} Network</Trans>
             </Typography>
           </Button>
+          { (chainId && isChainSupported) &&
+            <RouterLink to={getVaultPageRoute(chainId as EChainId)}>
+              <Button
+                theme={"tertiary"}
+                className={"ml-2"}
+              >
+                <Typography>
+                  <Trans>Go to {arbirtrayChainDataById[chainId as EChainId].label} app</Trans>
+                </Typography>
+              </Button>
+            </RouterLink>
+          }
         </div>
         <br/>
         <Typography
@@ -86,7 +100,7 @@ const ChainConstrainDialog: React.FC<IChainConstrainDialogProps> = (props) => {
   // Wallet unavailable, prompt user to connect it
   if (!isSignerAvailable) {
     return (
-      <TextDialog>
+      <TextDialog className={props.className}>
         <Typography
           element="p"
           variant={ETypographyVariant.BODY}

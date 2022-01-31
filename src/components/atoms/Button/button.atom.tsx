@@ -37,8 +37,8 @@ const Button: FC<IButtonProps> = (props) => {
   const btnClassName = classes(
     styles.appButton,
     className,
-    disabled && "disabledElement",
-    uppercase && "text-uppercase",
+    [!!disabled, "disabledElement"],
+    [!!uppercase, "text-uppercase"],
     customTheme,
     props.flat && styles.flat
   );

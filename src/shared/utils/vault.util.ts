@@ -5,6 +5,7 @@ import BigDecimal from "js-big-decimal";
 import Web3Util from "./web3.util";
 import { BigNumber } from "ethers";
 import { ESupportedTokens } from "../types/vault.types";
+import { ERoutes } from "../../router/router.types";
 
 export function getSupportedTokensByChain(chain: EChainId): ESupportedTokens[] {
   const allTokens = keys(ESupportedTokens);
@@ -77,4 +78,9 @@ export function getTokenTicker(tokenSymbol: string, chainId: EChainId): string {
   }
 
   return tokenSymbol;
+}
+
+export function getVaultPageRoute(chainId: EChainId): string {
+  const routeNetworkParam = arbirtrayChainDataById[chainId].routeParam;
+  return `${ERoutes.VAULTS}/${routeNetworkParam}`;
 }

@@ -33,8 +33,14 @@ import { clearAllVaultsState, fetchAllAvailableVaults } from "../../../redux/vau
 import { RouteComponentProps } from "react-router-dom";
 import { ERouteNetwork, IVaultPageParams } from "../../../router/router.types";
 import ChainConstrainDialog from "../../organisms/CCDialog/ccDialog.organism";
-import { arbirtrayChainDataById, chainIdByRouteNetwork } from "../../../shared/constants/web3.constants";
+import {
+  arbirtrayChainDataById,
+  chainIdByRouteNetwork,
+  supportedChainIds
+} from "../../../shared/constants/web3.constants";
 import { generatePath } from "react-router-dom";
+import NetworkPicker from "../../molecules/NetworkPicker/networkPicker.molecule";
+import Separator from "../../atoms/Separator/separator.atom";
 
 const VaultsPage: React.FC<RouteComponentProps<IVaultPageParams>> = (props) => {
 
@@ -59,11 +65,11 @@ const VaultsPage: React.FC<RouteComponentProps<IVaultPageParams>> = (props) => {
     displayChainId
   } = useWeb3(pageNetwork ? chainIdByRouteNetwork[pageNetwork] : DEFAULT_CHAIN_ID);
 
-  const [isGettingSigner, setIsGettingSigner] = useState(true)
+  const [isGettingSigner, setIsGettingSigner] = useState(true);
   const [signer, setSigner] = useState<Nullable<JsonRpcSigner>>();
 
   useEffect(() => {
-    setIsGettingSigner(true)
+    setIsGettingSigner(true);
 
     getSigner()
       .then(result => {
@@ -72,7 +78,7 @@ const VaultsPage: React.FC<RouteComponentProps<IVaultPageParams>> = (props) => {
       })
       .catch(() => {
         setSigner(null);
-        setIsGettingSigner(false)
+        setIsGettingSigner(false);
       });
   }, [library, account]);
 
@@ -84,13 +90,13 @@ const VaultsPage: React.FC<RouteComponentProps<IVaultPageParams>> = (props) => {
     tokens.forEach(token => {
       dispatch(fetchTokenDetails(token, rpcProvider, displayChainId));
     });
-  }, []);
+  }, [pageNetwork]);
 
   useEffect(() => {
     if (!isGettingSigner) {
       dispatch(fetchAllAvailableVaults(tokens, account, rpcProvider, displayChainId));
     }
-  }, [isGettingSigner]);
+  }, [pageNetwork, isGettingSigner]);
 
   useEffect(() => {
     if (!isGettingSigner && account) {
@@ -98,7 +104,7 @@ const VaultsPage: React.FC<RouteComponentProps<IVaultPageParams>> = (props) => {
         dispatch(fetchTokenBalance(token, account, rpcProvider, displayChainId));
       });
     }
-  }, [account, isGettingSigner])
+  }, [pageNetwork, account, isGettingSigner]);
 
   const isSignerAvailable = !!(active && library && signer);
 
@@ -115,6 +121,7 @@ const VaultsPage: React.FC<RouteComponentProps<IVaultPageParams>> = (props) => {
         <ChainConstrainDialog
           isSignerAvailable={isSignerAvailable}
           wantedNetwork={displayChainId}
+          className={"mb-5"}
         />
         <div className={styles.vaultsTitle}>
           <Typography
@@ -146,6 +153,14 @@ const VaultsPage: React.FC<RouteComponentProps<IVaultPageParams>> = (props) => {
             </div>
           }
         </div>
+        <NetworkPicker
+          chainIds={supportedChainIds}
+          activeChainId={displayChainId}
+        />
+        <Separator
+          invisible={true}
+          marginAfter={30}
+        />
         {allVaults.map(vaultData => {
           // Meaning, if user can see more than 1 vault, it should be flagged, otherwise don't do anything
           let flag: IVaultProps["flag"];
