@@ -7,11 +7,19 @@
 
   a {
     text-decoration: none !important;
+
+    &:not(:last-child) {
+      margin-right: 16px;
+    }
   }
 
   .button {
     padding: 12px 16px;
     cursor: pointer;
+
+    &:not(:last-child) {
+      margin-right: 16px;
+    }
 
     .btnLabel {
       margin-left: 16px;

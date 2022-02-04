@@ -16,7 +16,7 @@ import { createTotalDepositedSelector, createTotalTvlSelector } from "../../../r
 import {
   areArraysEqual,
   areBigDecimalsEqual,
-  formatAssetDisplayValue,
+  formatAssetDisplayValue, keys,
   objectListToArrayByConditionalKey
 } from "../../../shared/utils/common.util";
 import { clearAllTokensState, fetchTokenBalance, fetchTokenDetails } from "../../../redux/tokens/tokens.redux.actions";
@@ -49,7 +49,9 @@ const VaultsPage: React.FC<RouteComponentProps<IVaultPageParams>> = (props) => {
 
   //@TODO Make network base parameter of every chain related route and handle this on global level
   useEffect(() => {
-    if (!Object.keys(ERouteNetwork).includes(pageNetwork || "")) {
+    const routeEnumValuesList = keys(ERouteNetwork).map(key =>  ERouteNetwork[key]);
+
+    if (!routeEnumValuesList.includes((pageNetwork || "") as ERouteNetwork)) {
       const defaultRouteParam = arbirtrayChainDataById[DEFAULT_CHAIN_ID].routeParam;
       const path = generatePath(props.match.path, { network: defaultRouteParam });
       props.history.replace(path);

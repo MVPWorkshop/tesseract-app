@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React  from "react";
 import styles from "./networkPicker.molecule.module.scss";
 import { INetworkPickerProps } from "./networkPicker.molecule.types";
 import { EChainId } from "../../../shared/types/web3.types";
@@ -21,10 +21,8 @@ const NetworkPicker: React.FC<INetworkPickerProps> = (props) => {
     const Logo = arbirtrayChainDataById[chainId].logo;
     const label = arbirtrayChainDataById[chainId].label;
 
-    const LinkWrapper = isActive ? Fragment : RouterLink;
-
-    return (
-      <LinkWrapper to={getVaultPageRoute(chainId)}>
+    const ElementsToRender = () => {
+      return (
         <div className={classes(styles.button, [isActive, styles.active])}>
           <Logo/>
           <Typography
@@ -37,8 +35,21 @@ const NetworkPicker: React.FC<INetworkPickerProps> = (props) => {
             {label}
           </Typography>
         </div>
-      </LinkWrapper>
-    );
+      );
+    };
+
+    if (isActive) {
+      return <ElementsToRender key={chainId}/>;
+    } else {
+      return (
+        <RouterLink
+          key={chainId}
+          to={getVaultPageRoute(chainId)}
+        >
+          <ElementsToRender/>
+        </RouterLink>
+      );
+    }
   };
 
   return (

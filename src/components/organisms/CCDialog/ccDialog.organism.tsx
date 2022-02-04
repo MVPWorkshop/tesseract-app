@@ -45,9 +45,10 @@ const ChainConstrainDialog: React.FC<IChainConstrainDialogProps> = (props) => {
   const [isSwitchingNetwork, setIsSwitchingNetwork] = useState<boolean>(false);
 
   if (!isChainSupported || (chainId && wantedNetwork !== chainId)) {
-    const networkError = isChainSupported && chainId ?
-      arbirtrayChainDataById[chainId as EChainId].label :
-      <Trans>unsupported network</Trans>;
+    const wantedNetworkLabel = arbirtrayChainDataById[wantedNetwork].label;
+    const currentChainLabel = isChainSupported && chainId ? arbirtrayChainDataById[chainId as EChainId].label : undefined;
+
+    const networkError = isChainSupported && chainId ? currentChainLabel : <Trans>unsupported network</Trans>;
 
     return (
       <TextDialog className={props.className}>
@@ -56,7 +57,7 @@ const ChainConstrainDialog: React.FC<IChainConstrainDialogProps> = (props) => {
           variant={ETypographyVariant.BODY}
         >
           <Trans>
-            This app supports {arbirtrayChainDataById[wantedNetwork].label}. You are currently on
+            This app supports {wantedNetworkLabel}. Your wallet is currently on
           </Trans>
           &nbsp;{networkError}
         </Typography>
@@ -67,7 +68,7 @@ const ChainConstrainDialog: React.FC<IChainConstrainDialogProps> = (props) => {
             loading={isSwitchingNetwork}
           >
             <Typography>
-              <Trans>Switch to {arbirtrayChainDataById[wantedNetwork].label} Network</Trans>
+              <Trans>Switch to {wantedNetworkLabel} Network</Trans>
             </Typography>
           </Button>
           { (chainId && isChainSupported) &&
@@ -77,7 +78,7 @@ const ChainConstrainDialog: React.FC<IChainConstrainDialogProps> = (props) => {
                 className={"ml-2"}
               >
                 <Typography>
-                  <Trans>Go to {arbirtrayChainDataById[chainId as EChainId].label} app</Trans>
+                  <Trans>Go to {currentChainLabel} app</Trans>
                 </Typography>
               </Button>
             </RouterLink>
