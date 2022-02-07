@@ -4,7 +4,8 @@ export enum ESupportedTokens {
   USDT = "USDT",
   DAI = "DAI",
   WETH = "WETH",
-  WBTC = "WBTC"
+  WBTC = "WBTC",
+  CRVTRICRYPTO = "CRVTRICRYPTO"
 }
 
 export enum EVaultState {

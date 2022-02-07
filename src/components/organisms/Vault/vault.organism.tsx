@@ -50,6 +50,7 @@ import {
 import BigDecimal from "js-big-decimal";
 import { BigNumber } from "ethers";
 import Skeleton from "../../atoms/Skeleton/skeleton.atom";
+import { tokenLabels } from "../../../shared/constants/web3.constants";
 
 const Vault: React.FC<IVaultProps> = (props) => {
   const {
@@ -62,6 +63,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     provider
   } = props;
 
+  const tokenLabel = tokenLabels[token] || token;
   const dispatch = useDispatch();
 
   const {
@@ -189,7 +191,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const formattedUserShares = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInFormattedToken(vaultData.userShares, vaultData.sharePrice, decimals).round(6) : undefined;
   const maxDepositAmount = (balance && decimals && vaultData && vaultData.depositLimit) ?
     Web3Util.formatTokenNumber(getMaxDepositAmount(balance, vaultData.depositLimit), decimals) : new BigDecimal(0);
-
+console.log(token, balance, decimals)
   const isDepositDisabled = isZero(maxDepositAmount);
 
   const onDepositValueChange = (value: string) => {
@@ -284,7 +286,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
                 fontWeight={EFontWeight.SEMI_BOLD}
                 className="d-inline"
               >
-                {token}
+                {tokenLabel}
               </Typography>
             </div>
             <Table
@@ -313,12 +315,12 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   </td>
                   <td>
                     <Skeleton loading={isFetchingAnyData}>
-                      {formatAssetDisplayValue(formattedUserShares?.getValue())} {token}
+                      {formatAssetDisplayValue(formattedUserShares?.getValue())} {tokenLabel}
                     </Skeleton>
                   </td>
                   <td>
                     <Skeleton loading={isFetchingAnyData}>
-                      {formatAssetDisplayValue(formattedBalance?.getValue())} {token}
+                      {formatAssetDisplayValue(formattedBalance?.getValue())} {tokenLabel}
                     </Skeleton>
                   </td>
                 </tr>
@@ -390,7 +392,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
                     <Typography variant={ETypographyVariant.BODY} small={true}>
                       <Trans>Balance</Trans>:
                       &nbsp;
-                      {`${formatAssetDisplayValue(formattedBalance?.getValue())} ${token}`}
+                      {`${formatAssetDisplayValue(formattedBalance?.getValue())} ${tokenLabel}`}
                     </Typography>
                   </div>
                   <Input
@@ -441,7 +443,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
                     <Typography variant={ETypographyVariant.BODY} small={true}>
                       <Trans>Available to withdraw</Trans>:
                       &nbsp;
-                      {`${formattedUserShares?.getValue()} ${token}`}
+                      {`${formattedUserShares?.getValue()} ${tokenLabel}`}
                     </Typography>
                   </div>
                   <Input
