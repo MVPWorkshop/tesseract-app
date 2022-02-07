@@ -191,7 +191,6 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const formattedUserShares = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInFormattedToken(vaultData.userShares, vaultData.sharePrice, decimals).round(6) : undefined;
   const maxDepositAmount = (balance && decimals && vaultData && vaultData.depositLimit) ?
     Web3Util.formatTokenNumber(getMaxDepositAmount(balance, vaultData.depositLimit), decimals) : new BigDecimal(0);
-console.log(token, balance, decimals)
   const isDepositDisabled = isZero(maxDepositAmount);
 
   const onDepositValueChange = (value: string) => {

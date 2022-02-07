@@ -66,4 +66,4 @@ export const chainLabels: DynamicObject<string, EChainId, AllKeysRequired> = {
 
 export const tokenLabels: DynamicObject<string, ESupportedTokens> = {
   [ESupportedTokens.CRVTRICRYPTO]: "3CRV"
-}
+};
