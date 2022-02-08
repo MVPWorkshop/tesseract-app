@@ -79,4 +79,4 @@ export const buyTokenUrlByTokenAndNetwork: DynamicObject<DynamicObject<string, E
   [ESupportedTokens.CRVTRICRYPTO]: {
     [EChainId.POLYGON_MAINNET]: "https://polygon.curve.fi/atricrypto3/deposit"
   }
-}
+};
