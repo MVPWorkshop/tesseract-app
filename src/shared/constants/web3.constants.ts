@@ -67,3 +67,16 @@ export const chainLabels: DynamicObject<string, EChainId, AllKeysRequired> = {
 export const tokenLabels: DynamicObject<string, ESupportedTokens> = {
   [ESupportedTokens.CRVTRICRYPTO]: "3CRV"
 };
+
+// @TODO Abstract a bit more
+export const buyTokenUrlByTokenAndNetwork: DynamicObject<DynamicObject<string, EChainId>, ESupportedTokens, AllKeysRequired> = {
+  [ESupportedTokens.USDC]: {},
+  [ESupportedTokens.USDT]: {},
+  [ESupportedTokens.DAI]: {},
+  [ESupportedTokens.WETH]: {},
+  [ESupportedTokens.WBTC]: {},
+  [ESupportedTokens.WMATIC]: {},
+  [ESupportedTokens.CRVTRICRYPTO]: {
+    [EChainId.POLYGON_MAINNET]: "https://polygon.curve.fi/atricrypto3/deposit"
+  }
+}

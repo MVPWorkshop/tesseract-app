@@ -50,7 +50,7 @@ import {
 import BigDecimal from "js-big-decimal";
 import { BigNumber } from "ethers";
 import Skeleton from "../../atoms/Skeleton/skeleton.atom";
-import { tokenLabels } from "../../../shared/constants/web3.constants";
+import { buyTokenUrlByTokenAndNetwork, tokenLabels } from "../../../shared/constants/web3.constants";
 
 const Vault: React.FC<IVaultProps> = (props) => {
   const {
@@ -265,6 +265,8 @@ const Vault: React.FC<IVaultProps> = (props) => {
     });
   };
 
+  const buyTokenUrl = buyTokenUrlByTokenAndNetwork[token][chainId];
+
   return (
     <div className={styles.vault}>
       <div className={styles.outer}>
@@ -281,12 +283,20 @@ const Vault: React.FC<IVaultProps> = (props) => {
           <div className={styles.header} onClick={toggleDropdown}>
             <div className={styles.tokenLogoContainer}>
               <TokenLogo className="d-inline mr-2"/>
-              <Typography
-                fontWeight={EFontWeight.SEMI_BOLD}
-                className="d-inline"
-              >
-                {tokenLabel}
-              </Typography>
+              <div className="d-flex flex-column">
+                <Typography
+                  fontWeight={EFontWeight.SEMI_BOLD}
+                  className="d-inline"
+                >
+                  {tokenLabel}
+                </Typography>
+                {
+                  buyTokenUrl &&
+                  <Link link={buyTokenUrl}>
+                    <Trans>Buy token</Trans>
+                  </Link>
+                }
+              </div>
             </div>
             <Table
               borderless={true}
