@@ -50,6 +50,9 @@ export const addressByNetworkAndToken: TokenAddressByNetwork = {
   },
   [ESupportedTokens.WMATIC]: {
     [EChainId.POLYGON_MAINNET]: "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270"
+  },
+  [ESupportedTokens.CRVTRICRYPTO]: {
+    [EChainId.POLYGON_MAINNET]: "0xdAD97F7713Ae9437fa9249920eC8507e5FbB23d3"
   }
 };
 
@@ -59,4 +62,8 @@ export const nativeTokenTickers: DynamicObject<string, EChainId, AllKeysRequired
 
 export const chainLabels: DynamicObject<string, EChainId, AllKeysRequired> = {
   [EChainId.POLYGON_MAINNET]: "POLYGON"
+};
+
+export const tokenLabels: DynamicObject<string, ESupportedTokens> = {
+  [ESupportedTokens.CRVTRICRYPTO]: "3CRV"
 };
