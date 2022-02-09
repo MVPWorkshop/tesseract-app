@@ -17,19 +17,19 @@ msgstr ""
 msgid "API Errored"
 msgstr "API Errored"
 
-#: src/components/organisms/Vault/vault.organism.tsx:286
+#: src/components/organisms/Vault/vault.organism.tsx:307
 msgid "APY"
 msgstr "APY"
 
-#: src/components/organisms/Vault/vault.organism.tsx:369
+#: src/components/organisms/Vault/vault.organism.tsx:434
 msgid "Approve"
 msgstr "Approve"
 
-#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:167
+#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:170
 msgid "Approve connecting with {0}"
 msgstr "Approve connecting with {0}"
 
-#: src/components/organisms/Vault/vault.organism.tsx:289
+#: src/components/organisms/Vault/vault.organism.tsx:310
 msgid "Available to deposit"
 msgstr "Available to deposit"
 
@@ -37,63 +37,75 @@ msgstr "Available to deposit"
 #~ msgid "Available to stake"
 #~ msgstr "Available to stake"
 
-#: src/components/organisms/Vault/vault.organism.tsx:387
+#: src/components/organisms/Vault/vault.organism.tsx:453
 msgid "Available to withdraw"
 msgstr "Available to withdraw"
 
-#: src/components/organisms/Vault/vault.organism.tsx:340
+#: src/components/organisms/Vault/vault.organism.tsx:402
 msgid "Balance"
 msgstr "Balance"
 
-#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:230
+#: src/components/organisms/Vault/vault.organism.tsx:296
+msgid "Buy token"
+msgstr "Buy token"
+
+#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:233
 msgid "Change wallet"
 msgstr "Change wallet"
 
-#: src/components/pages/Vaults/vaults.page.tsx:118
+#: src/components/pages/Vaults/vaults.page.tsx:166
 msgid "Connect wallet"
 msgstr "Connect wallet"
 
-#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:209
+#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:212
 msgid "Copied!"
 msgstr "Copied!"
 
-#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:209
+#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:212
 msgid "Copy address"
 msgstr "Copy address"
 
-#: src/components/organisms/Vault/vault.organism.tsx:380
+#: src/components/organisms/Vault/vault.organism.tsx:445
 msgid "Deposit"
 msgstr "Deposit"
 
+#: src/components/organisms/Vault/vault.organism.tsx:355
+msgid "Deposit limit reached, stay tuned till we increase the limit again"
+msgstr "Deposit limit reached, stay tuned till we increase the limit again"
+
+#: src/components/organisms/Vault/vault.organism.tsx:366
+msgid "Deposit {tokenLabel} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield."
+msgstr "Deposit {tokenLabel} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield."
+
 #: src/components/organisms/Vault/vault.organism.tsx:319
-msgid "Deposit {token} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield."
-msgstr "Deposit {token} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield."
+#~ msgid "Deposit {token} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield."
+#~ msgstr "Deposit {token} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield."
 
 #: src/components/pages/Vaults/vaults.page.tsx:148
 #~ msgid "Deposited"
 #~ msgstr "Deposited"
 
-#: src/components/organisms/Vault/vault.organism.tsx:288
+#: src/components/organisms/Vault/vault.organism.tsx:309
 msgid "Deposited value"
 msgstr "Deposited value"
 
-#: src/components/organisms/Header/header.organism.tsx:35
+#: src/components/organisms/Header/header.organism.tsx:43
 msgid "Documentation"
 msgstr "Documentation"
 
-#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:106
+#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:109
 msgid "Error connecting"
 msgstr "Error connecting"
 
-#: src/redux/tokens/tokens.redux.actions.ts:168
+#: src/redux/tokens/tokens.redux.actions.ts:144
 msgid "Failed approving token for spending"
 msgstr "Failed approving token for spending"
 
-#: src/redux/vaults/vaults.redux.actions.ts:139
+#: src/redux/vaults/vaults.redux.actions.ts:146
 msgid "Failed depositing to the vault"
 msgstr "Failed depositing to the vault"
 
-#: src/redux/vaults/vaults.redux.actions.ts:184
+#: src/redux/vaults/vaults.redux.actions.ts:191
 msgid "Failed withdrawing from the vault"
 msgstr "Failed withdrawing from the vault"
 
@@ -105,11 +117,11 @@ msgstr "Generate more yield with Tesseract."
 msgid "In collaboration with the Yearn team we bring you the true power of DeFi by using the best Yearn strategies adapted for Polygon. Add liquidity to Tesseract and generate juicy yields."
 msgstr "In collaboration with the Yearn team we bring you the true power of DeFi by using the best Yearn strategies adapted for Polygon. Add liquidity to Tesseract and generate juicy yields."
 
-#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:132
+#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:135
 msgid "Initializing"
 msgstr "Initializing"
 
-#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:98
+#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:101
 msgid "Install Metamask"
 msgstr "Install Metamask"
 
@@ -117,17 +129,25 @@ msgstr "Install Metamask"
 msgid "Join the community"
 msgstr "Join the community"
 
-#: src/components/organisms/Header/header.organism.tsx:43
+#: src/components/organisms/Header/header.organism.tsx:51
 msgid "Launch app"
 msgstr "Launch app"
 
-#: src/components/organisms/Vault/vault.organism.tsx:329
+#: src/components/organisms/Vault/vault.organism.tsx:376
 msgid "Link to contract"
 msgstr "Link to contract"
 
 #: src/components/atoms/Button/button.atom.tsx:62
 msgid "Loading"
 msgstr "Loading"
+
+#: src/components/pages/Vaults/vaults.page.tsx:242
+msgid "Loading Vaults, this will take some time, please don't refresh..."
+msgstr "Loading Vaults, this will take some time, please don't refresh..."
+
+#: src/components/organisms/Vault/vault.organism.tsx:279
+msgid "NEW"
+msgstr "NEW"
 
 #: src/shared/constants/error.constants.ts:15
 msgid "No ethereum provider found, please install it"
@@ -136,6 +156,10 @@ msgstr "No ethereum provider found, please install it"
 #: src/shared/constants/error.constants.ts:16
 msgid "No provider"
 msgstr "No provider"
+
+#: src/components/organisms/Vault/vault.organism.tsx:280
+msgid "OLD"
+msgstr "OLD"
 
 #: src/components/pages/NotFound/notFound.page.tsx:23
 msgid "Page not found"
@@ -154,11 +178,11 @@ msgstr "Request rejected"
 msgid "Request was rejected, please try again"
 msgstr "Request was rejected, please try again"
 
-#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:169
+#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:172
 msgid "Select the wallet you want to connect with:"
 msgstr "Select the wallet you want to connect with:"
 
-#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:164
+#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:167
 msgid "Something went wrong"
 msgstr "Something went wrong"
 
@@ -170,33 +194,37 @@ msgstr "Something went wrong on the API"
 msgid "Sorry, an unknown error occurred"
 msgstr "Sorry, an unknown error occurred"
 
-#: src/components/pages/Vaults/vaults.page.tsx:86
+#: src/components/pages/Vaults/vaults.page.tsx:134
 msgid "Switch to Polygon Network"
 msgstr "Switch to Polygon Network"
 
-#: src/components/pages/Vaults/vaults.page.tsx:142
+#: src/components/pages/Vaults/vaults.page.tsx:190
 msgid "TVL"
 msgstr "TVL"
 
-#: src/components/pages/Vaults/vaults.page.tsx:74
+#: src/components/pages/Vaults/vaults.page.tsx:122
 msgid "This app supports{0}. You are currently on unsupported network"
 msgstr "This app supports{0}. You are currently on unsupported network"
 
-#: src/components/pages/Vaults/vaults.page.tsx:148
+#: src/components/organisms/Vault/vault.organism.tsx:387
+msgid "This vault is being retired. A new, better, more optimised vault is coming in its place. Please withdraw your assets below by clicking \"withdraw all\" and deposit them to the <0>new</0> vault."
+msgstr "This vault is being retired. A new, better, more optimised vault is coming in its place. Please withdraw your assets below by clicking \"withdraw all\" and deposit them to the <0>new</0> vault."
+
+#: src/components/pages/Vaults/vaults.page.tsx:196
 msgid "Total Deposited Value"
 msgstr "Total Deposited Value"
 
-#: src/components/organisms/Vault/vault.organism.tsx:287
+#: src/components/organisms/Vault/vault.organism.tsx:308
 msgid "Total value locked"
 msgstr "Total value locked"
 
-#: src/redux/tokens/tokens.redux.actions.ts:158
-#: src/redux/vaults/vaults.redux.actions.ts:129
-#: src/redux/vaults/vaults.redux.actions.ts:174
+#: src/redux/tokens/tokens.redux.actions.ts:133
+#: src/redux/vaults/vaults.redux.actions.ts:136
+#: src/redux/vaults/vaults.redux.actions.ts:181
 msgid "Transactions hash: {txHash}"
 msgstr "Transactions hash: {txHash}"
 
-#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:114
+#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:117
 msgid "Try again"
 msgstr "Try again"
 
@@ -212,37 +240,37 @@ msgstr "Unsupported chain"
 msgid "Unsupported chain, please switch to supported one"
 msgstr "Unsupported chain, please switch to supported one"
 
-#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:162
+#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:165
 msgid "Unsupported network"
 msgstr "Unsupported network"
 
-#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:219
+#: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:222
 msgid "View on explorer"
 msgstr "View on explorer"
 
-#: src/redux/tokens/tokens.redux.actions.ts:151
-#: src/redux/vaults/vaults.redux.actions.ts:119
-#: src/redux/vaults/vaults.redux.actions.ts:164
+#: src/redux/tokens/tokens.redux.actions.ts:126
+#: src/redux/vaults/vaults.redux.actions.ts:126
+#: src/redux/vaults/vaults.redux.actions.ts:171
 msgid "Waiting for confirmations"
 msgstr "Waiting for confirmations"
 
-#: src/components/molecules/ConnectWalletButton/connectWalletButton.molecule.tsx:34
+#: src/components/molecules/ConnectWalletButton/connectWalletButton.molecule.tsx:37
 msgid "Wallet"
 msgstr "Wallet"
 
-#: src/components/pages/Vaults/vaults.page.tsx:110
+#: src/components/pages/Vaults/vaults.page.tsx:158
 msgid "Wallet connection to {0} required"
 msgstr "Wallet connection to {0} required"
 
-#: src/components/organisms/Vault/vault.organism.tsx:417
+#: src/components/organisms/Vault/vault.organism.tsx:484
 msgid "Withdraw"
 msgstr "Withdraw"
 
-#: src/components/organisms/Vault/vault.organism.tsx:429
+#: src/components/organisms/Vault/vault.organism.tsx:496
 msgid "Withdraw all"
 msgstr "Withdraw all"
 
-#: src/components/pages/Vaults/vaults.page.tsx:95
+#: src/components/pages/Vaults/vaults.page.tsx:143
 msgid "You may need to manually switch network via your wallet."
 msgstr "You may need to manually switch network via your wallet."
 
@@ -250,6 +278,6 @@ msgstr "You may need to manually switch network via your wallet."
 #~ msgid "Your staked LP"
 #~ msgstr "Your staked LP"
 
-#: src/components/pages/Vaults/vaults.page.tsx:133
+#: src/components/pages/Vaults/vaults.page.tsx:181
 msgid "{0} Vaults"
 msgstr "{0} Vaults"

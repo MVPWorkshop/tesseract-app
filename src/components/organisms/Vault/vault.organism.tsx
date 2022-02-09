@@ -364,7 +364,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
                     element={"p"}
                   >
                     <Trans>
-                      Deposit {token} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield.
+                      Deposit {tokenLabel} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield.
                     </Trans>
                   </Typography>
                   <Typography
