@@ -324,12 +324,12 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   </td>
                   <td>
                     <Skeleton loading={isFetchingAnyData}>
-                      {formatAssetDisplayValue(formattedUserShares?.getValue())} {tokenLabel}
+                      {formatAssetDisplayValue(formattedUserShares?.getValue())}
                     </Skeleton>
                   </td>
                   <td>
                     <Skeleton loading={isFetchingAnyData}>
-                      {formatAssetDisplayValue(formattedBalance?.getValue())} {tokenLabel}
+                      {formatAssetDisplayValue(formattedBalance?.getValue())}
                     </Skeleton>
                   </td>
                 </tr>
