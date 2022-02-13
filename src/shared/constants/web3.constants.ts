@@ -68,6 +68,9 @@ export const addressByNetworkAndToken: TokenAddressByNetwork = {
   },
   [ESupportedTokens.WAVAX]: {
     [EChainId.AVAX_MAINNET]: "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7"
+  },
+  [ESupportedTokens.CRVTRICRYPTO]: {
+    [EChainId.POLYGON_MAINNET]: "0xdAD97F7713Ae9437fa9249920eC8507e5FbB23d3"
   }
 };
 
@@ -99,4 +102,22 @@ export const arbirtrayChainDataById: DynamicObject<IUtilChainData, EChainId, All
 export const chainIdByRouteNetwork: DynamicObject<EChainId, ERouteNetwork, AllKeysRequired> = {
   [ERouteNetwork.POLYGON]: EChainId.POLYGON_MAINNET,
   [ERouteNetwork.AVAX]: EChainId.AVAX_MAINNET,
+};
+
+export const tokenLabels: DynamicObject<string, ESupportedTokens> = {
+  [ESupportedTokens.CRVTRICRYPTO]: "ATRICRYPTO3"
+};
+
+// @TODO Abstract a bit more
+export const buyTokenUrlByTokenAndNetwork: DynamicObject<DynamicObject<string, EChainId>, ESupportedTokens, AllKeysRequired> = {
+  [ESupportedTokens.USDC]: {},
+  [ESupportedTokens.USDT]: {},
+  [ESupportedTokens.DAI]: {},
+  [ESupportedTokens.WETH]: {},
+  [ESupportedTokens.WBTC]: {},
+  [ESupportedTokens.WMATIC]: {},
+  [ESupportedTokens.WAVAX]: {},
+  [ESupportedTokens.CRVTRICRYPTO]: {
+    [EChainId.POLYGON_MAINNET]: "https://polygon.curve.fi/atricrypto3/deposit"
+  }
 };

@@ -15,7 +15,8 @@ const initialState: ITokensReduxReducerState = {
   [ESupportedTokens.WETH]: {},
   [ESupportedTokens.WBTC]: {},
   [ESupportedTokens.WMATIC]: {},
-  [ESupportedTokens.WAVAX]: {}
+  [ESupportedTokens.WAVAX]: {},
+  [ESupportedTokens.CRVTRICRYPTO]: {}
 };
 
 const tokensReduxReducer: Reducer<ITokensReduxReducerState, TokenReduxActions> = (state = initialState, action) => {

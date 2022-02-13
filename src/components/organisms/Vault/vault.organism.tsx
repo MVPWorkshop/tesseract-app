@@ -50,6 +50,7 @@ import {
 import BigDecimal from "js-big-decimal";
 import { BigNumber } from "ethers";
 import Skeleton from "../../atoms/Skeleton/skeleton.atom";
+import { buyTokenUrlByTokenAndNetwork, tokenLabels } from "../../../shared/constants/web3.constants";
 
 const Vault: React.FC<IVaultProps> = (props) => {
   const {
@@ -62,6 +63,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     provider
   } = props;
 
+  const tokenLabel = tokenLabels[token] || token;
   const dispatch = useDispatch();
 
   const {
@@ -185,7 +187,6 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const formattedUserShares = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInFormattedToken(vaultData.userShares, vaultData.sharePrice, decimals).round(6) : undefined;
   const maxDepositAmount = (balance && decimals && vaultData && vaultData.depositLimit) ?
     Web3Util.formatTokenNumber(getMaxDepositAmount(balance, vaultData.depositLimit), decimals) : new BigDecimal(0);
-
   const isDepositDisabled = isZero(maxDepositAmount);
 
   const onDepositValueChange = (value: string) => {
@@ -260,6 +261,8 @@ const Vault: React.FC<IVaultProps> = (props) => {
     });
   };
 
+  const buyTokenUrl = buyTokenUrlByTokenAndNetwork[token][chainId];
+
   const renderDropdownBodyContent = () => {
     if (!isSignerAvailable) {
       return (
@@ -295,7 +298,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
               element={"p"}
             >
               <Trans>
-                Deposit {token} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield.
+                Deposit {tokenLabel} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield.
               </Trans>
             </Typography>
             <Typography
@@ -454,8 +457,14 @@ const Vault: React.FC<IVaultProps> = (props) => {
                 fontWeight={EFontWeight.SEMI_BOLD}
                 className="d-inline"
               >
-                {token}
+                {tokenLabel}
               </Typography>
+              {
+                buyTokenUrl &&
+                <Link link={buyTokenUrl}>
+                  <Trans>Buy token</Trans>
+                </Link>
+              }
             </div>
             <Table
               borderless={true}
@@ -483,12 +492,12 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   </td>
                   <td>
                     <Skeleton loading={isFetchingAnyData}>
-                      {formatAssetDisplayValue(formattedUserShares?.getValue())} {token}
+                      {formatAssetDisplayValue(formattedUserShares?.getValue())}
                     </Skeleton>
                   </td>
                   <td>
                     <Skeleton loading={isFetchingAnyData}>
-                      {formatAssetDisplayValue(formattedBalance?.getValue())} {token}
+                      {formatAssetDisplayValue(formattedBalance?.getValue())}
                     </Skeleton>
                   </td>
                 </tr>
