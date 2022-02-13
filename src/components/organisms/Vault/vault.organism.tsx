@@ -453,18 +453,20 @@ const Vault: React.FC<IVaultProps> = (props) => {
           <div className={styles.header} onClick={toggleDropdown}>
             <div className={styles.tokenLogoContainer}>
               <TokenLogo className="d-inline mr-2"/>
-              <Typography
-                fontWeight={EFontWeight.SEMI_BOLD}
-                className="d-inline"
-              >
-                {tokenLabel}
-              </Typography>
-              {
-                buyTokenUrl &&
-                <Link link={buyTokenUrl}>
-                  <Trans>Buy token</Trans>
-                </Link>
-              }
+              <div className="d-flex flex-column">
+                <Typography
+                  fontWeight={EFontWeight.SEMI_BOLD}
+                  className="d-inline"
+                >
+                  {tokenLabel}
+                </Typography>
+                {
+                  buyTokenUrl &&
+                  <Link link={buyTokenUrl}>
+                    <Trans>Buy token</Trans>
+                  </Link>
+                }
+              </div>
             </div>
             <Table
               borderless={true}
