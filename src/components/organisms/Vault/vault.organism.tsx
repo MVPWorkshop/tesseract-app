@@ -63,7 +63,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     provider
   } = props;
 
-  const tokenLabel = tokenLabels[token] || token;
+  const tokenLabel = (tokenLabels[token] && tokenLabels[token][chainId]) ? tokenLabels[token][chainId] : token;
   const dispatch = useDispatch();
 
   const {

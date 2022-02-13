@@ -12,7 +12,7 @@ import { ReactComponent as WalletConnectLogoSVG } from "../assets/walletconnect-
 import { ReactComponent as PolygonLogo } from "../assets/networks/polygon.svg";
 import { ReactComponent as AvaxLogo } from "../assets/networks/avax.svg";
 
-import { TokenAddressByNetwork } from "../types/contract.types";
+import { ValueByTokenAndNetwork } from "../types/contract.types";
 import { ESupportedTokens } from "../types/vault.types";
 import { ERouteNetwork } from "../../router/router.types";
 
@@ -46,7 +46,7 @@ export const supportedChainIds: EChainId[] = [
   EChainId.AVAX_MAINNET
 ];
 
-export const addressByNetworkAndToken: TokenAddressByNetwork = {
+export const addressByNetworkAndToken: ValueByTokenAndNetwork = {
   [ESupportedTokens.USDC]: {
     [EChainId.POLYGON_MAINNET]: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
     [EChainId.AVAX_MAINNET]: "0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664"
@@ -70,7 +70,8 @@ export const addressByNetworkAndToken: TokenAddressByNetwork = {
     [EChainId.AVAX_MAINNET]: "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7"
   },
   [ESupportedTokens.CRVTRICRYPTO]: {
-    [EChainId.POLYGON_MAINNET]: "0xdAD97F7713Ae9437fa9249920eC8507e5FbB23d3"
+    [EChainId.POLYGON_MAINNET]: "0xdAD97F7713Ae9437fa9249920eC8507e5FbB23d3",
+    [EChainId.AVAX_MAINNET]: "0x1daB6560494B04473A0BE3E7D83CF3Fdf3a51828"
   }
 };
 
@@ -104,12 +105,7 @@ export const chainIdByRouteNetwork: DynamicObject<EChainId, ERouteNetwork, AllKe
   [ERouteNetwork.AVAX]: EChainId.AVAX_MAINNET,
 };
 
-export const tokenLabels: DynamicObject<string, ESupportedTokens> = {
-  [ESupportedTokens.CRVTRICRYPTO]: "ATRICRYPTO3"
-};
-
-// @TODO Abstract a bit more
-export const buyTokenUrlByTokenAndNetwork: DynamicObject<DynamicObject<string, EChainId>, ESupportedTokens, AllKeysRequired> = {
+export const tokenLabels: ValueByTokenAndNetwork = {
   [ESupportedTokens.USDC]: {},
   [ESupportedTokens.USDT]: {},
   [ESupportedTokens.DAI]: {},
@@ -118,6 +114,22 @@ export const buyTokenUrlByTokenAndNetwork: DynamicObject<DynamicObject<string, E
   [ESupportedTokens.WMATIC]: {},
   [ESupportedTokens.WAVAX]: {},
   [ESupportedTokens.CRVTRICRYPTO]: {
-    [EChainId.POLYGON_MAINNET]: "https://polygon.curve.fi/atricrypto3/deposit"
+    [EChainId.POLYGON_MAINNET]: "ATRICRYPTO3",
+    [EChainId.AVAX_MAINNET]: "ATRICRYPTO"
+  }
+};
+
+// @TODO Abstract a bit more
+export const buyTokenUrlByTokenAndNetwork: ValueByTokenAndNetwork = {
+  [ESupportedTokens.USDC]: {},
+  [ESupportedTokens.USDT]: {},
+  [ESupportedTokens.DAI]: {},
+  [ESupportedTokens.WETH]: {},
+  [ESupportedTokens.WBTC]: {},
+  [ESupportedTokens.WMATIC]: {},
+  [ESupportedTokens.WAVAX]: {},
+  [ESupportedTokens.CRVTRICRYPTO]: {
+    [EChainId.POLYGON_MAINNET]: "https://polygon.curve.fi/atricrypto3/deposit",
+    [EChainId.AVAX_MAINNET]: "https://avax.curve.fi/atricrypto/deposit"
   }
 };
