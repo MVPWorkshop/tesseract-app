@@ -17,11 +17,11 @@ msgstr ""
 msgid "API Errored"
 msgstr "Problem s API"
 
-#: src/components/organisms/Vault/vault.organism.tsx:307
+#: src/components/organisms/Vault/vault.organism.tsx:475
 msgid "APY"
 msgstr "APY"
 
-#: src/components/organisms/Vault/vault.organism.tsx:434
+#: src/components/organisms/Vault/vault.organism.tsx:368
 msgid "Approve"
 msgstr "Utvrdi"
 
@@ -29,7 +29,7 @@ msgstr "Utvrdi"
 msgid "Approve connecting with {0}"
 msgstr "Utvrditi sjedinjenje sò {0}"
 
-#: src/components/organisms/Vault/vault.organism.tsx:310
+#: src/components/organisms/Vault/vault.organism.tsx:478
 msgid "Available to deposit"
 msgstr "Dostųpno k depozitovanju"
 
@@ -37,23 +37,23 @@ msgstr "Dostųpno k depozitovanju"
 #~ msgid "Available to stake"
 #~ msgstr "Možeš stavjati na"
 
-#: src/components/organisms/Vault/vault.organism.tsx:453
+#: src/components/organisms/Vault/vault.organism.tsx:387
 msgid "Available to withdraw"
 msgstr "Dostųpno k zabranju"
 
-#: src/components/organisms/Vault/vault.organism.tsx:402
+#: src/components/organisms/Vault/vault.organism.tsx:336
 msgid "Balance"
 msgstr "Saldo"
 
-#: src/components/organisms/Vault/vault.organism.tsx:296
+#: src/components/organisms/Vault/vault.organism.tsx:465
 msgid "Buy token"
-msgstr ""
+msgstr "Kupi token"
 
 #: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:233
 msgid "Change wallet"
 msgstr "Izměnjati portmone"
 
-#: src/components/pages/Vaults/vaults.page.tsx:166
+#: src/components/organisms/CCDialog/ccDialog.organism.tsx:117
 msgid "Connect wallet"
 msgstr "Sjedinjaj portmone"
 
@@ -65,19 +65,19 @@ msgstr "Kopija stvorjena!"
 msgid "Copy address"
 msgstr "Kopiovati adresų"
 
-#: src/components/organisms/Vault/vault.organism.tsx:445
+#: src/components/organisms/Vault/vault.organism.tsx:379
 msgid "Deposit"
 msgstr "Depozit"
 
-#: src/components/organisms/Vault/vault.organism.tsx:355
+#: src/components/organisms/Vault/vault.organism.tsx:289
 msgid "Deposit limit reached, stay tuned till we increase the limit again"
 msgstr ""
 
-#: src/components/organisms/Vault/vault.organism.tsx:366
+#: src/components/organisms/Vault/vault.organism.tsx:300
 msgid "Deposit {tokenLabel} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield."
 msgstr "Stvori depozit s {tokenLabel} vò tutoj valutě a my bųdemo njejų dobro vladati. Odpočivaj i ględaj kako jej cěnnosť råste - my bųdemo aplikovati najdobre strategije daby tvoriti dohod."
 
-#: src/components/organisms/Vault/vault.organism.tsx:319
+#: src/components/organisms/Vault/vault.organism.tsx:297
 #~ msgid "Deposit {token} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield."
 #~ msgstr "Stvori depozit s {token} vò tutoj valutě a my bųdemo njejų dobro vladati. Odpočivaj i ględaj kako jej cěnnosť råste - my bųdemo aplikovati najdobre strategije daby tvoriti dohod."
 
@@ -85,7 +85,7 @@ msgstr "Stvori depozit s {tokenLabel} vò tutoj valutě a my bųdemo njejų dobr
 #~ msgid "Deposited"
 #~ msgstr "Depozit stvorjeny"
 
-#: src/components/organisms/Vault/vault.organism.tsx:309
+#: src/components/organisms/Vault/vault.organism.tsx:477
 msgid "Deposited value"
 msgstr "Depozitovana cěnnosť"
 
@@ -97,21 +97,25 @@ msgstr "Dokumentacija"
 msgid "Error connecting"
 msgstr "Problem sò sjedinjenjem"
 
-#: src/redux/tokens/tokens.redux.actions.ts:144
+#: src/redux/tokens/tokens.redux.actions.ts:152
 msgid "Failed approving token for spending"
 msgstr "My ne smogli jesmo potvrditi tokena na plaćenje"
 
-#: src/redux/vaults/vaults.redux.actions.ts:146
+#: src/redux/vaults/vaults.redux.actions.ts:157
 msgid "Failed depositing to the vault"
 msgstr "My ne smogli jesmo depozitovati v valutě"
 
-#: src/redux/vaults/vaults.redux.actions.ts:191
+#: src/redux/vaults/vaults.redux.actions.ts:202
 msgid "Failed withdrawing from the vault"
 msgstr "My ne smogli jesmo odstųpiti od valuty"
 
 #: src/components/pages/Home/home.page.tsx:33
 msgid "Generate more yield with Tesseract."
 msgstr "Tvori vyše dohoda sò Tesseraktom"
+
+#: src/components/organisms/CCDialog/ccDialog.organism.tsx:81
+msgid "Go to {currentChainLabel} app"
+msgstr ""
 
 #: src/components/pages/Home/home.page.tsx:41
 msgid "In collaboration with the Yearn team we bring you the true power of DeFi by using the best Yearn strategies adapted for Polygon. Add liquidity to Tesseract and generate juicy yields."
@@ -133,7 +137,7 @@ msgstr "Prihodite do našej grupy"
 msgid "Launch app"
 msgstr "Aktivovati aplikacijų"
 
-#: src/components/organisms/Vault/vault.organism.tsx:376
+#: src/components/organisms/Vault/vault.organism.tsx:310
 msgid "Link to contract"
 msgstr "Link do kontrakta"
 
@@ -141,11 +145,11 @@ msgstr "Link do kontrakta"
 msgid "Loading"
 msgstr "Čitanje"
 
-#: src/components/pages/Vaults/vaults.page.tsx:242
+#: src/components/pages/Vaults/vaults.page.tsx:205
 msgid "Loading Vaults, this will take some time, please don't refresh..."
 msgstr ""
 
-#: src/components/organisms/Vault/vault.organism.tsx:279
+#: src/components/organisms/Vault/vault.organism.tsx:449
 msgid "NEW"
 msgstr ""
 
@@ -157,7 +161,7 @@ msgstr "My ne našli jesmo podavatelja ethereum, prosimo, instalujte jego"
 msgid "No provider"
 msgstr "Nedostatòk podavatelja"
 
-#: src/components/organisms/Vault/vault.organism.tsx:280
+#: src/components/organisms/Vault/vault.organism.tsx:450
 msgid "OLD"
 msgstr ""
 
@@ -194,33 +198,41 @@ msgstr "Jest někakovy problem s API"
 msgid "Sorry, an unknown error occurred"
 msgstr "Pomilujte, neznajemy problem pojavil sę"
 
-#: src/components/pages/Vaults/vaults.page.tsx:134
-msgid "Switch to Polygon Network"
-msgstr "Prěključi na Polygon Network"
+#: src/components/pages/Vaults/vaults.page.tsx:86
+#~ msgid "Switch to Polygon Network"
+#~ msgstr "Prěključi na Polygon Network"
 
-#: src/components/pages/Vaults/vaults.page.tsx:190
+#: src/components/organisms/CCDialog/ccDialog.organism.tsx:71
+msgid "Switch to {wantedNetworkLabel} Network"
+msgstr "Prěključi na {wantedNetworkLabel} mrěži"
+
+#: src/components/pages/Vaults/vaults.page.tsx:145
 msgid "TVL"
 msgstr "CBC"
 
-#: src/components/pages/Vaults/vaults.page.tsx:122
-msgid "This app supports{0}. You are currently on unsupported network"
-msgstr "Ta aplikacija poddrživa{0}.  Aktualno ty jesi na nepoddrživanoj mrěži."
+#: src/components/organisms/CCDialog/ccDialog.organism.tsx:59
+msgid "This app supports {wantedNetworkLabel}. Your wallet is currently on"
+msgstr "Ta aplikacija poddrživa{wantedNetworkLabel}.  Aktualno ty jesi na nepoddrživanoj mrěži."
 
-#: src/components/organisms/Vault/vault.organism.tsx:387
+#: src/components/pages/Vaults/vaults.page.tsx:74
+#~ msgid "This app supports{0}. You are currently on unsupported network"
+#~ msgstr "Ta aplikacija poddrživa{0}.  Aktualno ty jesi na nepoddrživanoj mrěži."
+
+#: src/components/organisms/Vault/vault.organism.tsx:321
 msgid "This vault is being retired. A new, better, more optimised vault is coming in its place. Please withdraw your assets below by clicking \"withdraw all\" and deposit them to the <0>new</0> vault."
 msgstr ""
 
-#: src/components/pages/Vaults/vaults.page.tsx:196
+#: src/components/pages/Vaults/vaults.page.tsx:151
 msgid "Total Deposited Value"
 msgstr "Cěla depozitovana cěnnosť"
 
-#: src/components/organisms/Vault/vault.organism.tsx:308
+#: src/components/organisms/Vault/vault.organism.tsx:476
 msgid "Total value locked"
 msgstr "Cěla blokovana cěnnosť"
 
-#: src/redux/tokens/tokens.redux.actions.ts:133
-#: src/redux/vaults/vaults.redux.actions.ts:136
-#: src/redux/vaults/vaults.redux.actions.ts:181
+#: src/redux/tokens/tokens.redux.actions.ts:141
+#: src/redux/vaults/vaults.redux.actions.ts:147
+#: src/redux/vaults/vaults.redux.actions.ts:192
 msgid "Transactions hash: {txHash}"
 msgstr "Kontrolna suma transakcij: {txHash}"
 
@@ -248,9 +260,9 @@ msgstr "Ta mrěža ne jest poddrživana"
 msgid "View on explorer"
 msgstr "okazati prěględač blokčejnov"
 
-#: src/redux/tokens/tokens.redux.actions.ts:126
-#: src/redux/vaults/vaults.redux.actions.ts:126
-#: src/redux/vaults/vaults.redux.actions.ts:171
+#: src/redux/tokens/tokens.redux.actions.ts:134
+#: src/redux/vaults/vaults.redux.actions.ts:137
+#: src/redux/vaults/vaults.redux.actions.ts:182
 msgid "Waiting for confirmations"
 msgstr "Čěkanje na potvrdženja"
 
@@ -258,19 +270,23 @@ msgstr "Čěkanje na potvrdženja"
 msgid "Wallet"
 msgstr "Portmone"
 
-#: src/components/pages/Vaults/vaults.page.tsx:158
+#: src/components/organisms/Vault/vault.organism.tsx:276
+msgid "Wallet connection required"
+msgstr "Potrěbno jest sjedinjenje portmone"
+
+#: src/components/organisms/CCDialog/ccDialog.organism.tsx:109
 msgid "Wallet connection to {0} required"
 msgstr "Potrěbno jest sjedinjenje portmone s {0}"
 
-#: src/components/organisms/Vault/vault.organism.tsx:484
+#: src/components/organisms/Vault/vault.organism.tsx:418
 msgid "Withdraw"
 msgstr "Zabrati"
 
-#: src/components/organisms/Vault/vault.organism.tsx:496
+#: src/components/organisms/Vault/vault.organism.tsx:430
 msgid "Withdraw all"
 msgstr "Zabrati vsečto"
 
-#: src/components/pages/Vaults/vaults.page.tsx:143
+#: src/components/organisms/CCDialog/ccDialog.organism.tsx:93
 msgid "You may need to manually switch network via your wallet."
 msgstr "Može byti tobě bųde potrěbno rųčno prěključiti tvojų mrěžų skroz tvoj portmone."
 
@@ -278,6 +294,10 @@ msgstr "Može byti tobě bųde potrěbno rųčno prěključiti tvojų mrěžų s
 #~ msgid "Your staked LP"
 #~ msgstr "Tvoje stavjeno LP"
 
-#: src/components/pages/Vaults/vaults.page.tsx:181
+#: src/components/organisms/CCDialog/ccDialog.organism.tsx:51
+msgid "unsupported network"
+msgstr "nepoddrživanoj mrěži"
+
+#: src/components/pages/Vaults/vaults.page.tsx:136
 msgid "{0} Vaults"
 msgstr "{0} Valuty"

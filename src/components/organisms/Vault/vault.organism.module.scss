@@ -134,6 +134,16 @@
         }
       }
 
+      &.open.noWallet {
+        transition-duration: 0.15s;
+
+        max-height:250px;
+
+        @include md() {
+          max-height: 150px;
+        }
+      }
+
       .content {
         padding-bottom: 45px;
       }

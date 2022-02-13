@@ -11,12 +11,25 @@ class ApiService extends RestService {
     });
   }
 
-  public async getVaultAPY(vaultSymbol: string, apiVersion: string, dayRange = 10): Promise<string> {
+  private static _getNetworkByChainId(chainId: EChainId): string {
+    switch (chainId) {
+      case EChainId.POLYGON_MAINNET: {
+        return "matic";
+      }
+      case EChainId.AVAX_MAINNET: {
+        return "avalanche";
+      }
+    }
+  }
+
+  public async getVaultAPY(vaultSymbol: string, apiVersion: string, chainId: EChainId, dayRange = 10): Promise<string> {
+    const network = ApiService._getNetworkByChainId(chainId);
+
     const { data } = await this.get<IGetVaultAPYResponse>({
       url: "/query",
       config: {
         params: {
-          query: `deriv(price{network="matic", ticker="${vaultSymbol}", version="${apiVersion}"}[${dayRange}d])*60*60*24*365`
+          query: `deriv(price{network="${network}", ticker="${vaultSymbol}", version="${apiVersion}"}[${dayRange}d])*60*60*24*365`
         }
       }
     });
@@ -26,12 +39,13 @@ class ApiService extends RestService {
 
   public async getTokenPrice(tokenSymbol: string, chainId: EChainId): Promise<string> {
     const tokenTicker = getTokenTicker(tokenSymbol, chainId);
+    const network = ApiService._getNetworkByChainId(chainId);
 
     const { data } = await this.get<IGetVaultAPYResponse>({
       url: "/query",
       config: {
         params: {
-          query: `price{network="matic", ticker="${tokenTicker}",dex="Quickswap"}`
+          query: `price{network="${network}", ticker="${tokenTicker}"}`
         }
       }
     });

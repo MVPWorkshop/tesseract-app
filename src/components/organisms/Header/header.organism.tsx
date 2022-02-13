@@ -9,11 +9,11 @@ import Typography from "../../atoms/Typography/typography.atom";
 import { EColor, EFontWeight } from "../../../shared/types/styles.types";
 import Link from "../../atoms/Link/link.atom";
 import { Link as RouterLink } from "react-router-dom";
-import { ERoutes } from "../../../router";
 import LanguagePicker from "../../molecules/LanguagePicker/languagePicker.molecule";
 import { classes } from "../../../shared/utils/styles.util";
 import useOnScroll from "../../../hooks/useOnScroll";
 import styles from "./header.organism.module.scss";
+import { ERoutes } from "../../../router/router.types";
 
 const Header: React.FC<IHeaderProps> = (props) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);

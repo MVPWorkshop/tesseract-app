@@ -10,7 +10,8 @@ export enum EVaultReduxActions {
   FETCH_VAULT_TVL = "FETCH_VAULT_TVL",
   DEPOSIT_ASSETS = "DEPOSIT_ASSETS",
   WITHDRAW_ASSETS = "WITHDRAW_ASSETS",
-  WITHDRAW_ALL_ASSETS = "WITHDRAW_ALL_ASSETS"
+  WITHDRAW_ALL_ASSETS = "WITHDRAW_ALL_ASSETS",
+  CLEAR_ALL_VAULTS_STATE = "CLEAR_ALL_VAULTS_STATE"
 }
 
 export type SetVaultDetailsAction = ReduxAction<EVaultReduxActions.SET_VAULT_DETAILS, {
@@ -18,12 +19,12 @@ export type SetVaultDetailsAction = ReduxAction<EVaultReduxActions.SET_VAULT_DET
   symbol: string;
   apy: number;
   depositLimit: BigNumber;
+  sharePrice: BigNumber;
 }>
 
 export type SetUserVaultSharesAction = ReduxAction<EVaultReduxActions.SET_USER_VAULT_SHARES, {
   vault: string;
   userShares: BigNumber;
-  sharePrice: BigNumber;
 }>
 
 export type SetVaultTvlAction = ReduxAction<EVaultReduxActions.SET_VAULT_TVL, {
@@ -31,11 +32,13 @@ export type SetVaultTvlAction = ReduxAction<EVaultReduxActions.SET_VAULT_TVL, {
   tvl: BigNumber;
 }>
 
+export type ClearAllVaultsStateAction = ReduxAction<EVaultReduxActions.CLEAR_ALL_VAULTS_STATE, any>
 
 export type VaultsReduxActions =
   SetVaultDetailsAction |
   SetUserVaultSharesAction |
-  SetVaultTvlAction;
+  SetVaultTvlAction |
+  ClearAllVaultsStateAction;
 
 export interface IVaultReduxState {
   symbol?: string;

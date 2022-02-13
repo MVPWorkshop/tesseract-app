@@ -27,8 +27,8 @@ export enum EFontFamily {
 }
 
 export enum EFontWeight {
-  LIGHT = "LIGHT",
-  REGULAR = "REGULAR",
-  SEMI_BOLD = "SEMI_BOLD",
-  BOLD = "BOLD"
+  LIGHT = "LIGHT", // 300
+  REGULAR = "REGULAR", // 400
+  SEMI_BOLD = "SEMI_BOLD", // 600
+  BOLD = "BOLD" // 700
 }

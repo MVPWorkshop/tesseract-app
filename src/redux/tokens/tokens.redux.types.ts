@@ -12,7 +12,8 @@ export enum ETokenReduxActions {
   FETCH_TOKEN_VAULTS = "FETCH_TOKEN_VAULTS",
   FETCH_TOKEN_APPROVED_AMOUNT = "FETCH_TOKEN_APPROVED_AMOUNT",
   APPROVE_TOKEN_SPENDING = "APPROVE_TOKEN_SPENDING",
-  FETCH_ALL_AVAILABLE_VAULTS = "FETCH_ALL_AVAILABLE_VAULTS"
+  FETCH_ALL_AVAILABLE_VAULTS = "FETCH_ALL_AVAILABLE_VAULTS",
+  CLEAR_ALL_TOKENS_STATE = "CLEAR_ALL_TOKENS_STATE"
 }
 
 export type SetTokenBalanceAction = ReduxAction<ETokenReduxActions.SET_TOKEN_BALANCE, {
@@ -36,11 +37,14 @@ export type SetTokenApprovedAmount = ReduxAction<ETokenReduxActions.SET_TOKEN_AP
   amount: BigNumber;
 }>
 
+export type ClearAllTokensStateAction = ReduxAction<ETokenReduxActions.CLEAR_ALL_TOKENS_STATE, any>
+
 export type TokenReduxActions =
   SetTokenBalanceAction |
   SetTokenDetailsAction |
   AddTokenVault |
-  SetTokenApprovedAmount
+  SetTokenApprovedAmount |
+  ClearAllTokensStateAction
 
 export interface ITokenReduxState {
   vaults?: {

@@ -17,11 +17,11 @@ msgstr ""
 msgid "API Errored"
 msgstr "API Errored"
 
-#: src/components/organisms/Vault/vault.organism.tsx:307
+#: src/components/organisms/Vault/vault.organism.tsx:475
 msgid "APY"
 msgstr "APY"
 
-#: src/components/organisms/Vault/vault.organism.tsx:434
+#: src/components/organisms/Vault/vault.organism.tsx:368
 msgid "Approve"
 msgstr "Approve"
 
@@ -29,7 +29,7 @@ msgstr "Approve"
 msgid "Approve connecting with {0}"
 msgstr "Approve connecting with {0}"
 
-#: src/components/organisms/Vault/vault.organism.tsx:310
+#: src/components/organisms/Vault/vault.organism.tsx:478
 msgid "Available to deposit"
 msgstr "Available to deposit"
 
@@ -37,15 +37,15 @@ msgstr "Available to deposit"
 #~ msgid "Available to stake"
 #~ msgstr "Available to stake"
 
-#: src/components/organisms/Vault/vault.organism.tsx:453
+#: src/components/organisms/Vault/vault.organism.tsx:387
 msgid "Available to withdraw"
 msgstr "Available to withdraw"
 
-#: src/components/organisms/Vault/vault.organism.tsx:402
+#: src/components/organisms/Vault/vault.organism.tsx:336
 msgid "Balance"
 msgstr "Balance"
 
-#: src/components/organisms/Vault/vault.organism.tsx:296
+#: src/components/organisms/Vault/vault.organism.tsx:465
 msgid "Buy token"
 msgstr "Buy token"
 
@@ -53,7 +53,7 @@ msgstr "Buy token"
 msgid "Change wallet"
 msgstr "Change wallet"
 
-#: src/components/pages/Vaults/vaults.page.tsx:166
+#: src/components/organisms/CCDialog/ccDialog.organism.tsx:117
 msgid "Connect wallet"
 msgstr "Connect wallet"
 
@@ -65,19 +65,19 @@ msgstr "Copied!"
 msgid "Copy address"
 msgstr "Copy address"
 
-#: src/components/organisms/Vault/vault.organism.tsx:445
+#: src/components/organisms/Vault/vault.organism.tsx:379
 msgid "Deposit"
 msgstr "Deposit"
 
-#: src/components/organisms/Vault/vault.organism.tsx:355
+#: src/components/organisms/Vault/vault.organism.tsx:289
 msgid "Deposit limit reached, stay tuned till we increase the limit again"
 msgstr "Deposit limit reached, stay tuned till we increase the limit again"
 
-#: src/components/organisms/Vault/vault.organism.tsx:366
+#: src/components/organisms/Vault/vault.organism.tsx:300
 msgid "Deposit {tokenLabel} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield."
 msgstr "Deposit {tokenLabel} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield."
 
-#: src/components/organisms/Vault/vault.organism.tsx:319
+#: src/components/organisms/Vault/vault.organism.tsx:297
 #~ msgid "Deposit {token} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield."
 #~ msgstr "Deposit {token} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield."
 
@@ -85,7 +85,7 @@ msgstr "Deposit {tokenLabel} token into this vault and we will put it to good us
 #~ msgid "Deposited"
 #~ msgstr "Deposited"
 
-#: src/components/organisms/Vault/vault.organism.tsx:309
+#: src/components/organisms/Vault/vault.organism.tsx:477
 msgid "Deposited value"
 msgstr "Deposited value"
 
@@ -97,21 +97,25 @@ msgstr "Documentation"
 msgid "Error connecting"
 msgstr "Error connecting"
 
-#: src/redux/tokens/tokens.redux.actions.ts:144
+#: src/redux/tokens/tokens.redux.actions.ts:152
 msgid "Failed approving token for spending"
 msgstr "Failed approving token for spending"
 
-#: src/redux/vaults/vaults.redux.actions.ts:146
+#: src/redux/vaults/vaults.redux.actions.ts:157
 msgid "Failed depositing to the vault"
 msgstr "Failed depositing to the vault"
 
-#: src/redux/vaults/vaults.redux.actions.ts:191
+#: src/redux/vaults/vaults.redux.actions.ts:202
 msgid "Failed withdrawing from the vault"
 msgstr "Failed withdrawing from the vault"
 
 #: src/components/pages/Home/home.page.tsx:33
 msgid "Generate more yield with Tesseract."
 msgstr "Generate more yield with Tesseract."
+
+#: src/components/organisms/CCDialog/ccDialog.organism.tsx:81
+msgid "Go to {currentChainLabel} app"
+msgstr "Go to {currentChainLabel} app"
 
 #: src/components/pages/Home/home.page.tsx:41
 msgid "In collaboration with the Yearn team we bring you the true power of DeFi by using the best Yearn strategies adapted for Polygon. Add liquidity to Tesseract and generate juicy yields."
@@ -133,7 +137,7 @@ msgstr "Join the community"
 msgid "Launch app"
 msgstr "Launch app"
 
-#: src/components/organisms/Vault/vault.organism.tsx:376
+#: src/components/organisms/Vault/vault.organism.tsx:310
 msgid "Link to contract"
 msgstr "Link to contract"
 
@@ -141,11 +145,11 @@ msgstr "Link to contract"
 msgid "Loading"
 msgstr "Loading"
 
-#: src/components/pages/Vaults/vaults.page.tsx:242
+#: src/components/pages/Vaults/vaults.page.tsx:205
 msgid "Loading Vaults, this will take some time, please don't refresh..."
 msgstr "Loading Vaults, this will take some time, please don't refresh..."
 
-#: src/components/organisms/Vault/vault.organism.tsx:279
+#: src/components/organisms/Vault/vault.organism.tsx:449
 msgid "NEW"
 msgstr "NEW"
 
@@ -157,7 +161,7 @@ msgstr "No ethereum provider found, please install it"
 msgid "No provider"
 msgstr "No provider"
 
-#: src/components/organisms/Vault/vault.organism.tsx:280
+#: src/components/organisms/Vault/vault.organism.tsx:450
 msgid "OLD"
 msgstr "OLD"
 
@@ -194,33 +198,41 @@ msgstr "Something went wrong on the API"
 msgid "Sorry, an unknown error occurred"
 msgstr "Sorry, an unknown error occurred"
 
-#: src/components/pages/Vaults/vaults.page.tsx:134
-msgid "Switch to Polygon Network"
-msgstr "Switch to Polygon Network"
+#: src/components/pages/Vaults/vaults.page.tsx:86
+#~ msgid "Switch to Polygon Network"
+#~ msgstr "Switch to Polygon Network"
 
-#: src/components/pages/Vaults/vaults.page.tsx:190
+#: src/components/organisms/CCDialog/ccDialog.organism.tsx:71
+msgid "Switch to {wantedNetworkLabel} Network"
+msgstr "Switch to {wantedNetworkLabel} Network"
+
+#: src/components/pages/Vaults/vaults.page.tsx:145
 msgid "TVL"
 msgstr "TVL"
 
-#: src/components/pages/Vaults/vaults.page.tsx:122
-msgid "This app supports{0}. You are currently on unsupported network"
-msgstr "This app supports{0}. You are currently on unsupported network"
+#: src/components/organisms/CCDialog/ccDialog.organism.tsx:59
+msgid "This app supports {wantedNetworkLabel}. Your wallet is currently on"
+msgstr "This app supports {wantedNetworkLabel}. Your wallet is currently on"
 
-#: src/components/organisms/Vault/vault.organism.tsx:387
+#: src/components/pages/Vaults/vaults.page.tsx:74
+#~ msgid "This app supports{0}. You are currently on unsupported network"
+#~ msgstr "This app supports{0}. You are currently on unsupported network"
+
+#: src/components/organisms/Vault/vault.organism.tsx:321
 msgid "This vault is being retired. A new, better, more optimised vault is coming in its place. Please withdraw your assets below by clicking \"withdraw all\" and deposit them to the <0>new</0> vault."
 msgstr "This vault is being retired. A new, better, more optimised vault is coming in its place. Please withdraw your assets below by clicking \"withdraw all\" and deposit them to the <0>new</0> vault."
 
-#: src/components/pages/Vaults/vaults.page.tsx:196
+#: src/components/pages/Vaults/vaults.page.tsx:151
 msgid "Total Deposited Value"
 msgstr "Total Deposited Value"
 
-#: src/components/organisms/Vault/vault.organism.tsx:308
+#: src/components/organisms/Vault/vault.organism.tsx:476
 msgid "Total value locked"
 msgstr "Total value locked"
 
-#: src/redux/tokens/tokens.redux.actions.ts:133
-#: src/redux/vaults/vaults.redux.actions.ts:136
-#: src/redux/vaults/vaults.redux.actions.ts:181
+#: src/redux/tokens/tokens.redux.actions.ts:141
+#: src/redux/vaults/vaults.redux.actions.ts:147
+#: src/redux/vaults/vaults.redux.actions.ts:192
 msgid "Transactions hash: {txHash}"
 msgstr "Transactions hash: {txHash}"
 
@@ -248,9 +260,9 @@ msgstr "Unsupported network"
 msgid "View on explorer"
 msgstr "View on explorer"
 
-#: src/redux/tokens/tokens.redux.actions.ts:126
-#: src/redux/vaults/vaults.redux.actions.ts:126
-#: src/redux/vaults/vaults.redux.actions.ts:171
+#: src/redux/tokens/tokens.redux.actions.ts:134
+#: src/redux/vaults/vaults.redux.actions.ts:137
+#: src/redux/vaults/vaults.redux.actions.ts:182
 msgid "Waiting for confirmations"
 msgstr "Waiting for confirmations"
 
@@ -258,19 +270,23 @@ msgstr "Waiting for confirmations"
 msgid "Wallet"
 msgstr "Wallet"
 
-#: src/components/pages/Vaults/vaults.page.tsx:158
+#: src/components/organisms/Vault/vault.organism.tsx:276
+msgid "Wallet connection required"
+msgstr "Wallet connection required"
+
+#: src/components/organisms/CCDialog/ccDialog.organism.tsx:109
 msgid "Wallet connection to {0} required"
 msgstr "Wallet connection to {0} required"
 
-#: src/components/organisms/Vault/vault.organism.tsx:484
+#: src/components/organisms/Vault/vault.organism.tsx:418
 msgid "Withdraw"
 msgstr "Withdraw"
 
-#: src/components/organisms/Vault/vault.organism.tsx:496
+#: src/components/organisms/Vault/vault.organism.tsx:430
 msgid "Withdraw all"
 msgstr "Withdraw all"
 
-#: src/components/pages/Vaults/vaults.page.tsx:143
+#: src/components/organisms/CCDialog/ccDialog.organism.tsx:93
 msgid "You may need to manually switch network via your wallet."
 msgstr "You may need to manually switch network via your wallet."
 
@@ -278,6 +294,10 @@ msgstr "You may need to manually switch network via your wallet."
 #~ msgid "Your staked LP"
 #~ msgstr "Your staked LP"
 
-#: src/components/pages/Vaults/vaults.page.tsx:181
+#: src/components/organisms/CCDialog/ccDialog.organism.tsx:51
+msgid "unsupported network"
+msgstr "unsupported network"
+
+#: src/components/pages/Vaults/vaults.page.tsx:136
 msgid "{0} Vaults"
 msgstr "{0} Vaults"

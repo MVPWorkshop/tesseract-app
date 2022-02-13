@@ -8,9 +8,10 @@ import {
 import { UserRejectedRequestError as WalletConnectRejectedRequestError } from "@web3-react/walletconnect-connector";
 import { EErrorTypes, WalletConnectorError } from "../types/error.types";
 import { EChainId } from "../types/web3.types";
-import { EXPLORER_URLS } from "../constants/web3.constants";
+import { EXPLORER_URLS, arbirtrayChainDataById, supportedChainIds } from "../constants/web3.constants";
 import BigDecimal from "js-big-decimal";
 import { BigNumber } from "ethers";
+import { setMulticallAddress } from "ethers-multicall";
 
 class Web3Util {
   public static isActiveChainSupported(chainId: Nullable<number>): boolean {
@@ -76,6 +77,14 @@ class Web3Util {
     } else {
       return actualValue;
     }
+  }
+
+  public static initMulticall(): void {
+    supportedChainIds.forEach(chainId => {
+      const multicallAddress = arbirtrayChainDataById[chainId].multicallAddress;
+
+      setMulticallAddress(chainId, multicallAddress);
+    });
   }
 }
 

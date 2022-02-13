@@ -9,7 +9,8 @@ const Separator: React.FC<ISeparatorProps> = (props) => {
     vertical,
     marginAfter,
     marginBefore,
-    className
+    className,
+    invisible
   } = props;
 
   const margins = {
@@ -24,6 +25,7 @@ const Separator: React.FC<ISeparatorProps> = (props) => {
       className={classes(
         styles.separator,
         vertical ? styles.vertical : styles.horizontal,
+        [!!invisible, styles.invisible],
         className
       )}
       style={{...margins}}

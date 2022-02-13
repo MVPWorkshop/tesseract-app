@@ -2,6 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import "./shared/styles/index.scss";
+import Web3Util from "./shared/utils/web3.util";
+
+Web3Util.initMulticall();
 
 ReactDOM.render(
   <App />,
