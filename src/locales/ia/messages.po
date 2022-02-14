@@ -17,7 +17,7 @@ msgstr ""
 msgid "API Errored"
 msgstr "Problem s API"
 
-#: src/components/organisms/Vault/vault.organism.tsx:475
+#: src/components/organisms/Vault/vault.organism.tsx:477
 msgid "APY"
 msgstr "APY"
 
@@ -29,7 +29,7 @@ msgstr "Utvrdi"
 msgid "Approve connecting with {0}"
 msgstr "Utvrditi sjedinjenje sò {0}"
 
-#: src/components/organisms/Vault/vault.organism.tsx:478
+#: src/components/organisms/Vault/vault.organism.tsx:480
 msgid "Available to deposit"
 msgstr "Dostųpno k depozitovanju"
 
@@ -45,7 +45,7 @@ msgstr "Dostųpno k zabranju"
 msgid "Balance"
 msgstr "Saldo"
 
-#: src/components/organisms/Vault/vault.organism.tsx:465
+#: src/components/organisms/Vault/vault.organism.tsx:466
 msgid "Buy token"
 msgstr "Kupi token"
 
@@ -85,7 +85,7 @@ msgstr "Stvori depozit s {tokenLabel} vò tutoj valutě a my bųdemo njejų dobr
 #~ msgid "Deposited"
 #~ msgstr "Depozit stvorjeny"
 
-#: src/components/organisms/Vault/vault.organism.tsx:477
+#: src/components/organisms/Vault/vault.organism.tsx:479
 msgid "Deposited value"
 msgstr "Depozitovana cěnnosť"
 
@@ -118,8 +118,12 @@ msgid "Go to {currentChainLabel} app"
 msgstr ""
 
 #: src/components/pages/Home/home.page.tsx:41
-msgid "In collaboration with the Yearn team we bring you the true power of DeFi by using the best Yearn strategies adapted for Polygon. Add liquidity to Tesseract and generate juicy yields."
-msgstr "My råbotali jesmo s grupojų yEarn i prinosimo Vam čistų silų DeFi sò pomoćjų najlěpših yEarn strategij prisposobjenyh do Polygona. Dodavajte denary do Tesserakta i tvorite krasive dohody."
+#~ msgid "In collaboration with the Yearn team we bring you the true power of DeFi by using the best Yearn strategies adapted for Polygon. Add liquidity to Tesseract and generate juicy yields."
+#~ msgstr "My råbotali jesmo s grupojų yEarn i prinosimo Vam čistų silų DeFi sò pomoćjų najlěpših yEarn strategij prisposobjenyh do Polygona. Dodavajte denary do Tesserakta i tvorite krasive dohody."
+
+#: src/components/pages/Home/home.page.tsx:41
+msgid "In collaboration with the Yearn team, we bring you the true power of DeFi by using the best Yearn strategies adapted for selected EVM compatible chains. Add liquidity to Tesseract and generate juicy yields."
+msgstr ""
 
 #: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:135
 msgid "Initializing"
@@ -226,7 +230,7 @@ msgstr ""
 msgid "Total Deposited Value"
 msgstr "Cěla depozitovana cěnnosť"
 
-#: src/components/organisms/Vault/vault.organism.tsx:476
+#: src/components/organisms/Vault/vault.organism.tsx:478
 msgid "Total value locked"
 msgstr "Cěla blokovana cěnnosť"
 

@@ -39,7 +39,7 @@ const HomePage: React.FC = () => {
               className={styles.titleBody}
             >
               <Trans>
-                In collaboration with the Yearn team we bring you the true power of DeFi by using the best Yearn strategies adapted for Polygon. Add liquidity to Tesseract and generate juicy yields.
+                In collaboration with the Yearn team, we bring you the true power of DeFi by using the best Yearn strategies adapted for selected EVM compatible chains. Add liquidity to Tesseract and generate juicy yields.
               </Trans>
             </Typography>
             <SocialLinks
