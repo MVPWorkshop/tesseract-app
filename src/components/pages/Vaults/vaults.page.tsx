@@ -142,13 +142,13 @@ const VaultsPage: React.FC<RouteComponentProps<IVaultPageParams>> = (props) => {
               variant={ETypographyVariant.TITLE}
               element={"h3"}
             >
-              <Trans>TVL</Trans>&nbsp;${formatAssetDisplayValue(totalTvl.getValue())}
+              <Trans>TVL</Trans>&nbsp;{formatAssetDisplayValue(totalTvl.getValue(), {humanize: true})}
             </Typography>
             <Typography
               variant={ETypographyVariant.TITLE}
               element={"h5"}
             >
-              <Trans>Total Deposited Value</Trans>&nbsp;${formatAssetDisplayValue(totalDeposited.getValue())}
+              <Trans>Total Deposited Value</Trans>&nbsp;{formatAssetDisplayValue(totalDeposited.getValue(), {humanize: true})}
             </Typography>
           </div>
           { BANNER_ENABLED &&
