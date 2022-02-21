@@ -83,7 +83,9 @@ export function fetchVaultDetails(vaultAddress: string, chainId: EChainId, provi
       chainDataBatch.batch(vaultContract.pricePerShare());
 
       const [symbol, apiVersion, depositLimit, pricePerShare] = await chainDataBatch.execute();
-      const apy = await apiService.getVaultAPY(symbol, apiVersion, chainId);
+
+      const range = chainId == EChainId.POLYGON_MAINNET ? 1 : undefined;
+      const apy = await apiService.getVaultAPY(symbol, apiVersion, chainId, range);
 
       dispatch(setVaultDetails(vaultAddress, symbol, parseFloat(apy), depositLimit, pricePerShare));
       dispatch(ActionUtil.successAction(EVaultReduxActions.FETCH_VAULT_DETAILS, vaultAddress));

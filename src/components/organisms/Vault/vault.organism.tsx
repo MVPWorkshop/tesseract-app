@@ -181,7 +181,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     }
   };
 
-  const vaultAPY = (vaultData && vaultData.apy) && vaultData.apy * 100;
+  const vaultAPY = (vaultData && vaultData.apy) ? (new BigDecimal(vaultData.apy * 100)) : undefined;
   const tvl = (vaultData && vaultData.tvl && priceUSD && decimals) ? getTokenInUSD(vaultData.tvl, priceUSD, decimals) : undefined;
   const formattedBalance = (balance && decimals) ? Web3Util.formatTokenNumber(balance, decimals, 6) : undefined;
   const formattedUserShares = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInFormattedToken(vaultData.userShares, vaultData.sharePrice, decimals).round(6) : undefined;
@@ -484,7 +484,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
                 <tr>
                   <td>
                     <Skeleton loading={isFetchingAnyData}>
-                      {formatAssetDisplayValue(vaultAPY?.toPrecision(3))}%
+                      {formatAssetDisplayValue(vaultAPY?.round(2).getValue())}%
                     </Skeleton>
                   </td>
                   <td>
