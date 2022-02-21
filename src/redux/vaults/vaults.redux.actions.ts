@@ -84,7 +84,7 @@ export function fetchVaultDetails(vaultAddress: string, chainId: EChainId, provi
 
       const [symbol, apiVersion, depositLimit, pricePerShare] = await chainDataBatch.execute();
 
-      const range = chainId == EChainId.POLYGON_MAINNET ? 1 : undefined;
+      const range = chainId === EChainId.POLYGON_MAINNET ? 1 : undefined;
       const apy = await apiService.getVaultAPY(symbol, apiVersion, chainId, range);
 
       dispatch(setVaultDetails(vaultAddress, symbol, parseFloat(apy), depositLimit, pricePerShare));
