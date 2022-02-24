@@ -489,7 +489,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   </td>
                   <td>
                     <Skeleton loading={isFetchingAnyData}>
-                      ${formatAssetDisplayValue(tvl?.getValue())}
+                      {formatAssetDisplayValue(tvl?.getValue(), {humanize: true})}
                     </Skeleton>
                   </td>
                   <td>
