@@ -53,7 +53,7 @@ export function formatAssetDisplayValue(value: any, options={humanize: false}) {
   } else {
     // eslint-disable-next-line 
     if (value == 0) {
-      return 0;
+      return options.humanize ? "$0" : 0; 
     } else {
       return options.humanize ? humanizeValue(value) : value;
     }
