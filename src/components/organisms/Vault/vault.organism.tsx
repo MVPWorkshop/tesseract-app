@@ -270,8 +270,8 @@ const Vault: React.FC<IVaultProps> = (props) => {
       if (value) {
         handler(value);
       }
-    }
-  }
+    };
+  };
 
   const renderBalance = () => {
     const balanceDisplay = `${formatAssetDisplayValue(formattedBalance?.getValue())} ${token}`;
