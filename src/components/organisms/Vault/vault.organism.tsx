@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, useEffect, useState, Fragment } from "react";
 import styles from "./vault.organism.module.scss";
-import { IVaultProps } from "./vault.organism.types";
+import { ISetBalanceOptions, IVaultProps } from "./vault.organism.types";
 import { tokenIcons } from "../../../shared/constants/common.constants";
 import { Col, Row, Table } from "react-bootstrap";
 import { Trans } from "@lingui/macro";
@@ -263,17 +263,15 @@ const Vault: React.FC<IVaultProps> = (props) => {
 
   const buyTokenUrl = buyTokenUrlByTokenAndNetwork[token][chainId];
 
-  const setMaxBalanceDepositValue = () => {
-    if (formattedBalance?.getValue()) {
-      onDepositValueChange(formattedBalance?.getValue());
-    }
-  };
+  const setAvailableValueHandler = (options: ISetBalanceOptions) => {
+    const { value, handler } = options;
 
-  const setMaxUserShareWithdrawValue = () => {
-    if (formattedUserShares?.getValue()) {
-      onWithdrawValueChange(formattedUserShares?.getValue());
+    return () => {
+      if (value) {
+        handler(value);
+      }
     }
-  };
+  }
 
   const renderBalance = () => {
     const balanceDisplay = `${formatAssetDisplayValue(formattedBalance?.getValue())} ${token}`;
@@ -281,7 +279,10 @@ const Vault: React.FC<IVaultProps> = (props) => {
       return (
         <span
           className={classes(styles.balanceLabel)}
-          onClick={setMaxBalanceDepositValue}
+          onClick={setAvailableValueHandler({
+            value: formattedBalance?.getValue(),
+            handler: onDepositValueChange
+          })}
         >
           {balanceDisplay}
         </span>
@@ -299,7 +300,10 @@ const Vault: React.FC<IVaultProps> = (props) => {
       return (
         <span
           className={classes(styles.balanceLabel)}
-          onClick={setMaxUserShareWithdrawValue}
+          onClick={setAvailableValueHandler({
+            value: formattedUserShares?.getValue(),
+            handler: onWithdrawValueChange,
+          })}
         >
           {userShareText}
         </span>

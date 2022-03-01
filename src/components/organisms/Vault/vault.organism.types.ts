@@ -12,3 +12,12 @@ export interface IVaultProps {
   account: Nullable<string>;
   provider: JsonRpcProvider;
 }
+
+export interface IOnChangeHandler {
+  (value: string): void
+}
+
+export interface ISetBalanceOptions {
+  value?: string;
+  handler: IOnChangeHandler;
+}
