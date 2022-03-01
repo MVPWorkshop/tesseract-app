@@ -301,7 +301,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
         <span
           className={classes(styles.balanceLabel)}
           onClick={setAvailableValueHandler({
-            value: formattedUserShares?.getValue(),
+            value: userShareValue,
             handler: onWithdrawValueChange,
           })}
         >
