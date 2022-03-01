@@ -268,34 +268,48 @@ const Vault: React.FC<IVaultProps> = (props) => {
     if (formattedBalance?.getValue()) {
       onDepositValueChange(formattedBalance?.getValue());
     }
-  }
+  };
 
   const setMaxUserShareWithdrawValue = (e: any) => {
     e.preventDefault();
     if (formattedUserShares?.getValue()) {
       onWithdrawValueChange(formattedUserShares?.getValue())
     }
-  }
+  };
 
   const renderBalance = () => {
     const balanceDisplay = `${formatAssetDisplayValue(formattedBalance?.getValue())} ${token}`;
     if (balance && !isZero(balance)) {
-      return <a onClick={setMaxBalanceDepositValue} href="#">{balanceDisplay}</a>;
+      return (
+        <span
+          className={classes(styles.balance)}
+          onClick={setMaxBalanceDepositValue}
+        >
+          {balanceDisplay}
+        </span >
+      )
     }
 
     return balanceDisplay;
-  }
+  };
 
   const renderUserShares = () => {
     const userShareValue = formattedUserShares?.getValue();
     const userShareText = `${userShareValue} ${token}`;
 
     if (vaultData?.userShares && !isZero(vaultData?.userShares)) {
-      return <a href="#" onClick={setMaxUserShareWithdrawValue}>{userShareText}</a>;
+      return (
+        <span
+          className={classes(styles.balance)}
+          onClick={setMaxUserShareWithdrawValue}
+        >
+          {userShareText}
+        </span>
+      );
     }
 
     return userShareText;
-  }
+  };
 
   const renderDropdownBodyContent = () => {
     if (!isSignerAvailable) {
@@ -367,7 +381,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
           <Col className="mb-4 mb-md-0">
             <div className="mb-2">
               <Typography variant={ETypographyVariant.BODY} small={true}>
-                <Trans>Balance (test)</Trans>: &nbsp;
+                <Trans>Balance</Trans>: &nbsp;
                 {renderBalance()}
               </Typography>
             </div>

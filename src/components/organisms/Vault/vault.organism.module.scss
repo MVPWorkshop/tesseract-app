@@ -146,6 +146,10 @@
 
       .content {
         padding-bottom: 45px;
+
+        .balance {
+          cursor: pointer;
+        }
       }
     }
   }
