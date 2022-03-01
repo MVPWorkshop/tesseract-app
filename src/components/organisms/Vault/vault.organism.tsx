@@ -263,15 +263,13 @@ const Vault: React.FC<IVaultProps> = (props) => {
 
   const buyTokenUrl = buyTokenUrlByTokenAndNetwork[token][chainId];
 
-  const setMaxBalanceDepositValue = (e: any) => {
-    e.preventDefault();
+  const setMaxBalanceDepositValue = () => {
     if (formattedBalance?.getValue()) {
       onDepositValueChange(formattedBalance?.getValue());
     }
   };
 
-  const setMaxUserShareWithdrawValue = (e: any) => {
-    e.preventDefault();
+  const setMaxUserShareWithdrawValue = () => {
     if (formattedUserShares?.getValue()) {
       onWithdrawValueChange(formattedUserShares?.getValue());
     }
@@ -282,11 +280,11 @@ const Vault: React.FC<IVaultProps> = (props) => {
     if (balance && !isZero(balance)) {
       return (
         <span
-          className={classes(styles.balance)}
+          className={classes(styles.balanceLabel)}
           onClick={setMaxBalanceDepositValue}
         >
           {balanceDisplay}
-        </span >
+        </span>
       );
     }
 
@@ -300,7 +298,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     if (vaultData?.userShares && !isZero(vaultData?.userShares)) {
       return (
         <span
-          className={classes(styles.balance)}
+          className={classes(styles.balanceLabel)}
           onClick={setMaxUserShareWithdrawValue}
         >
           {userShareText}
