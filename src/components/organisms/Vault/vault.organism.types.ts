@@ -18,6 +18,6 @@ export interface IOnChangeHandler {
 }
 
 export interface ISetBalanceOptions {
-  value?: string;
+  value: Nullable<string>;
   handler: IOnChangeHandler;
 }

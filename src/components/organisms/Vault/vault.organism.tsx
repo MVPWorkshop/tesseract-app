@@ -274,7 +274,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
   };
 
   const renderBalance = () => {
-    const balanceDisplay = `${formatAssetDisplayValue(formattedBalance?.getValue())} ${token}`;
+    const balanceText = `${formatAssetDisplayValue(formattedBalance?.getValue())} ${token}`;
     if (balance && !isZero(balance)) {
       return (
         <span
@@ -284,12 +284,12 @@ const Vault: React.FC<IVaultProps> = (props) => {
             handler: onDepositValueChange
           })}
         >
-          {balanceDisplay}
+          {balanceText}
         </span>
       );
     }
 
-    return balanceDisplay;
+    return balanceText;
   };
 
   const renderUserShares = () => {
