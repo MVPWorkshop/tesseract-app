@@ -113,8 +113,8 @@ const Vault: React.FC<IVaultProps> = (props) => {
   });
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [depositValue, setDepositValue] = useState<{actual: BigDecimal, percent: number}>({actual: new BigDecimal(0), percent: 0});
-  const [withdrawValue, setWithdrawValue] = useState<{actual: BigDecimal, percent: number}>({actual: new BigDecimal(0), percent: 0});
+  const [depositValue, setDepositValue] = useState<{ actual: BigDecimal, percent: number }>({ actual: new BigDecimal(0), percent: 0 });
+  const [withdrawValue, setWithdrawValue] = useState<{ actual: BigDecimal, percent: number }>({ actual: new BigDecimal(0), percent: 0 });
 
   useEffect(() => {
     if (account && vaultAddress) {
@@ -162,7 +162,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
   };
 
   const isDepositSomeAssetsDisabled = !(vaultAddress && account && chainId && isSignerAvailable && depositValue.actual && decimals);
-  const depositAssets =  () => {
+  const depositAssets = () => {
     if (!isDepositSomeAssetsDisabled) {
       const amountToSpend = parseUnits(depositValue.actual.getValue(), decimals);
       dispatch(depositAssetsIntoVault(token, vaultAddress!, account!, amountToSpend, signer!, chainId));
@@ -181,10 +181,10 @@ const Vault: React.FC<IVaultProps> = (props) => {
     }
   };
 
-  const vaultAPY = (vaultData && vaultData.apy) ? (new BigDecimal(vaultData.apy * 100)) : undefined;
-  const tvl = (vaultData && vaultData.tvl && priceUSD && decimals) ? getTokenInUSD(vaultData.tvl, priceUSD, decimals) : undefined;
-  const formattedBalance = (balance && decimals) ? Web3Util.formatTokenNumber(balance, decimals, 6) : undefined;
-  const formattedUserShares = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInFormattedToken(vaultData.userShares, vaultData.sharePrice, decimals).round(6) : undefined;
+  const vaultAPY = (vaultData && vaultData.apy) ? (new BigDecimal(vaultData.apy * 100)) : null;
+  const tvl = (vaultData && vaultData.tvl && priceUSD && decimals) ? getTokenInUSD(vaultData.tvl, priceUSD, decimals) : null;
+  const formattedBalance = (balance && decimals) ? Web3Util.formatTokenNumber(balance, decimals, 6) : null;
+  const formattedUserShares = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInFormattedToken(vaultData.userShares, vaultData.sharePrice, decimals).round(6) : null;
   const maxDepositAmount = (balance && decimals && vaultData && vaultData.depositLimit) ?
     Web3Util.formatTokenNumber(getMaxDepositAmount(balance, vaultData.depositLimit), decimals) : new BigDecimal(0);
   const isDepositDisabled = isZero(maxDepositAmount);
@@ -226,6 +226,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
   };
 
   const onWithdrawValueChange = (value: string) => {
+    console.log("THE VALUE", value);
     if (decimals && hasMoreDecimalsThan(value, decimals)) {
       return;
     }
@@ -263,11 +264,45 @@ const Vault: React.FC<IVaultProps> = (props) => {
 
   const buyTokenUrl = buyTokenUrlByTokenAndNetwork[token][chainId];
 
+  const setMaxBalanceDepositValue = (e: any) => {
+    e.preventDefault();
+    if (formattedBalance?.getValue()) {
+      onDepositValueChange(formattedBalance?.getValue());
+    }
+  }
+
+  const setMaxUserShareWithdrawValue = (e: any) => {
+    e.preventDefault();
+    if (formattedUserShares?.getValue()) {
+      onWithdrawValueChange(formattedUserShares?.getValue())
+    }
+  }
+
+  const renderBalance = () => {
+    const balanceDisplay = `${formatAssetDisplayValue(formattedBalance?.getValue())} ${token}`;
+    if (balance && !isZero(balance)) {
+      return <a onClick={setMaxBalanceDepositValue} href="#">{balanceDisplay}</a>;
+    }
+
+    return balanceDisplay;
+  }
+
+  const renderUserShares = () => {
+    const userShareValue = formattedUserShares?.getValue();
+    const userShareText = `${userShareValue} ${token}`;
+
+    if (vaultData?.userShares && !isZero(vaultData?.userShares)) {
+      return <a href="#" onClick={setMaxUserShareWithdrawValue}>{userShareText}</a>;
+    }
+
+    return userShareText;
+  }
+
   const renderDropdownBodyContent = () => {
     if (!isSignerAvailable) {
       return (
         <Fragment>
-          <Separator marginAfter={55}/>
+          <Separator marginAfter={55} />
           <Typography
             element={"p"}
             textAlign={"center"}
@@ -281,7 +316,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
 
     return (
       <Fragment>
-        { isZero(vaultData?.depositLimit || 0) ?
+        {isZero(vaultData?.depositLimit || 0) ?
           <Typography
             color={EColor.RED}
             element={"p"}
@@ -289,7 +324,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
             <Trans>Deposit limit reached, stay tuned till we increase the limit again</Trans>
           </Typography> : undefined
         }
-        <Separator marginAfter={55}/>
+        <Separator marginAfter={55} />
         <Row>
           <Col>
             <Typography
@@ -314,28 +349,27 @@ const Vault: React.FC<IVaultProps> = (props) => {
               </Link>
             </Typography>
           </Col>
-          { isVaultObsolete &&
-          <Col>
-            <div className={styles.warningContent}>
-              <Typography textAlign={"center"}>
-                <Trans>
-                  This vault is being retired. A new, better, more optimised vault is coming in its place.
-                  Please withdraw your assets below by clicking "withdraw all"
-                  and deposit them to the <span className="color-green">new</span> vault.
-                </Trans>
-              </Typography>
-            </div>
-          </Col>
+          {isVaultObsolete &&
+            <Col>
+              <div className={styles.warningContent}>
+                <Typography textAlign={"center"}>
+                  <Trans>
+                    This vault is being retired. A new, better, more optimised vault is coming in its place.
+                    Please withdraw your assets below by clicking "withdraw all"
+                    and deposit them to the <span className="color-green">new</span> vault.
+                  </Trans>
+                </Typography>
+              </div>
+            </Col>
           }
         </Row>
-        <br/>
+        <br />
         <Row>
           <Col className="mb-4 mb-md-0">
             <div className="mb-2">
               <Typography variant={ETypographyVariant.BODY} small={true}>
-                <Trans>Balance</Trans>:
-                &nbsp;
-                {`${formatAssetDisplayValue(formattedBalance?.getValue())} ${token}`}
+                <Trans>Balance (test)</Trans>: &nbsp;
+                {renderBalance()}
               </Typography>
             </div>
             <Input
@@ -386,7 +420,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
               <Typography variant={ETypographyVariant.BODY} small={true}>
                 <Trans>Available to withdraw</Trans>:
                 &nbsp;
-                {`${formattedUserShares?.getValue()} ${token}`}
+                {renderUserShares()}
               </Typography>
             </div>
             <Input
@@ -452,7 +486,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
           }
           <div className={styles.header} onClick={toggleDropdown}>
             <div className={styles.tokenLogoContainer}>
-              <TokenLogo className="d-inline mr-2"/>
+              <TokenLogo className="d-inline mr-2" />
               <div className="d-flex flex-column">
                 <Typography
                   fontWeight={EFontWeight.SEMI_BOLD}
@@ -489,7 +523,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
                   </td>
                   <td>
                     <Skeleton loading={isFetchingAnyData}>
-                      {formatAssetDisplayValue(tvl?.getValue(), {humanize: true})}
+                      {formatAssetDisplayValue(tvl?.getValue(), { humanize: true })}
                     </Skeleton>
                   </td>
                   <td>
@@ -512,7 +546,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
               loading={isFetchingAnyData}
               disabled={isFetchingAnyData}
             >
-              <DropdownArrow isOpen={isOpen}/>
+              <DropdownArrow isOpen={isOpen} />
             </Button>
           </div>
           <div className={classes(styles.body, [isOpen, styles.open], [!isSignerAvailable, styles.noWallet])}>
@@ -522,8 +556,8 @@ const Vault: React.FC<IVaultProps> = (props) => {
           </div>
         </div>
       </div>
-      <div className={classes(styles.indicator, [isOpen, styles.open])}/>
-      {!isOpen && <div className={styles.corner}/>}
+      <div className={classes(styles.indicator, [isOpen, styles.open])} />
+      {!isOpen && <div className={styles.corner} />}
     </div>
   );
 };
