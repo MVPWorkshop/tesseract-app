@@ -226,7 +226,6 @@ const Vault: React.FC<IVaultProps> = (props) => {
   };
 
   const onWithdrawValueChange = (value: string) => {
-    console.log("THE VALUE", value);
     if (decimals && hasMoreDecimalsThan(value, decimals)) {
       return;
     }
