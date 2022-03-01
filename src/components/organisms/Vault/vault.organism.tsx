@@ -273,7 +273,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const setMaxUserShareWithdrawValue = (e: any) => {
     e.preventDefault();
     if (formattedUserShares?.getValue()) {
-      onWithdrawValueChange(formattedUserShares?.getValue())
+      onWithdrawValueChange(formattedUserShares?.getValue());
     }
   };
 
@@ -287,7 +287,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
         >
           {balanceDisplay}
         </span >
-      )
+      );
     }
 
     return balanceDisplay;
