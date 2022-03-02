@@ -1,4 +1,4 @@
-import {i18n} from "@lingui/core";
+import { i18n } from "@lingui/core";
 import BigDecimal from "js-big-decimal";
 import { BigNumber } from "ethers";
 
@@ -44,16 +44,16 @@ export function sleep(ms: number) {
 }
 
 export function humanizeValue(value: number) {
-  return i18n.number(value, { style: "currency", currency: "USD"});
+  return i18n.number(value, { style: "currency", currency: "USD" });
 }
 
-export function formatAssetDisplayValue(value: any, options={humanize: false}) {
+export function formatAssetDisplayValue(value: any, options = { humanize: false }) {
   if (isEmptyValue(value)) {
     return "-";
   } else {
     // eslint-disable-next-line 
     if (value == 0) {
-      return options.humanize ? "$0" : 0; 
+      return options.humanize ? "$0" : 0;
     } else {
       return options.humanize ? humanizeValue(value) : value;
     }

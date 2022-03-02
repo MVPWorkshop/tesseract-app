@@ -263,7 +263,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
 
   const buyTokenUrl = buyTokenUrlByTokenAndNetwork[token][chainId];
 
-  const setAvailableValueHandler = (options: ISetBalanceOptions) => {
+  const updateBalanceInput = (options: ISetBalanceOptions) => {
     const { value, handler } = options;
 
     return () => {
@@ -274,12 +274,12 @@ const Vault: React.FC<IVaultProps> = (props) => {
   };
 
   const renderBalance = () => {
-    const balanceText = `${formatAssetDisplayValue(formattedBalance?.getValue())} ${token}`;
+    const balanceText = `${formatAssetDisplayValue(formattedBalance?.getValue())} ${tokenLabel}`;
     if (balance && !isZero(balance)) {
       return (
         <span
           className={classes(styles.balanceLabel)}
-          onClick={setAvailableValueHandler({
+          onClick={updateBalanceInput({
             value: formattedBalance?.getValue(),
             handler: onDepositValueChange
           })}
@@ -294,13 +294,13 @@ const Vault: React.FC<IVaultProps> = (props) => {
 
   const renderUserShares = () => {
     const userShareValue = formattedUserShares?.getValue();
-    const userShareText = `${userShareValue} ${token}`;
+    const userShareText = `${userShareValue} ${tokenLabel}`;
 
     if (vaultData?.userShares && !isZero(vaultData?.userShares)) {
       return (
         <span
           className={classes(styles.balanceLabel)}
-          onClick={setAvailableValueHandler({
+          onClick={updateBalanceInput({
             value: userShareValue,
             handler: onWithdrawValueChange,
           })}

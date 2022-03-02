@@ -1,6 +1,6 @@
 import { JsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
 import { EChainId } from "../../../shared/types/web3.types";
-import { Nullable } from "../../../shared/types/util.types";
+import { Nullable, OnChange } from "../../../shared/types/util.types";
 import { ESupportedTokens } from "../../../shared/types/vault.types";
 
 export interface IVaultProps {
@@ -13,11 +13,7 @@ export interface IVaultProps {
   provider: JsonRpcProvider;
 }
 
-export interface IOnChangeHandler {
-  (value: string): void
-}
-
 export interface ISetBalanceOptions {
   value: Nullable<string>;
-  handler: IOnChangeHandler;
+  handler: OnChange<string>;
 }

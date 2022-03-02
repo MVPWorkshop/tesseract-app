@@ -1,9 +1,4 @@
-import { IClassableComponent } from "../../../shared/types/util.types";
-import BigDecimal from "js-big-decimal";
-
-type SupportedValues = string | BigDecimal;
-
-export type OnChange<T extends SupportedValues> = (callbackValue: T) => void;
+import { IClassableComponent, OnChange } from "../../../shared/types/util.types";
 
 export enum EInputType {
   NUMBER = "number",
