@@ -1,4 +1,8 @@
 import { FunctionComponent, SVGProps } from "react";
+import BigDecimal from "js-big-decimal";
+
+
+type SupportedValues = string | BigDecimal;
 
 // Used for typing some dynamic object, first param defines the value type, second the key type
 export type DynamicObject<
@@ -6,8 +10,8 @@ export type DynamicObject<
   Key extends (string | number) = string,
   AllKeysRequired = false
   > = AllKeysRequired extends true ?
-  {[K in Key]: Value} :
-  {[K in Key]?: Value};
+  { [K in Key]: Value } :
+  { [K in Key]?: Value };
 
 export type AllKeysRequired = true;
 
@@ -18,3 +22,6 @@ export interface IClassableComponent {
 }
 
 export type SvgComponent = FunctionComponent<SVGProps<SVGSVGElement>>;
+
+export type OnChange<T extends SupportedValues> = (callbackValue: T) => void;
+

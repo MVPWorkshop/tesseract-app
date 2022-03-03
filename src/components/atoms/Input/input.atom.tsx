@@ -1,5 +1,6 @@
 import React, { ChangeEventHandler } from "react";
-import { EInputType, IInputProps, OnChange } from "./input.atom.types";
+import { EInputType, IInputProps, } from "./input.atom.types";
+import { OnChange } from "../../../shared/types/util.types";
 import { isBigDecimalGte, isBigDecimalLte, isEmptyValue } from "../../../shared/utils/common.util";
 import styles from "./input.atom.module.scss";
 import { classes } from "../../../shared/utils/styles.util";
@@ -62,10 +63,10 @@ const Input: React.FC<IInputProps> = (props) => {
         disabled={disabled}
       />
 
-      <span className={classes(styles.corner, styles.top, styles.left)}/>
-      <span className={classes(styles.corner, styles.top, styles.right)}/>
-      <span className={classes(styles.corner, styles.bottom, styles.left)}/>
-      <span className={classes(styles.corner, styles.bottom, styles.right)}/>
+      <span className={classes(styles.corner, styles.top, styles.left)} />
+      <span className={classes(styles.corner, styles.top, styles.right)} />
+      <span className={classes(styles.corner, styles.bottom, styles.left)} />
+      <span className={classes(styles.corner, styles.bottom, styles.right)} />
     </div>
   );
 };

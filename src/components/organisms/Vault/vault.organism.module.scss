@@ -146,6 +146,15 @@
 
       .content {
         padding-bottom: 45px;
+
+        .balanceLabel {
+          cursor: pointer;
+          text-decoration: underline;
+
+          &:hover {
+            color: map-get($accents, "primary");
+          }
+        }
       }
     }
   }
