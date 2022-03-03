@@ -150,8 +150,11 @@
         .balanceLabel {
           cursor: pointer;
           text-decoration: underline;
-          color: map-get($colors, "tiffanyBlue");
-          // border-bottom: 1px solid;
+
+          &:hover {
+            color: map-get($colors, "tiffanyBlue");
+            // border-bottom: 1px solid;
+          }
         }
       }
     }
