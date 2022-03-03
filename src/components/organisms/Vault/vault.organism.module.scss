@@ -152,8 +152,7 @@
           text-decoration: underline;
 
           &:hover {
-            color: map-get($colors, "tiffanyBlue");
-            // border-bottom: 1px solid;
+            color: map-get($accents, "primary");
           }
         }
       }
