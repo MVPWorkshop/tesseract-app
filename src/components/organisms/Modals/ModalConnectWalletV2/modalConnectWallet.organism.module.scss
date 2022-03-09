@@ -1,0 +1,7 @@
+@import '../../../../shared/styles/variables.scss';
+@import '../../../../shared/styles/util';
+
+.selectWalletModalContent {
+  background-color: map-get($colors, 'white')!important;
+  max-width: 500px!important;
+}

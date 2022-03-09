@@ -21,7 +21,7 @@ const ConnectWallet: React.FC<IClassableComponent> = (props) => {
   const { account, active, mappedError } = context;
 
   const onButtonClick = () => {
-    dispatch(toggleModal(EModalName.CONNECT_WALLET, true));
+    dispatch(toggleModal(EModalName.CONNECT_WALLET_V2, true));
   };
 
   const isUnsupportedChain = mappedError && mappedError === EErrorTypes.UNSUPPORTED_CHAIN;
