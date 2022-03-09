@@ -4,7 +4,8 @@ import { DynamicObject } from "../../shared/types/util.types";
 import { ESupportedLocales } from "../../shared/types/locale.types";
 
 export enum EModalName {
-  CONNECT_WALLET = "CONNECT_WALLET"
+  CONNECT_WALLET = "CONNECT_WALLET",
+  CONNECT_WALLET_V2 = "CONNECT_WALLET_V2",
 }
 
 export enum EUiReduxActions {
