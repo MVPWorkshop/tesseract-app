@@ -4,6 +4,7 @@ import { Trans } from "@lingui/macro";
 import { Modal } from "react-bootstrap";
 import { EModalName } from "../../../../redux/ui/ui.redux.types";
 import { RootState } from "../../../../redux/redux.types";
+import WalletList from "../../WalletList/walletList.organism";
 import styles from "./modalConnectWallet.organism.module.scss";
 
 const ModalConnectWalletV2: React.FC = () => {
@@ -20,6 +21,9 @@ const ModalConnectWalletV2: React.FC = () => {
       <Modal.Title> 
         <Trans>Select the wallet you want to connect with:</Trans>
       </Modal.Title> 
+      <Modal.Body>
+        <WalletList /> 
+      </Modal.Body>
     </Modal>
   );
 };
