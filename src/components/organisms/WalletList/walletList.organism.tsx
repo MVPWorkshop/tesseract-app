@@ -3,7 +3,7 @@ import Typography from "../../atoms/Typography/typography.atom";
 import { CONNECTOR_LABELS, CONNECTOR_LOGOS, CONNECTOR_DESCRIPTIONS, supportedConnectorList } from "../../../shared/constants/web3.constants";
 import { EColor, EFontWeight } from "../../../shared/types/styles.types";
 import {EConnectorType} from "../../../shared/types/web3.types";
-import styles from "./walletList.organism.module.scss"
+import styles from "./walletList.organism.module.scss";
 
 const WalletList: React.FC = () => {
   const test = () => {
