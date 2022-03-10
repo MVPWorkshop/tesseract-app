@@ -4,4 +4,9 @@
 .selectWalletModalContent {
   background-color: map-get($colors, 'white')!important;
   max-width: 500px!important;
+  border-radius: 12px;
+
+  .selectWalletModalBody {
+    padding: 10px 9px!important;
+  }
 }

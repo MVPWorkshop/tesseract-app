@@ -31,6 +31,11 @@ export const CONNECTOR_LABELS: DynamicObject<string, EConnectorType, AllKeysRequ
   [EConnectorType.WALLET_CONNECT]: "Wallet Connect"
 };
 
+export const CONNECTOR_DESCRIPTIONS: DynamicObject<string, string, AllKeysRequired> = {
+  [EConnectorType.INJECTED]: "Connect your metamask wallet",
+  [EConnectorType.WALLET_CONNECT]: "Scan with WalletConnect to connect"
+};
+
 export const CONNECTOR_LOGOS: DynamicObject<SvgComponent, EConnectorType, AllKeysRequired> = {
   [EConnectorType.INJECTED]: MetamaskLogoSVG,
   [EConnectorType.WALLET_CONNECT]: WalletConnectLogoSVG

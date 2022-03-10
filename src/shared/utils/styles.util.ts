@@ -22,7 +22,8 @@ export function colorToClassName(color: EColor) {
     [EColor.RED]: "red",
     [EColor.STRONGER_RED]: "strongerRed",
     [EColor.GREEN]: "green",
-    [EColor.BLACK]: "black"
+    [EColor.BLACK]: "black",
+    [EColor.DARK_GREY]: "darkGrey",
   };
 
   return {

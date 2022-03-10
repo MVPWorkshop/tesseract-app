@@ -1,0 +1,25 @@
+.walletList {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  .walletItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    align-items: center;
+    border-radius: 12px;
+    background: rgba(195, 195, 195, 0.14);
+    height: 163px;
+
+    &:not(:last-child) {
+      margin-bottom: 9px;
+    }
+
+    .walletLogo {
+      width: 45px;
+      height: 41.71px;
+    }
+  }
+}
