@@ -7,7 +7,7 @@ import styles from "./walletList.organism.module.scss"
 
 const WalletList: React.FC = () => {
   const test = () => {
-    console.log("TEST CLICK");
+    return true;
   };
 
   const renderSupportedWallets = () => (

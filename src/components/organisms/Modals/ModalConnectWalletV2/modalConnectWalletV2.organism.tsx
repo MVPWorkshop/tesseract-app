@@ -14,7 +14,7 @@ const ModalConnectWalletV2: React.FC = () => {
 
   const closeModal = () => {
     dispatch(toggleModal(name, false));
-  }
+  };
 
   return (
     <Modal 
