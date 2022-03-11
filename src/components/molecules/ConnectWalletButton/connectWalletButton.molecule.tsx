@@ -21,6 +21,12 @@ const ConnectWallet: React.FC<IClassableComponent> = (props) => {
   const { account, active, mappedError } = context;
 
   const onButtonClick = () => {
+    // clicking this button should disconnect the current connector
+    // and show the wallet list modal
+    if (context.active) {
+      context.deactivate();
+    }
+
     dispatch(toggleModal(EModalName.CONNECT_WALLET_V2, true));
   };
 
