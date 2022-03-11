@@ -22,6 +22,7 @@ const ModalConnectWalletV2: React.FC = () => {
       name={EModalName.CONNECT_WALLET_V2}
       contentClassName={styles.selectWalletModalContent}
       onHide={closeModal}
+      centered
     >
       <Modal.Body className={styles.selectWalletModalBody}>
         <WalletList /> 

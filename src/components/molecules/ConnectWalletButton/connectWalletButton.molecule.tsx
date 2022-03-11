@@ -21,13 +21,12 @@ const ConnectWallet: React.FC<IClassableComponent> = (props) => {
   const { account, active, mappedError } = context;
 
   const onButtonClick = () => {
-    // clicking this button should disconnect the current connector
-    // and show the wallet list modal
+    // clicking this button should disconnect the current active connector
     if (context.active) {
       context.deactivate();
+    } else {
+      dispatch(toggleModal(EModalName.CONNECT_WALLET_V2, true));
     }
-
-    dispatch(toggleModal(EModalName.CONNECT_WALLET_V2, true));
   };
 
   const isUnsupportedChain = mappedError && mappedError === EErrorTypes.UNSUPPORTED_CHAIN;
