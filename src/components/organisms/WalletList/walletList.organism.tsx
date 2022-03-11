@@ -12,7 +12,7 @@ import {toggleModal} from "../../../redux/ui/ui.redux.actions";
 
 const WalletList: React.FC = () => {
   const dispatch = useDispatch();
-  const { activate, error, connector, active, account, chainId, mappedError } = useWeb3();
+  const { activate, active, mappedError} = useWeb3();  // eslint-disable-line
 
   const connectWalletFnFactory = (type_: EConnectorType) => {
     return () => {
