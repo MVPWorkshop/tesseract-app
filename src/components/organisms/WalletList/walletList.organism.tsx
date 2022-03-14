@@ -40,7 +40,7 @@ const WalletList: React.FC = () => {
         }
       }
     }
-  }, [error])
+  }, [error]);
 
   useEffect(() => {
     if (active) {
