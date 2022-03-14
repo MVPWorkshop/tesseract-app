@@ -30,6 +30,6 @@ const WalletItem: React.FC<IWalletItem> = ({ connectorType, onClick }) => {
       </Typography> 
     </li>
   );
-}
+};
 
 export default WalletItem;

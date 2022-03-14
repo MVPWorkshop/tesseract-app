@@ -1,17 +1,16 @@
 import React, {useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import { Modal } from "react-bootstrap";
+import {WalletConnectConnector} from "@web3-react/walletconnect-connector";
 import { EModalName } from "../../../../redux/ui/ui.redux.types";
 import { RootState } from "../../../../redux/redux.types";
 import { toggleModal } from "../../../../redux/ui/ui.redux.actions";
-// import WalletList from "../../WalletList/walletList.organism";
 import styles from "./modalConnectWalletV2.organism.module.scss";
 import {EConnectorType} from "../../../../shared/types/web3.types";
 import useWeb3 from "../../../../hooks/useWeb3";
 import {supportedConnectorList} from "../../../../shared/constants/web3.constants";
 import WalletService from "../../../../shared/services/wallet/wallet.service";
 import {EErrorTypes} from "../../../../shared/types/error.types";
-import {WalletConnectConnector} from "@web3-react/walletconnect-connector";
 import WalletItem from "../../../molecules/WalletItem/walletItem.molecule";
 
 
@@ -54,8 +53,8 @@ const ModalConnectWalletV2: React.FC = () => {
   const renderSupportedWallets = () => (
     supportedConnectorList.map((type_: EConnectorType) => (
       <WalletItem connectorType={type_} onClick={connectWalletFnFactory(type_)} /> 
-    )
-  ));
+    ))
+  );
 
   return (
     <Modal 
