@@ -1,3 +1,5 @@
+import {SvgComponent} from "./util.types";
+
 declare global {
   interface Window {
     // Any because different wallets can inject different versions
@@ -14,4 +16,10 @@ export enum EConnectorType {
 export enum EChainId {
   POLYGON_MAINNET = 137,
   AVAX_MAINNET = 43114
+}
+
+export interface IConnectorMetadata {
+  label: string;
+  description: string;
+  logo: SvgComponent; 
 }

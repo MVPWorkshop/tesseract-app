@@ -3,9 +3,7 @@ import { useDispatch } from "react-redux";
 import {WalletConnectConnector} from "@web3-react/walletconnect-connector";
 import Typography from "../../atoms/Typography/typography.atom";
 import {
-  CONNECTOR_LABELS,
-  CONNECTOR_LOGOS,
-  CONNECTOR_DESCRIPTIONS,
+  CONNECTOR_METADATA,
   supportedConnectorList,
 } from "../../../shared/constants/web3.constants";
 import { EColor, EFontWeight } from "../../../shared/types/styles.types";
@@ -50,7 +48,7 @@ const WalletList: React.FC = () => {
 
   const renderSupportedWallets = () => (
     supportedConnectorList.map((type_: EConnectorType) => {
-      const Logo = CONNECTOR_LOGOS[type_];
+      const Logo = CONNECTOR_METADATA[type_].logo;
 
       return (
         <li 
@@ -64,13 +62,13 @@ const WalletList: React.FC = () => {
             fontSize={24} 
             fontWeight={EFontWeight.BOLD}
           >
-            {CONNECTOR_LABELS[type_]}
+            {CONNECTOR_METADATA[type_].label}
           </Typography>
           <Typography
             color={EColor.DARK_GREY}
             fontSize={18}
           >
-            {CONNECTOR_DESCRIPTIONS[type_]}
+            {CONNECTOR_METADATA[type_].description}
           </Typography> 
         </li>
       );

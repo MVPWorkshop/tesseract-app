@@ -4,7 +4,7 @@ import { EModalName } from "../../../../redux/ui/ui.redux.types";
 import { EConnectorType } from "../../../../shared/types/web3.types";
 import { Nullable } from "../../../../shared/types/util.types";
 import WalletService from "../../../../shared/services/wallet/wallet.service";
-import { CONNECTOR_LABELS, CONNECTOR_LOGOS, supportedConnectorList } from "../../../../shared/constants/web3.constants";
+import { CONNECTOR_METADATA, supportedConnectorList } from "../../../../shared/constants/web3.constants";
 import Web3Util from "../../../../shared/utils/web3.util";
 import { Trans } from "@lingui/macro";
 import { METAMASK_DOWNLOAD_LINK } from "../../../../shared/constants/config.constants";
@@ -98,8 +98,8 @@ const ModalConnectWallet: React.FC = () => {
     const isCurrentActive = active && type === WalletService.providerToType(connector);
 
     const onClick = isMetamaskWithoutWeb3 ? undefined : onConnectWalletClick(type, isCurrentActive);
-    const label = isMetamaskWithoutWeb3 ? <Trans>Install Metamask</Trans> : <Trans id={CONNECTOR_LABELS[type]}/>;
-    const Logo = CONNECTOR_LOGOS[type];
+    const label = isMetamaskWithoutWeb3 ? <Trans>Install Metamask</Trans> : <Trans id={CONNECTOR_METADATA[type].label}/>;
+    const Logo = CONNECTOR_METADATA[type].logo;
 
     const ButtonElement = () => {
       if (hasCurrentErrored) {
@@ -167,7 +167,7 @@ const ModalConnectWallet: React.FC = () => {
         return <Trans>Something went wrong</Trans>;
       }
     } else  if (activatingConnector) {
-      return <Trans>Approve connecting with {CONNECTOR_LABELS[activatingConnector]}</Trans>;
+      return <Trans>Approve connecting with {CONNECTOR_METADATA[activatingConnector].label}</Trans>;
     } else {
       return <Trans>Select the wallet you want to connect with:</Trans>;
     }
@@ -190,7 +190,7 @@ const ModalConnectWallet: React.FC = () => {
     const activeConnectorType = WalletService.providerToType(connector);
 
     if (activeConnectorType && account && currentScreen === EModalConnectWalletScreens.CurrentWallet) {
-      const ConnectorLogo = CONNECTOR_LOGOS[activeConnectorType];
+      const ConnectorLogo = CONNECTOR_METADATA[activeConnectorType].logo;
 
       return (
         <Fragment>
