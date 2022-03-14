@@ -1,7 +1,13 @@
 import React, {useEffect} from "react";
 import { useDispatch } from "react-redux";
+import {WalletConnectConnector} from "@web3-react/walletconnect-connector";
 import Typography from "../../atoms/Typography/typography.atom";
-import { CONNECTOR_LABELS, CONNECTOR_LOGOS, CONNECTOR_DESCRIPTIONS, supportedConnectorList } from "../../../shared/constants/web3.constants";
+import {
+  CONNECTOR_LABELS,
+  CONNECTOR_LOGOS,
+  CONNECTOR_DESCRIPTIONS,
+  supportedConnectorList,
+} from "../../../shared/constants/web3.constants";
 import { EColor, EFontWeight } from "../../../shared/types/styles.types";
 import {EConnectorType} from "../../../shared/types/web3.types";
 import styles from "./walletList.organism.module.scss";
@@ -9,17 +15,32 @@ import WalletService from "../../../shared/services/wallet/wallet.service";
 import useWeb3 from "../../../hooks/useWeb3";
 import {EModalName} from "../../../redux/ui/ui.redux.types";
 import {toggleModal} from "../../../redux/ui/ui.redux.actions";
+import {EErrorTypes} from "../../../shared/types/error.types";
 
 const WalletList: React.FC = () => {
   const dispatch = useDispatch();
-  const { activate, active } = useWeb3();
+  const { activate, active, error, connector, mappedError } = useWeb3();
+
+  const closeModal = () => dispatch(toggleModal(EModalName.CONNECT_WALLET_V2, false));
 
   const connectWalletFnFactory = (type_: EConnectorType) => {
     return () => {
       const _connector = WalletService.typeToProvider(type_);
-      activate(_connector).finally(() => dispatch(toggleModal(EModalName.CONNECT_WALLET_V2, false)));
+      activate(_connector).finally(() => closeModal());
     };
   };
+
+  useEffect(() => {
+    if (error) {
+      if (connector instanceof WalletConnectConnector) {
+        if (mappedError === EErrorTypes.UNSUPPORTED_CHAIN) {
+          closeModal();
+        } else if (connector.walletConnectProvider?.wc?.uri) {
+          connector.walletConnectProvider = undefined; // Makes the dialog be opennable after cancellation
+        }
+      }
+    }
+  }, [error])
 
   useEffect(() => {
     if (active) {
