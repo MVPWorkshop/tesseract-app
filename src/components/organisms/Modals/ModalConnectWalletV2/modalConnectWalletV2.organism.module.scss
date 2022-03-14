@@ -8,5 +8,10 @@
 
   .selectWalletModalBody {
     padding: 10px 9px!important;
+    .walletList {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
   }
 }
