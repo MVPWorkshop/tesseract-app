@@ -5,7 +5,8 @@ import Typography from "../../atoms/Typography/typography.atom";
 import {IWalletItem} from "./walletItem.molecule.types";
 import styles from "./walletItem.molecule.module.scss";
 
-const WalletItem: React.FC<IWalletItem> = ({ connectorType, onClick }) => {
+const WalletItem: React.FC<IWalletItem> = (props) => {
+  const {connectorType, onClick} = props;
   const {label, description, logo: Logo} = CONNECTOR_METADATA[connectorType];
 
   return (
