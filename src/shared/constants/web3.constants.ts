@@ -1,7 +1,9 @@
 import {i18n} from "@lingui/core";
 import { t } from "@lingui/macro";
-import { AllKeysRequired, DynamicObject, SvgComponent } from "../types/util.types";
-import { EChainId, EConnectorType, IConnectorMetadata } from "../types/web3.types";
+import { AllKeysRequired, DynamicObject } from "../types/util.types";
+import {IUtilChainData} from "../types/metadata.types";
+import { EChainId, EConnectorType } from "../types/web3.types";
+import { IConnectorMetadata } from "../types/metadata.types";
 import {
   EXPLORER_AVAX_MAINNET,
   EXPLORER_POLYGON_MAINNET,
@@ -79,14 +81,6 @@ export const addressByNetworkAndToken: ValueByTokenAndNetwork = {
     [EChainId.AVAX_MAINNET]: "0x1daB6560494B04473A0BE3E7D83CF3Fdf3a51828"
   }
 };
-
-interface IUtilChainData {
-  tokenTicker: string;
-  label: string;
-  multicallAddress: string;
-  routeParam: ERouteNetwork;
-  logo: SvgComponent;
-}
 
 export const arbirtrayChainDataById: DynamicObject<IUtilChainData, EChainId, AllKeysRequired> = {
   [EChainId.POLYGON_MAINNET]: {
