@@ -1,5 +1,9 @@
-import { AllKeysRequired, DynamicObject, SvgComponent } from "../types/util.types";
+import {i18n} from "@lingui/core";
+import { t } from "@lingui/macro";
+import { AllKeysRequired, DynamicObject } from "../types/util.types";
+import {IUtilChainData} from "../types/metadata.types";
 import { EChainId, EConnectorType } from "../types/web3.types";
+import { IConnectorMetadata } from "../types/metadata.types";
 import {
   EXPLORER_AVAX_MAINNET,
   EXPLORER_POLYGON_MAINNET,
@@ -26,14 +30,17 @@ export const EXPLORER_URLS: DynamicObject<string, EChainId, AllKeysRequired> = {
   [EChainId.AVAX_MAINNET]: EXPLORER_AVAX_MAINNET
 };
 
-export const CONNECTOR_LABELS: DynamicObject<string, EConnectorType, AllKeysRequired> = {
-  [EConnectorType.INJECTED]: "Metamask",
-  [EConnectorType.WALLET_CONNECT]: "Wallet Connect"
-};
-
-export const CONNECTOR_LOGOS: DynamicObject<SvgComponent, EConnectorType, AllKeysRequired> = {
-  [EConnectorType.INJECTED]: MetamaskLogoSVG,
-  [EConnectorType.WALLET_CONNECT]: WalletConnectLogoSVG
+export const CONNECTOR_METADATA: DynamicObject<IConnectorMetadata, EConnectorType, AllKeysRequired> = {
+  [EConnectorType.INJECTED]: {
+    label: "Metamask",
+    description: i18n._(t`Connect your metamask wallet`),
+    logo: MetamaskLogoSVG,
+  },
+  [EConnectorType.WALLET_CONNECT]: {
+    label: "Wallet Connect",
+    description: i18n._(t`Scan with WalletConnect to connect`),
+    logo: WalletConnectLogoSVG,
+  } 
 };
 
 export const supportedConnectorList: EConnectorType[] = [
@@ -74,14 +81,6 @@ export const addressByNetworkAndToken: ValueByTokenAndNetwork = {
     [EChainId.AVAX_MAINNET]: "0x1daB6560494B04473A0BE3E7D83CF3Fdf3a51828"
   }
 };
-
-interface IUtilChainData {
-  tokenTicker: string;
-  label: string;
-  multicallAddress: string;
-  routeParam: ERouteNetwork;
-  logo: SvgComponent;
-}
 
 export const arbirtrayChainDataById: DynamicObject<IUtilChainData, EChainId, AllKeysRequired> = {
   [EChainId.POLYGON_MAINNET]: {

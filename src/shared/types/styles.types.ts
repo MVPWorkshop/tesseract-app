@@ -19,7 +19,8 @@ export enum EColor {
   RED = "RED",
   STRONGER_RED = "STRONGER_RED",
   GREEN = "GREEN",
-  BLACK = "BLACK"
+  BLACK = "BLACK",
+  DARK_GREY = "DARK_GREY",
 }
 
 export enum EFontFamily {

@@ -39,3 +39,8 @@ h5 {
 h6 {
   @include headerFontSize(6);
 }
+
+// wallet connect clipboard fix
+.walletconnect-modal__footer a {
+  color: #898d97!important;
+}

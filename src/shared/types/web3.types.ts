@@ -15,3 +15,4 @@ export enum EChainId {
   POLYGON_MAINNET = 137,
   AVAX_MAINNET = 43114
 }
+

@@ -112,7 +112,7 @@ const ChainConstrainDialog: React.FC<IChainConstrainDialogProps> = (props) => {
         </Typography>
         <Button
           theme={"tertiary"}
-          onClick={() => dispatch(toggleModal(EModalName.CONNECT_WALLET, true))}
+          onClick={() => dispatch(toggleModal(EModalName.CONNECT_WALLET_V2, true))}
         >
           <Trans>Connect wallet</Trans>
         </Button>

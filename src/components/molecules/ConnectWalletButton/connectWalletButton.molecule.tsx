@@ -13,6 +13,7 @@ import useWeb3 from "../../../hooks/useWeb3";
 import { IClassableComponent } from "../../../shared/types/util.types";
 import { classes } from "../../../shared/utils/styles.util";
 import { EFontWeight } from "../../../shared/types/styles.types";
+import {WalletConnectConnector} from "@web3-react/walletconnect-connector";
 
 const ConnectWallet: React.FC<IClassableComponent> = (props) => {
 
@@ -21,7 +22,16 @@ const ConnectWallet: React.FC<IClassableComponent> = (props) => {
   const { account, active, mappedError } = context;
 
   const onButtonClick = () => {
-    dispatch(toggleModal(EModalName.CONNECT_WALLET, true));
+    // clicking this button should disconnect the current active connector
+    if (context.active) {
+      // wallet connect disconnect issue - https://github.com/NoahZinsmeister/web3-react/issues/239
+      if (context.connector instanceof WalletConnectConnector) {
+        context.connector.close();
+      }
+      context.deactivate();
+    } else {
+      dispatch(toggleModal(EModalName.CONNECT_WALLET_V2, true));
+    }
   };
 
   const isUnsupportedChain = mappedError && mappedError === EErrorTypes.UNSUPPORTED_CHAIN;
