@@ -4,7 +4,7 @@
 
 - Clone the [repository](git@github.com:MVPWorkshop/tesseract-app.git) in to your local environment
   ```
-  git clone git@github.com:<username>/tesseract-app.git
+  git clone git@github.com:MVPWorkshop/tesseract-app.git
   ```
 - Create a `.env` file in the root directory. The env.example file already has the defaults config to run the app locally
   ```
