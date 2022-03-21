@@ -79,5 +79,6 @@ jobs:
           branch: gh-pages
           folder: build
           clean: true
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
           clean-exclude: |
             CNAME
