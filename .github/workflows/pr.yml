@@ -1,9 +1,6 @@
-name: Build
+name: PR Tests
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -71,6 +68,9 @@ jobs:
         with:
           path: node_modules
           key: node_modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Locales can be compiled
+        run: yarn lang:compile
 
       - name: Code builds successfully
         run: yarn build
