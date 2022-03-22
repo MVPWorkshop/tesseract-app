@@ -20,10 +20,12 @@ const ConnectWallet: React.FC<IClassableComponent> = (props) => {
   const dispatch = useDispatch();
   const context = useWeb3();
   const { account, active, mappedError } = context;
+  const isUnsupportedChain = mappedError && mappedError === EErrorTypes.UNSUPPORTED_CHAIN;
+  const isAccountAvailable = active && account;
 
   const onButtonClick = () => {
     // clicking this button should disconnect the current active connector
-    if (context.active) {
+    if (context.active || isUnsupportedChain) {
       // wallet connect disconnect issue - https://github.com/NoahZinsmeister/web3-react/issues/239
       if (context.connector instanceof WalletConnectConnector) {
         context.connector.close();
@@ -34,9 +36,7 @@ const ConnectWallet: React.FC<IClassableComponent> = (props) => {
     }
   };
 
-  const isUnsupportedChain = mappedError && mappedError === EErrorTypes.UNSUPPORTED_CHAIN;
-  const isAccountAvailable = active && account;
-
+  
   const renderLabel = () => {
     if (isUnsupportedChain) {
       return <Trans id={errorMessages[EErrorTypes.UNSUPPORTED_CHAIN].short} />;
