@@ -1,10 +1,11 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { Trans } from "@lingui/macro";
+import {WalletConnectConnector} from "@web3-react/walletconnect-connector";
 import { toggleModal } from "../../../redux/ui/ui.redux.actions";
 import { EModalName } from "../../../redux/ui/ui.redux.types";
 import Web3Util from "../../../shared/utils/web3.util";
 import { errorMessages } from "../../../shared/constants/error.constants";
-import { Trans } from "@lingui/macro";
 import { EErrorTypes } from "../../../shared/types/error.types";
 import Button from "../../atoms/Button/button.atom";
 import Typography from "../../atoms/Typography/typography.atom";
@@ -13,7 +14,6 @@ import useWeb3 from "../../../hooks/useWeb3";
 import { IClassableComponent } from "../../../shared/types/util.types";
 import { classes } from "../../../shared/utils/styles.util";
 import { EFontWeight } from "../../../shared/types/styles.types";
-import {WalletConnectConnector} from "@web3-react/walletconnect-connector";
 
 const ConnectWallet: React.FC<IClassableComponent> = (props) => {
 
@@ -25,7 +25,7 @@ const ConnectWallet: React.FC<IClassableComponent> = (props) => {
 
   const onButtonClick = () => {
     // clicking this button should disconnect the current active connector
-    if (context.active || isUnsupportedChain) {
+    if (context.connector) {
       // wallet connect disconnect issue - https://github.com/NoahZinsmeister/web3-react/issues/239
       if (context.connector instanceof WalletConnectConnector) {
         context.connector.close();
