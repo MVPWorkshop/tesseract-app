@@ -51,6 +51,7 @@ import BigDecimal from "js-big-decimal";
 import { BigNumber } from "ethers";
 import Skeleton from "../../atoms/Skeleton/skeleton.atom";
 import { buyTokenUrlByTokenAndNetwork, tokenLabels } from "../../../shared/constants/web3.constants";
+import VaultHeader from "../../molecules/VaultHeader/vaultHeader.molecule";
 
 const Vault: React.FC<IVaultProps> = (props) => {
   const {
@@ -499,7 +500,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
               {isVaultObsolete ? <Trans>OLD</Trans> : null}
             </div>
           }
-          <div className={styles.header} onClick={toggleDropdown}>
+          {/*<div className={styles.header} onClick={toggleDropdown}>
             <div className={styles.tokenLogoContainer}>
               <TokenLogo className="d-inline mr-2" />
               <div className="d-flex flex-column">
@@ -563,7 +564,8 @@ const Vault: React.FC<IVaultProps> = (props) => {
             >
               <DropdownArrow isOpen={isOpen} />
             </Button>
-          </div>
+        </div>*/}
+          <VaultHeader />
           <div className={classes(styles.body, [isOpen, styles.open], [!isSignerAvailable, styles.noWallet])}>
             <div className={styles.content}>
               {renderDropdownBodyContent()}
@@ -572,7 +574,6 @@ const Vault: React.FC<IVaultProps> = (props) => {
         </div>
       </div>
       <div className={classes(styles.indicator, [isOpen, styles.open])} />
-      {!isOpen && <div className={styles.corner} />}
     </div>
   );
 };
