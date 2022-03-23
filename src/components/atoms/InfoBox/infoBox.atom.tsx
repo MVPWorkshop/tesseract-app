@@ -1,6 +1,6 @@
 import React from "react";
 import { IInfoBox } from "./infoBox.atom.types";
-import styles from "./infoBox.atom.module.scss"
+import styles from "./infoBox.atom.module.scss";
 
 const InfoBox: React.FC<IInfoBox> = (props) => {
   const {usdValue, value, footer} = props;
@@ -12,6 +12,6 @@ const InfoBox: React.FC<IInfoBox> = (props) => {
       <p className={styles.label}>{footer}</p>
     </div>
   );
-}
+};
 
 export default InfoBox;
