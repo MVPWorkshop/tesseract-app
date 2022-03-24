@@ -565,7 +565,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
               <DropdownArrow isOpen={isOpen} />
             </Button>
         </div>*/}
-          <VaultHeader />
+          <VaultHeader onClick={toggleDropdown} />
           <div className={classes(styles.body, [isOpen, styles.open], [!isSignerAvailable, styles.noWallet])}>
             <div className={styles.content}>
               {renderDropdownBodyContent()}

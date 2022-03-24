@@ -5,10 +5,13 @@ import InfoBox from "../../atoms/InfoBox/infoBox.atom";
 import TokenDetail from "../../atoms/TokenDetail/tokenDetail.atom";
 import {EAssetType} from "../../atoms/TokenDetail/tokenDetail.atom.types";
 import styles from "./vaultHeader.molecule.module.scss";
+import {IVaultHeader} from "./vaultHeader.molecule.types";
 
-const VaultHeader: React.FC = () => {
+const VaultHeader: React.FC<IVaultHeader> = (props) => {
+  const {onClick} = props;
+
   return (
-    <div className={styles.vaultHeader}>
+    <div onClick={onClick} className={styles.vaultHeader}>
       <div className={styles.tokenInfoColumn}>
         <TokenDetail
           assetType={EAssetType.Token}
