@@ -275,13 +275,16 @@ const Vault: React.FC<IVaultProps> = (props) => {
 
   const renderBalance = () => {
     const balanceText = `${formatAssetDisplayValue(formattedBalance?.getValue())} ${tokenLabel}`;
+    const value =
+      (maxDepositAmount || new BigDecimal(0))
+        .round(decimals);
+
     if (balance && !isZero(balance)) {
       return (
         <span
           className={classes(styles.balanceLabel)}
           onClick={updateBalanceInput({
-            //value: formattedBalance?.getValue(),
-            value: maxDepositAmount?.getValue(),
+            value: value.getValue(),
             handler: onDepositValueChange
           })}
         >
