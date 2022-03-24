@@ -8,7 +8,8 @@ import styles from "./vaultHeader.molecule.module.scss";
 import {IVaultHeader} from "./vaultHeader.molecule.types";
 
 const VaultHeader: React.FC<IVaultHeader> = (props) => {
-  const {onClick} = props;
+  const {onClick, token} = props;
+  const tokenLogo = tokenIcons[token];
 
   return (
     <div onClick={onClick} className={styles.vaultHeader}>
@@ -17,7 +18,7 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
           assetType={EAssetType.Token}
           name="Matic"
           purchaseLink="https://test.com"
-          logo={tokenIcons[ESupportedTokens.WMATIC]}
+          logo={tokenLogo}
         />
       </div>
       <div className={styles.tokenDataColumn}>
