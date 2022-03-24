@@ -280,7 +280,8 @@ const Vault: React.FC<IVaultProps> = (props) => {
         <span
           className={classes(styles.balanceLabel)}
           onClick={updateBalanceInput({
-            value: formattedBalance?.getValue(),
+            //value: formattedBalance?.getValue(),
+            value: maxDepositAmount?.getValue(),
             handler: onDepositValueChange
           })}
         >
