@@ -4,4 +4,12 @@
   align-items: center;
   cursor: pointer;
   height: 107px;
+
+  .tokenInfoColumn {
+    flex-grow: 2;
+  }
+
+  .tokenDataColumn {
+    flex-grow: 1;
+  }
 }
