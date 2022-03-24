@@ -20,7 +20,7 @@ const TokenDetail: React.FC<ITokenDetail> = (props) => {
         >
           {name}
         </Typography>
-        <Link className={styles.purchaseLink} link={purchaseLink}>{assetType}</Link>
+        {purchaseLink && <Link className={styles.purchaseLink} link={purchaseLink}>{assetType}</Link>}
       </div>
     </div>
   );

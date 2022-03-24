@@ -1,6 +1,8 @@
 import React from "react";
+import BigDecimal from "js-big-decimal";
 import {tokenIcons} from "../../../shared/constants/common.constants";
-import {tokenLabels} from "../../../shared/constants/web3.constants";
+import {buyTokenUrlByTokenAndNetwork, tokenLabels} from "../../../shared/constants/web3.constants";
+import {formatAssetDisplayValue} from "../../../shared/utils/common.util";
 import InfoBox from "../../atoms/InfoBox/infoBox.atom";
 import TokenDetail from "../../atoms/TokenDetail/tokenDetail.atom";
 import {EAssetType} from "../../atoms/TokenDetail/tokenDetail.atom.types";
@@ -8,9 +10,12 @@ import styles from "./vaultHeader.molecule.module.scss";
 import {IVaultHeader} from "./vaultHeader.molecule.types";
 
 const VaultHeader: React.FC<IVaultHeader> = (props) => {
-  const {onClick, token, chainId} = props;
+  const {onClick, token, chainId, vaultData} = props;
   const tokenLogo = tokenIcons[token];
-  
+  const buyTokenUrl = buyTokenUrlByTokenAndNetwork[token][chainId];
+  const vaultAPY = (vaultData && vaultData.apy) ? (new BigDecimal(vaultData.apy * 100)) : null;
+  const apy = formatAssetDisplayValue(vaultAPY?.round(2).getValue())
+
   const getTokenLabel = () => {
     if (tokenLabels[token] && tokenLabels[token][chainId]) {
       return tokenLabels[token][chainId];
@@ -25,7 +30,7 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
         <TokenDetail
           assetType={EAssetType.Token}
           name={getTokenLabel()!}
-          purchaseLink="https://test.com"
+          purchaseLink={buyTokenUrl}
           logo={tokenLogo}
         />
       </div>
@@ -36,7 +41,7 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
         <InfoBox value="0" footer="Deposited" />
       </div>
       <div className={styles.tokenDataColumn}>
-        <InfoBox value="5%" footer="APY" />
+        <InfoBox value={`${apy}%`} footer="APY" />
       </div>
       <div className={styles.tokenDataColumn}>
         <InfoBox value="$5,223,562" footer="TVL" />

@@ -9,5 +9,5 @@ export interface ITokenDetail {
   assetType: EAssetType
   logo: SvgComponent
   name: string
-  purchaseLink: string
+  purchaseLink?: string
 }
