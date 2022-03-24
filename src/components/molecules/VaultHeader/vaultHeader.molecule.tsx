@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import BigDecimal from "js-big-decimal";
 import {tokenIcons} from "../../../shared/constants/common.constants";
 import {buyTokenUrlByTokenAndNetwork, tokenLabels} from "../../../shared/constants/web3.constants";
@@ -8,13 +9,31 @@ import TokenDetail from "../../atoms/TokenDetail/tokenDetail.atom";
 import {EAssetType} from "../../atoms/TokenDetail/tokenDetail.atom.types";
 import styles from "./vaultHeader.molecule.module.scss";
 import {IVaultHeader} from "./vaultHeader.molecule.types";
+import {getTokenInUSD} from "../../../shared/utils/vault.util";
+import {RootState} from "../../../redux/redux.types";
+import {ITokenReduxState} from "../../../redux/tokens/tokens.redux.types";
 
 const VaultHeader: React.FC<IVaultHeader> = (props) => {
   const {onClick, token, chainId, vaultData} = props;
+  const {
+    decimals,
+    priceUSD,
+  } = useSelector<RootState, ITokenReduxState>(state => state.tokens[token]);
   const tokenLogo = tokenIcons[token];
   const buyTokenUrl = buyTokenUrlByTokenAndNetwork[token][chainId];
   const vaultAPY = (vaultData && vaultData.apy) ? (new BigDecimal(vaultData.apy * 100)) : null;
   const apy = formatAssetDisplayValue(vaultAPY?.round(2).getValue())
+
+  // const tvl = (vaultData && vaultData.tvl && priceUSD && decimals) ? getTokenInUSD(vaultData.tvl, priceUSD, decimals) : null;
+
+  const getFormattedTVL = () => {
+    if (vaultData && vaultData.tvl && priceUSD && decimals) {
+      const tvl = getTokenInUSD(vaultData.tvl, priceUSD, decimals);
+      return formatAssetDisplayValue(tvl?.getValue(), { humanize: true })
+    }
+    return null;
+  }
+
 
   const getTokenLabel = () => {
     if (tokenLabels[token] && tokenLabels[token][chainId]) {
@@ -44,7 +63,7 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
         <InfoBox value={`${apy}%`} footer="APY" />
       </div>
       <div className={styles.tokenDataColumn}>
-        <InfoBox value="$5,223,562" footer="TVL" />
+        <InfoBox value={getFormattedTVL()} footer="TVL" />
       </div>
     </div>
   );
