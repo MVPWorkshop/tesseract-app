@@ -275,9 +275,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
 
   const renderBalance = () => {
     const balanceText = `${formatAssetDisplayValue(formattedBalance?.getValue())} ${tokenLabel}`;
-    const value =
-      (maxDepositAmount || new BigDecimal(0))
-        .round(decimals);
+    const value = (maxDepositAmount || new BigDecimal(0)).round(decimals);
 
     if (balance && !isZero(balance)) {
       return (
@@ -297,6 +295,8 @@ const Vault: React.FC<IVaultProps> = (props) => {
   };
 
   const renderUserShares = () => {
+    const value = (formattedUserShares || new BigDecimal(0)).round(decimals);
+
     const userShareValue = formattedUserShares?.getValue();
     const userShareText = `${userShareValue} ${tokenLabel}`;
 
@@ -305,7 +305,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
         <span
           className={classes(styles.balanceLabel)}
           onClick={updateBalanceInput({
-            value: userShareValue,
+            value: value.getValue(),
             handler: onWithdrawValueChange,
           })}
         >
