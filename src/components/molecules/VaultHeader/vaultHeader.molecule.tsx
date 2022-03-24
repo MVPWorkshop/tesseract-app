@@ -1,6 +1,6 @@
 import React from "react";
 import {tokenIcons} from "../../../shared/constants/common.constants";
-import {ESupportedTokens} from "../../../shared/types/vault.types";
+import {tokenLabels} from "../../../shared/constants/web3.constants";
 import InfoBox from "../../atoms/InfoBox/infoBox.atom";
 import TokenDetail from "../../atoms/TokenDetail/tokenDetail.atom";
 import {EAssetType} from "../../atoms/TokenDetail/tokenDetail.atom.types";
@@ -8,15 +8,23 @@ import styles from "./vaultHeader.molecule.module.scss";
 import {IVaultHeader} from "./vaultHeader.molecule.types";
 
 const VaultHeader: React.FC<IVaultHeader> = (props) => {
-  const {onClick, token} = props;
+  const {onClick, token, chainId} = props;
   const tokenLogo = tokenIcons[token];
+  
+  const getTokenLabel = () => {
+    if (tokenLabels[token] && tokenLabels[token][chainId]) {
+      return tokenLabels[token][chainId];
+    }
+
+    return token;
+  }
 
   return (
     <div onClick={onClick} className={styles.vaultHeader}>
       <div className={styles.tokenInfoColumn}>
         <TokenDetail
           assetType={EAssetType.Token}
-          name="Matic"
+          name={getTokenLabel()!}
           purchaseLink="https://test.com"
           logo={tokenLogo}
         />
