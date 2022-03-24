@@ -1,0 +1,33 @@
+@import '../../../shared/styles/variables';
+
+.tokenDetail {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+
+  .logo {
+    width: 28px;
+    height: 28px;
+  }
+
+  .tokenLabel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .tokenName {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 21px;
+    }
+
+    .purchaseLink {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 16px;
+      text-decoration: underline;
+      color: map-get($colors, "white");
+    }
+  } 
+}
