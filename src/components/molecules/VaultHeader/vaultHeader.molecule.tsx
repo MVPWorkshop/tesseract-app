@@ -9,7 +9,7 @@ import TokenDetail from "../../atoms/TokenDetail/tokenDetail.atom";
 import {EAssetType} from "../../atoms/TokenDetail/tokenDetail.atom.types";
 import styles from "./vaultHeader.molecule.module.scss";
 import {IVaultHeader} from "./vaultHeader.molecule.types";
-import {getTokenInUSD} from "../../../shared/utils/vault.util";
+import {getShareInFormattedToken, getTokenInUSD} from "../../../shared/utils/vault.util";
 import {RootState} from "../../../redux/redux.types";
 import {ITokenReduxState} from "../../../redux/tokens/tokens.redux.types";
 
@@ -22,9 +22,23 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
   const tokenLogo = tokenIcons[token];
   const buyTokenUrl = buyTokenUrlByTokenAndNetwork[token][chainId];
   const vaultAPY = (vaultData && vaultData.apy) ? (new BigDecimal(vaultData.apy * 100)) : null;
-  const apy = formatAssetDisplayValue(vaultAPY?.round(2).getValue())
+  const apy = formatAssetDisplayValue(vaultAPY?.round(2).getValue());
+  
+  console.log("VAULT DATA", vaultData);
 
-  // const tvl = (vaultData && vaultData.tvl && priceUSD && decimals) ? getTokenInUSD(vaultData.tvl, priceUSD, decimals) : null;
+  const getFormattedUserShares = () => {
+    if (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) {
+      const formattedUserShares = getShareInFormattedToken(
+        vaultData.userShares, 
+        vaultData.sharePrice, 
+        decimals
+      ).round(6);
+
+      return formatAssetDisplayValue(formattedUserShares?.getValue());
+    }
+
+    return "0";
+  }
 
   const getFormattedTVL = () => {
     if (vaultData && vaultData.tvl && priceUSD && decimals) {
@@ -33,7 +47,6 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
     }
     return null;
   }
-
 
   const getTokenLabel = () => {
     if (tokenLabels[token] && tokenLabels[token][chainId]) {
@@ -57,7 +70,7 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
         <InfoBox usdValue="$12,000" value="2" footer="Wallet" />
       </div>
       <div className={styles.tokenDataColumn}>
-        <InfoBox value="0" footer="Deposited" />
+        <InfoBox value={getFormattedUserShares()} footer="Deposited" />
       </div>
       <div className={styles.tokenDataColumn}>
         <InfoBox value={`${apy}%`} footer="APY" />

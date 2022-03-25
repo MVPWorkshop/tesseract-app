@@ -35,7 +35,7 @@ export function getTokenInUSD(assetValue: SupportedNumbers, priceUSD: SupportedN
 export function getShareInFormattedToken(shares: SupportedNumbers, pricePerShare: SupportedNumbers, decimals: number): BigDecimal {
   const bigDecimalShares = new BigDecimal(shares.toString());
   const bigDecimalPricePerShare = new BigDecimal(pricePerShare.toString());
-
+  console.log("DECIMALS", bigDecimalShares, bigDecimalPricePerShare);
   const sharesInToken = bigDecimalShares.multiply(bigDecimalPricePerShare);
   return Web3Util.formatTokenNumber(sharesInToken.getValue(), decimals * 2);
 }
