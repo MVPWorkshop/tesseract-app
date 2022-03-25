@@ -64,7 +64,7 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
     }
 
     return "0";
-  }
+  };
 
   const getFormattedBalanceInUSD = () => {
     if (balance && priceUSD && decimals) {
@@ -73,7 +73,7 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
     }
 
     return null;
-  }
+  };
 
   const getDepositedValueInUSD = () => {
     if (vaultData?.userShares && priceUSD && decimals) {
@@ -82,7 +82,7 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
     }
 
     return null;
-  }
+  };
 
   return (
     <div onClick={onClick} className={styles.vaultHeader}>
