@@ -1,12 +1,12 @@
 import React, { MouseEventHandler, useEffect, useState, Fragment } from "react";
 import styles from "./vault.organism.module.scss";
 import { ISetBalanceOptions, IVaultProps } from "./vault.organism.types";
-import { tokenIcons } from "../../../shared/constants/common.constants";
+// import { tokenIcons } from "../../../shared/constants/common.constants";
 import { Col, Row, Table } from "react-bootstrap";
 import { Trans } from "@lingui/macro";
 import Typography from "../../atoms/Typography/typography.atom";
 import { EColor, EFontWeight } from "../../../shared/types/styles.types";
-import DropdownArrow from "../../atoms/DropdownArrow/dropdownArrow.atom";
+// import DropdownArrow from "../../atoms/DropdownArrow/dropdownArrow.atom";
 import Button from "../../atoms/Button/button.atom";
 import { classes } from "../../../shared/utils/styles.util";
 import Separator from "../../atoms/Separator/separator.atom";
@@ -45,11 +45,11 @@ import {
   formattedTokenToShare,
   getMaxDepositAmount,
   getShareInFormattedToken,
-  getTokenInUSD
+  // getTokenInUSD
 } from "../../../shared/utils/vault.util";
 import BigDecimal from "js-big-decimal";
 import { BigNumber } from "ethers";
-import Skeleton from "../../atoms/Skeleton/skeleton.atom";
+// import Skeleton from "../../atoms/Skeleton/skeleton.atom";
 import { buyTokenUrlByTokenAndNetwork, tokenLabels } from "../../../shared/constants/web3.constants";
 import VaultHeader from "../../molecules/VaultHeader/vaultHeader.molecule";
 
@@ -70,7 +70,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const {
     balance,
     decimals,
-    priceUSD,
+    // priceUSD,
     amountApproved
   } = useSelector<RootState, ITokenReduxState>(state => state.tokens[token]);
 
@@ -139,7 +139,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     }
   };
 
-  const TokenLogo = tokenIcons[token];
+  // const TokenLogo = tokenIcons[token];
   const sliderMarks = [1, 25, 50, 75, 100];
 
   const getIsEnoughTokensApproved = () => {
@@ -182,8 +182,8 @@ const Vault: React.FC<IVaultProps> = (props) => {
     }
   };
 
-  const vaultAPY = (vaultData && vaultData.apy) ? (new BigDecimal(vaultData.apy * 100)) : null;
-  const tvl = (vaultData && vaultData.tvl && priceUSD && decimals) ? getTokenInUSD(vaultData.tvl, priceUSD, decimals) : null;
+  // const vaultAPY = (vaultData && vaultData.apy) ? (new BigDecimal(vaultData.apy * 100)) : null;
+  // const tvl = (vaultData && vaultData.tvl && priceUSD && decimals) ? getTokenInUSD(vaultData.tvl, priceUSD, decimals) : null;
   const formattedBalance = (balance && decimals) ? Web3Util.formatTokenNumber(balance, decimals, 6) : null;
   const formattedUserShares = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInFormattedToken(vaultData.userShares, vaultData.sharePrice, decimals).round(6) : null;
   const maxDepositAmount = (balance && decimals && vaultData && vaultData.depositLimit) ?
@@ -262,7 +262,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     });
   };
 
-  const buyTokenUrl = buyTokenUrlByTokenAndNetwork[token][chainId];
+  // const buyTokenUrl = buyTokenUrlByTokenAndNetwork[token][chainId];
 
   const updateBalanceInput = (options: ISetBalanceOptions) => {
     const { value, handler } = options;

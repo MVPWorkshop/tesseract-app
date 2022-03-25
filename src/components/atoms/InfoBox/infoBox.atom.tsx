@@ -6,10 +6,12 @@ import {EColor, EFontWeight} from "../../../shared/types/styles.types";
 
 const InfoBox: React.FC<IInfoBox> = (props) => {
   const {usdValue, value, footer} = props;
+  // temp - find a better way to handle this
+  const showUsdValue = usdValue && usdValue !== "$0"; 
 
   return (
     <div className={styles.infoBox}>
-      { usdValue && (
+      { showUsdValue && (
         <Typography 
           fontSize={13}
           fontWeight={EFontWeight.SEMI_BOLD}

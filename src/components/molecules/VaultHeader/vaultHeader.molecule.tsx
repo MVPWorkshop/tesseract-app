@@ -12,20 +12,20 @@ import {IVaultHeader} from "./vaultHeader.molecule.types";
 import {getShareInFormattedToken, getTokenInUSD} from "../../../shared/utils/vault.util";
 import {RootState} from "../../../redux/redux.types";
 import {ITokenReduxState} from "../../../redux/tokens/tokens.redux.types";
+import Web3Util from "../../../shared/utils/web3.util";
 
 const VaultHeader: React.FC<IVaultHeader> = (props) => {
   const {onClick, token, chainId, vaultData} = props;
   const {
     decimals,
     priceUSD,
+    balance,
   } = useSelector<RootState, ITokenReduxState>(state => state.tokens[token]);
   const tokenLogo = tokenIcons[token];
   const buyTokenUrl = buyTokenUrlByTokenAndNetwork[token][chainId];
   const vaultAPY = (vaultData && vaultData.apy) ? (new BigDecimal(vaultData.apy * 100)) : null;
   const apy = formatAssetDisplayValue(vaultAPY?.round(2).getValue());
   
-  console.log("VAULT DATA", vaultData);
-
   const getFormattedUserShares = () => {
     if (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) {
       const formattedUserShares = getShareInFormattedToken(
@@ -38,15 +38,16 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
     }
 
     return "0";
-  }
+  };
 
   const getFormattedTVL = () => {
     if (vaultData && vaultData.tvl && priceUSD && decimals) {
       const tvl = getTokenInUSD(vaultData.tvl, priceUSD, decimals);
-      return formatAssetDisplayValue(tvl?.getValue(), { humanize: true })
+
+      return formatAssetDisplayValue(tvl?.getValue(), { humanize: true });
     }
     return null;
-  }
+  };
 
   const getTokenLabel = () => {
     if (tokenLabels[token] && tokenLabels[token][chainId]) {
@@ -54,6 +55,33 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
     }
 
     return token;
+  };
+
+  const getFormattedBalance = () => {
+    if (balance && decimals) {
+      const formattedBalance = Web3Util.formatTokenNumber(balance, decimals, 6);
+      return formatAssetDisplayValue(formattedBalance?.getValue());
+    }
+
+    return "0";
+  }
+
+  const getFormattedBalanceInUSD = () => {
+    if (balance && priceUSD && decimals) {
+      const depositValue = getTokenInUSD(balance, priceUSD, decimals);
+      return formatAssetDisplayValue(depositValue?.getValue(), {humanize: true});
+    }
+
+    return null;
+  }
+
+  const getDepositedValueInUSD = () => {
+    if (vaultData?.userShares && priceUSD && decimals) {
+      const depositValue = getTokenInUSD(vaultData?.userShares, priceUSD, decimals);
+      return formatAssetDisplayValue(depositValue?.getValue(), {humanize: true});
+    }
+
+    return null;
   }
 
   return (
@@ -67,13 +95,24 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
         />
       </div>
       <div className={styles.tokenDataColumn}>
-        <InfoBox usdValue="$12,000" value="2" footer="Wallet" />
+        <InfoBox 
+          usdValue={getFormattedBalanceInUSD()} 
+          value={getFormattedBalance()} 
+          footer="Wallet" 
+        />
       </div>
       <div className={styles.tokenDataColumn}>
-        <InfoBox value={getFormattedUserShares()} footer="Deposited" />
+        <InfoBox 
+          usdValue={getDepositedValueInUSD()}
+          value={getFormattedUserShares()} 
+          footer="Deposited" 
+        />
       </div>
       <div className={styles.tokenDataColumn}>
-        <InfoBox value={`${apy}%`} footer="APY" />
+        <InfoBox 
+          value={`${apy}%`} 
+          footer="APY" 
+        />
       </div>
       <div className={styles.tokenDataColumn}>
         <InfoBox value={getFormattedTVL()} footer="TVL" />
