@@ -17,6 +17,23 @@ export const supportedLocaleList: ESupportedLocales[] = [
   ESupportedLocales.INTERSLAVIC
 ];
 
+export enum EAssetType {
+  LP = "Add liquidity",
+  Token = "Buy token",
+}
+
+export const tokenTypes: DynamicObject<EAssetType, ESupportedTokens, AllKeysRequired> = {
+  [ESupportedTokens.USDC]: EAssetType.Token,
+  [ESupportedTokens.USDT]: EAssetType.Token,
+  [ESupportedTokens.DAI]: EAssetType.Token,
+  [ESupportedTokens.WETH]: EAssetType.Token,
+  [ESupportedTokens.WBTC]: EAssetType.Token,
+  [ESupportedTokens.WMATIC]: EAssetType.Token,
+  [ESupportedTokens.WAVAX]: EAssetType.Token,
+  [ESupportedTokens.CRVTRICRYPTO]: EAssetType.LP
+
+}
+
 export const tokenIcons: DynamicObject<SvgComponent, ESupportedTokens, AllKeysRequired> = {
   [ESupportedTokens.USDC]: USDCSVG,
   [ESupportedTokens.USDT]: USDTSVG,

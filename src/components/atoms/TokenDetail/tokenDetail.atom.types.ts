@@ -1,9 +1,5 @@
 import {SvgComponent} from "../../../shared/types/util.types";
-
-export enum EAssetType {
-  LP = "Add liquidity",
-  Token = "Buy token",
-}
+import { EAssetType } from "../../../shared/constants/common.constants";
 
 export interface ITokenDetail {
   assetType: EAssetType

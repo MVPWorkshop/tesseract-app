@@ -499,6 +499,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
             token={token} 
             chainId={chainId} 
             vaultData={vaultData} 
+            loading={isFetchingAnyData}
           />
           <div className={classes(styles.body, [isOpen, styles.open], [!isSignerAvailable, styles.noWallet])}>
             <div className={styles.content}>

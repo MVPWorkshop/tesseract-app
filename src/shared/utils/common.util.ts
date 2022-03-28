@@ -49,7 +49,7 @@ export function humanizeValue(value: number) {
 
 export function formatAssetDisplayValue(value: any, options = { humanize: false }) {
   if (isEmptyValue(value)) {
-    return "-";
+    return "0";
   } else {
     // eslint-disable-next-line 
     if (value == 0) {

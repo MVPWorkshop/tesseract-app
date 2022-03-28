@@ -7,6 +7,7 @@ export interface IVaultHeader {
   onClick: MouseEventHandler<HTMLDivElement>;
   token: ESupportedTokens;
   chainId: EChainId;
+  loading: boolean;
   vaultData?: IVaultReduxState;
 }
 

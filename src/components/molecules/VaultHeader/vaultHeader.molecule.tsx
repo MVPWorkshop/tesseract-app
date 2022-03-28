@@ -1,26 +1,28 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import BigDecimal from "js-big-decimal";
-import {tokenIcons} from "../../../shared/constants/common.constants";
+import {tokenIcons, tokenTypes} from "../../../shared/constants/common.constants";
 import {buyTokenUrlByTokenAndNetwork, tokenLabels} from "../../../shared/constants/web3.constants";
 import {formatAssetDisplayValue} from "../../../shared/utils/common.util";
 import InfoBox from "../../atoms/InfoBox/infoBox.atom";
-import TokenDetail from "../../atoms/TokenDetail/tokenDetail.atom";
-import {EAssetType} from "../../atoms/TokenDetail/tokenDetail.atom.types";
-import styles from "./vaultHeader.molecule.module.scss";
-import {IVaultHeader} from "./vaultHeader.molecule.types";
 import {getShareInFormattedToken, getTokenInUSD} from "../../../shared/utils/vault.util";
 import {RootState} from "../../../redux/redux.types";
 import {ITokenReduxState} from "../../../redux/tokens/tokens.redux.types";
 import Web3Util from "../../../shared/utils/web3.util";
+import TokenDetail from "../../atoms/TokenDetail/tokenDetail.atom";
+import { EAssetType } from "../../../shared/constants/common.constants";
+import styles from "./vaultHeader.molecule.module.scss";
+import {IVaultHeader} from "./vaultHeader.molecule.types";
+
 
 const VaultHeader: React.FC<IVaultHeader> = (props) => {
-  const {onClick, token, chainId, vaultData} = props;
+  const {onClick, token, chainId, vaultData, loading} = props;
   const {
     decimals,
     priceUSD,
     balance,
   } = useSelector<RootState, ITokenReduxState>(state => state.tokens[token]);
+  
   const tokenLogo = tokenIcons[token];
   const buyTokenUrl = buyTokenUrlByTokenAndNetwork[token][chainId];
   const vaultAPY = (vaultData && vaultData.apy) ? (new BigDecimal(vaultData.apy * 100)) : null;
@@ -46,7 +48,8 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
 
       return formatAssetDisplayValue(tvl?.getValue(), { humanize: true });
     }
-    return null;
+
+    return "0";
   };
 
   const getTokenLabel = () => {
@@ -88,7 +91,7 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
     <div onClick={onClick} className={styles.vaultHeader}>
       <div className={styles.tokenInfoColumn}>
         <TokenDetail
-          assetType={EAssetType.Token}
+          assetType={tokenTypes[token]}
           name={getTokenLabel()!}
           purchaseLink={buyTokenUrl}
           logo={tokenLogo}
@@ -99,6 +102,7 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
           usdValue={getFormattedBalanceInUSD()} 
           value={getFormattedBalance()} 
           footer="Wallet" 
+          loading={loading}
         />
       </div>
       <div className={styles.tokenDataColumn}>
@@ -106,16 +110,18 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
           usdValue={getDepositedValueInUSD()}
           value={getFormattedUserShares()} 
           footer="Deposited" 
+          loading={loading}
         />
       </div>
       <div className={styles.tokenDataColumn}>
         <InfoBox 
           value={`${apy}%`} 
           footer="APY" 
+          loading={loading}
         />
       </div>
       <div className={styles.tokenDataColumn}>
-        <InfoBox value={getFormattedTVL()} footer="TVL" />
+        <InfoBox value={getFormattedTVL()} footer="TVL" loading={loading} />
       </div>
     </div>
   );
