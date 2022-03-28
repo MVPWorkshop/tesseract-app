@@ -32,7 +32,7 @@ export const tokenTypes: DynamicObject<EAssetType, ESupportedTokens, AllKeysRequ
   [ESupportedTokens.WAVAX]: EAssetType.Token,
   [ESupportedTokens.CRVTRICRYPTO]: EAssetType.LP
 
-}
+};
 
 export const tokenIcons: DynamicObject<SvgComponent, ESupportedTokens, AllKeysRequired> = {
   [ESupportedTokens.USDC]: USDCSVG,

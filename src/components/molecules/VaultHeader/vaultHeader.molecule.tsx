@@ -10,7 +10,6 @@ import {RootState} from "../../../redux/redux.types";
 import {ITokenReduxState} from "../../../redux/tokens/tokens.redux.types";
 import Web3Util from "../../../shared/utils/web3.util";
 import TokenDetail from "../../atoms/TokenDetail/tokenDetail.atom";
-import { EAssetType } from "../../../shared/constants/common.constants";
 import styles from "./vaultHeader.molecule.module.scss";
 import {IVaultHeader} from "./vaultHeader.molecule.types";
 
