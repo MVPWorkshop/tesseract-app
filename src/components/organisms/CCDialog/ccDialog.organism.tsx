@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useWeb3 from "../../../hooks/useWeb3";
+import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { useDispatch } from "react-redux";
 import { arbirtrayChainDataById } from "../../../shared/constants/web3.constants";
 import TextDialog from "../../atoms/TextDialog/textDialog.atom";
@@ -25,7 +26,8 @@ const ChainConstrainDialog: React.FC<IChainConstrainDialogProps> = (props) => {
   const {
     isChainSupported,
     chainId,
-    library
+    library,
+    connector,
   } = useWeb3();
 
   const switchToChain = (_chainId: number) => async () => {
@@ -40,6 +42,8 @@ const ChainConstrainDialog: React.FC<IChainConstrainDialogProps> = (props) => {
 
     setIsSwitchingNetwork(false);
   };
+
+  const isWalletConnect = connector && connector instanceof WalletConnectConnector;
 
   const dispatch = useDispatch();
   const [isSwitchingNetwork, setIsSwitchingNetwork] = useState<boolean>(false);
@@ -62,15 +66,20 @@ const ChainConstrainDialog: React.FC<IChainConstrainDialogProps> = (props) => {
           &nbsp;{networkError}
         </Typography>
         <div className="d-flex">
-          <Button
-            theme={"tertiary"}
-            onClick={switchToChain(wantedNetwork)}
-            loading={isSwitchingNetwork}
-          >
-            <Typography>
-              <Trans>Switch to {wantedNetworkLabel} Network</Trans>
-            </Typography>
-          </Button>
+          {
+            !isWalletConnect && (
+              <Button
+                theme={"tertiary"}
+                onClick={switchToChain(wantedNetwork)}
+                loading={isSwitchingNetwork}
+              >
+                <Typography>
+                  <Trans>Switch to {wantedNetworkLabel} Network</Trans>
+                </Typography>
+              </Button>
+
+            )
+          }
           { (chainId && isChainSupported) &&
             <RouterLink to={getVaultPageRoute(chainId as EChainId)}>
               <Button
