@@ -67,18 +67,19 @@ const ChainConstrainDialog: React.FC<IChainConstrainDialogProps> = (props) => {
         </Typography>
         <div className="d-flex">
           {
-            !isWalletConnect &&
-            <Button
-            theme={"tertiary"}
-            onClick={switchToChain(wantedNetwork)}
-            loading={isSwitchingNetwork}
-            >
-              <Typography>
-                <Trans>Switch to {wantedNetworkLabel} Network</Trans>
-              </Typography>
-            </Button>
+            !isWalletConnect && (
+              <Button
+              theme={"tertiary"}
+              onClick={switchToChain(wantedNetwork)}
+              loading={isSwitchingNetwork}
+              >
+                <Typography>
+                  <Trans>Switch to {wantedNetworkLabel} Network</Trans>
+                </Typography>
+              </Button>
+
+            )
           }
-          
           { (chainId && isChainSupported) &&
             <RouterLink to={getVaultPageRoute(chainId as EChainId)}>
               <Button
