@@ -69,9 +69,9 @@ const ChainConstrainDialog: React.FC<IChainConstrainDialogProps> = (props) => {
           {
             !isWalletConnect && (
               <Button
-              theme={"tertiary"}
-              onClick={switchToChain(wantedNetwork)}
-              loading={isSwitchingNetwork}
+                theme={"tertiary"}
+                onClick={switchToChain(wantedNetwork)}
+                loading={isSwitchingNetwork}
               >
                 <Typography>
                   <Trans>Switch to {wantedNetworkLabel} Network</Trans>
