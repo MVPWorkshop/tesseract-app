@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import BigDecimal from "js-big-decimal";
 import {tokenIcons, tokenTypes} from "../../../shared/constants/common.constants";
 import {buyTokenUrlByTokenAndNetwork, tokenLabels} from "../../../shared/constants/web3.constants";
-import {formatAssetDisplayValue, isZero} from "../../../shared/utils/common.util";
+import {formatAssetDisplayValue} from "../../../shared/utils/common.util";
 import InfoBox from "../../atoms/InfoBox/infoBox.atom";
 import {getShareInFormattedToken, getTokenInUSD} from "../../../shared/utils/vault.util";
 import {RootState} from "../../../redux/redux.types";
