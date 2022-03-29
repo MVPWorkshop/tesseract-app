@@ -1,6 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import BigDecimal from "js-big-decimal";
+import { i18n } from "@lingui/core";
+import { t } from "@lingui/macro";
 import {tokenIcons, tokenTypes} from "../../../shared/constants/common.constants";
 import {buyTokenUrlByTokenAndNetwork, tokenLabels} from "../../../shared/constants/web3.constants";
 import {formatAssetDisplayValue} from "../../../shared/utils/common.util";
@@ -111,7 +113,7 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
         <InfoBox 
           header={getHeaderValue(formattedBalance, getFormattedBalanceInUSD())}
           value={formattedBalance} 
-          footer="Wallet" 
+          footer={i18n._(t`Balance`)}
           loading={loading}
         />
       </div>
@@ -119,19 +121,19 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
         <InfoBox 
           header={getHeaderValue(formattedUserShares, getDepositedValueInUSD())}
           value={formattedUserShares} 
-          footer="Deposited" 
+          footer={i18n._(t`Deposited`)}
           loading={loading}
         />
       </div>
       <div className={styles.tokenDataColumn}>
         <InfoBox 
           value={`${apy}%`} 
-          footer="APY" 
+          footer={i18n._(t`APY`)}
           loading={loading}
         />
       </div>
       <div className={styles.tokenDataColumn}>
-        <InfoBox value={getFormattedTVL()} footer="TVL" loading={loading} />
+        <InfoBox value={getFormattedTVL()} footer={i18n._(t`TVL`)} loading={loading} />
       </div>
     </div>
   );
