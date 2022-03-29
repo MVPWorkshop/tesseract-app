@@ -1,6 +1,7 @@
+import {Nullable} from "../../../shared/types/util.types";
+
 export interface IInfoBox {
-  header?: string;
-  showHeader?: boolean;
+  header?: Nullable<string>;
   value: string;
   footer: string;
   loading: boolean;
