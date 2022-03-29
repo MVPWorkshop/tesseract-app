@@ -86,9 +86,9 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
     return null;
   };
 
-  const isZeroString = (value: string) => {
-    return ["0", "$0"].includes(value);
-  }
+  const showHeader = (value: string) => {
+    return !!value && !["0", "$0"].includes(value);
+  };
 
   const formattedBalance = getFormattedBalance();
   const formattedUserShares = getFormattedUserShares();
@@ -106,7 +106,7 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
       <div className={styles.tokenDataColumn}>
         <InfoBox 
           header={getFormattedBalanceInUSD()} 
-          showHeader={!formattedBalance || !isZeroString(formattedBalance)}
+          showHeader={showHeader(formattedBalance)}
           value={formattedBalance} 
           footer="Wallet" 
           loading={loading}
@@ -115,7 +115,7 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
       <div className={styles.tokenDataColumn}>
         <InfoBox 
           header={getDepositedValueInUSD()}
-          showHeader={!formattedUserShares || !isZeroString(formattedUserShares)}
+          showHeader={showHeader(formattedUserShares)}
           value={formattedUserShares} 
           footer="Deposited" 
           loading={loading}

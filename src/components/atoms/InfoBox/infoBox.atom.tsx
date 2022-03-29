@@ -6,14 +6,11 @@ import { IInfoBox } from "./infoBox.atom.types";
 import styles from "./infoBox.atom.module.scss";
 
 const InfoBox: React.FC<IInfoBox> = (props) => {
-
   const {header, value, footer, loading = false, showHeader = false} = props;
-  // temp - find a better way to handle this
-  const showUsdValue = header && header !== "$0"; 
 
   return (
     <div className={styles.infoBox}>
-      { (showUsdValue && !loading) && (
+      { showHeader && (
         <Typography 
           fontSize={13}
           fontWeight={EFontWeight.SEMI_BOLD}
