@@ -120,12 +120,24 @@ export const tokenLabels: ValueByTokenAndNetwork = {
 
 // @TODO Abstract a bit more
 export const buyTokenUrlByTokenAndNetwork: ValueByTokenAndNetwork = {
-  [ESupportedTokens.USDC]: {},
-  [ESupportedTokens.USDT]: {},
-  [ESupportedTokens.DAI]: {},
-  [ESupportedTokens.WETH]: {},
-  [ESupportedTokens.WBTC]: {},
-  [ESupportedTokens.WMATIC]: {},
+  [ESupportedTokens.USDC]: {
+    [EChainId.POLYGON_MAINNET]: `https://quickswap.exchange/#/swap?outputCurrency=${addressByNetworkAndToken[ESupportedTokens.USDC][EChainId.POLYGON_MAINNET]}`
+  },
+  [ESupportedTokens.USDT]: {
+    [EChainId.POLYGON_MAINNET]: `https://quickswap.exchange/#/swap?outputCurrency=${addressByNetworkAndToken[ESupportedTokens.USDT][EChainId.POLYGON_MAINNET]}`
+  },
+  [ESupportedTokens.DAI]: {
+    [EChainId.POLYGON_MAINNET]: `https://quickswap.exchange/#/swap?outputCurrency=${addressByNetworkAndToken[ESupportedTokens.DAI][EChainId.POLYGON_MAINNET]}`
+  },
+  [ESupportedTokens.WETH]: {
+    [EChainId.POLYGON_MAINNET]: `https://quickswap.exchange/#/swap?outputCurrency=${addressByNetworkAndToken[ESupportedTokens.WETH][EChainId.POLYGON_MAINNET]}`
+  },
+  [ESupportedTokens.WBTC]: {
+    [EChainId.POLYGON_MAINNET]: `https://quickswap.exchange/#/swap?outputCurrency=${addressByNetworkAndToken[ESupportedTokens.WBTC][EChainId.POLYGON_MAINNET]}`
+  },
+  [ESupportedTokens.WMATIC]: {
+    [EChainId.POLYGON_MAINNET]: `https://quickswap.exchange/#/swap?outputCurrency=${addressByNetworkAndToken[ESupportedTokens.WMATIC][EChainId.POLYGON_MAINNET]}`
+  },
   [ESupportedTokens.WAVAX]: {},
   [ESupportedTokens.CRVTRICRYPTO]: {
     [EChainId.POLYGON_MAINNET]: "https://polygon.curve.fi/atricrypto3/deposit",
