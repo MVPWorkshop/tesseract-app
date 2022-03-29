@@ -5,7 +5,7 @@ const Link: React.FC<ILinkProps> = (props) => {
 
   const {
     link,
-    className = "",
+    className,
     newTab = true
   } = props;
 

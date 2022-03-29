@@ -21,6 +21,10 @@
       line-height: 16px;
       text-decoration: underline;
       color: map-get($colors, "white");
+
+      &:hover {
+        color: map-get($accents, "primary");
+      }
     }
   } 
 }
