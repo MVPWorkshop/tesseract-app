@@ -121,13 +121,15 @@ export const tokenLabels: ValueByTokenAndNetwork = {
 // @TODO Abstract a bit more
 export const buyTokenUrlByTokenAndNetwork: ValueByTokenAndNetwork = {
   [ESupportedTokens.USDC]: {
-    [EChainId.POLYGON_MAINNET]: `https://quickswap.exchange/#/swap?outputCurrency=${addressByNetworkAndToken[ESupportedTokens.USDC][EChainId.POLYGON_MAINNET]}`
+    [EChainId.POLYGON_MAINNET]: `https://quickswap.exchange/#/swap?outputCurrency=${addressByNetworkAndToken[ESupportedTokens.USDC][EChainId.POLYGON_MAINNET]}`,
+    [EChainId.AVAX_MAINNET]: `https://traderjoexyz.com/trade?outputCurrency=${addressByNetworkAndToken[ESupportedTokens.USDC][EChainId.AVAX_MAINNET]}`,
   },
   [ESupportedTokens.USDT]: {
     [EChainId.POLYGON_MAINNET]: `https://quickswap.exchange/#/swap?outputCurrency=${addressByNetworkAndToken[ESupportedTokens.USDT][EChainId.POLYGON_MAINNET]}`
   },
   [ESupportedTokens.DAI]: {
-    [EChainId.POLYGON_MAINNET]: `https://quickswap.exchange/#/swap?outputCurrency=${addressByNetworkAndToken[ESupportedTokens.DAI][EChainId.POLYGON_MAINNET]}`
+    [EChainId.POLYGON_MAINNET]: `https://quickswap.exchange/#/swap?outputCurrency=${addressByNetworkAndToken[ESupportedTokens.DAI][EChainId.POLYGON_MAINNET]}`,
+    [EChainId.AVAX_MAINNET]: `https://traderjoexyz.com/trade?outputCurrency=${addressByNetworkAndToken[ESupportedTokens.DAI][EChainId.AVAX_MAINNET]}`,
   },
   [ESupportedTokens.WETH]: {
     [EChainId.POLYGON_MAINNET]: `https://quickswap.exchange/#/swap?outputCurrency=${addressByNetworkAndToken[ESupportedTokens.WETH][EChainId.POLYGON_MAINNET]}`
@@ -138,7 +140,9 @@ export const buyTokenUrlByTokenAndNetwork: ValueByTokenAndNetwork = {
   [ESupportedTokens.WMATIC]: {
     [EChainId.POLYGON_MAINNET]: `https://quickswap.exchange/#/swap?outputCurrency=${addressByNetworkAndToken[ESupportedTokens.WMATIC][EChainId.POLYGON_MAINNET]}`
   },
-  [ESupportedTokens.WAVAX]: {},
+  [ESupportedTokens.WAVAX]: {
+    [EChainId.AVAX_MAINNET]: `https://traderjoexyz.com/trade?outputCurrency=${addressByNetworkAndToken[ESupportedTokens.WAVAX][EChainId.AVAX_MAINNET]}`,
+  },
   [ESupportedTokens.CRVTRICRYPTO]: {
     [EChainId.POLYGON_MAINNET]: "https://polygon.curve.fi/atricrypto3/deposit",
     [EChainId.AVAX_MAINNET]: "https://avax.curve.fi/atricrypto/deposit"
