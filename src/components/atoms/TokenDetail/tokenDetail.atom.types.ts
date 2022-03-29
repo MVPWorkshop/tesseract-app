@@ -1,8 +1,7 @@
 import {SvgComponent} from "../../../shared/types/util.types";
-import { EAssetType } from "../../../shared/constants/common.constants";
 
 export interface ITokenDetail {
-  assetType: EAssetType
+  assetTypeLabel: string,
   logo: SvgComponent
   name: string
   purchaseLink?: string

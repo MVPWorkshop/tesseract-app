@@ -6,11 +6,13 @@ const Link: React.FC<ILinkProps> = (props) => {
   const {
     link,
     className,
-    newTab = true
+    onClick,
+    newTab = true,
   } = props;
 
   return (
     <a
+      onClick={onClick}
       className={className}
       href={link}
       rel="noopener noreferrer"

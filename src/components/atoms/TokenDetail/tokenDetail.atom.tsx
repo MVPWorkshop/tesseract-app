@@ -6,8 +6,12 @@ import {EFontWeight} from "../../../shared/types/styles.types";
 import Link from "../Link/link.atom";
 
 const TokenDetail: React.FC<ITokenDetail> = (props) => {
-  const {assetType, logo: Logo, name, purchaseLink} = props;
+  const {assetTypeLabel, logo: Logo, name, purchaseLink} = props;
   
+  const onClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    event.stopPropagation();
+  };
+
   return (
     <div className={styles.tokenDetail}>
       <div>
@@ -20,7 +24,7 @@ const TokenDetail: React.FC<ITokenDetail> = (props) => {
         >
           {name}
         </Typography>
-        {purchaseLink && <Link className={styles.purchaseLink} link={purchaseLink}>{assetType}</Link>}
+        {purchaseLink && <Link onClick={onClick} className={styles.purchaseLink} link={purchaseLink}>{assetTypeLabel}</Link>}
       </div>
     </div>
   );

@@ -14,3 +14,10 @@ export interface IConnectorMetadata {
   description: string;
   logo: SvgComponent; 
 }
+
+export enum EAssetType {
+  LP,
+  Token,
+}
+
+

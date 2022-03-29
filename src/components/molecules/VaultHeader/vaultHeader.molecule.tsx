@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import BigDecimal from "js-big-decimal";
 import { i18n } from "@lingui/core";
 import { t } from "@lingui/macro";
-import {tokenIcons, tokenTypes} from "../../../shared/constants/common.constants";
+import {tokenIcons, tokenTypes, assetTypeLabel} from "../../../shared/constants/common.constants";
 import {buyTokenUrlByTokenAndNetwork, tokenLabels} from "../../../shared/constants/web3.constants";
 import {formatAssetDisplayValue} from "../../../shared/utils/common.util";
 import InfoBox from "../../atoms/InfoBox/infoBox.atom";
@@ -103,7 +103,7 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
     <div onClick={onClick} className={styles.vaultHeader}>
       <div className={styles.tokenInfoColumn}>
         <TokenDetail
-          assetType={tokenTypes[token]}
+          assetTypeLabel={assetTypeLabel[tokenTypes[token]]}
           name={getTokenLabel()!}
           purchaseLink={buyTokenUrl}
           logo={tokenLogo}

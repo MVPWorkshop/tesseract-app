@@ -1,3 +1,5 @@
+import { i18n } from "@lingui/core";
+import { t } from "@lingui/macro";
 import { ESupportedLocales } from "../types/locale.types";
 import { AllKeysRequired, DynamicObject, SvgComponent } from "../types/util.types";
 
@@ -11,15 +13,16 @@ import { ReactComponent as TRICRYPTOSVG } from "../assets/tokens/3crv.svg";
 import { ReactComponent as WAVAXSVG } from "../assets/tokens/wavax.svg";
 
 import { ESupportedTokens } from "../types/vault.types";
+import {EAssetType} from "../types/metadata.types";
 
 export const supportedLocaleList: ESupportedLocales[] = [
   ESupportedLocales.ENGLISH,
   ESupportedLocales.INTERSLAVIC
 ];
 
-export enum EAssetType {
-  LP = "Add liquidity",
-  Token = "Buy token",
+export const assetTypeLabel: DynamicObject<string, EAssetType, AllKeysRequired> = {
+  [EAssetType.LP]: i18n._(t`Add liquidity`),
+  [EAssetType.Token]: i18n._(t`Buy token`),
 }
 
 export const tokenTypes: DynamicObject<EAssetType, ESupportedTokens, AllKeysRequired> = {
