@@ -21,6 +21,10 @@ msgstr "API Errored"
 msgid "APY"
 msgstr "APY"
 
+#: src/shared/constants/common.constants.ts:24
+msgid "Add liquidity"
+msgstr "Add liquidity"
+
 #: src/components/organisms/Vault/vault.organism.tsx:412
 msgid "Approve"
 msgstr "Approve"
@@ -46,9 +50,9 @@ msgstr "Available to withdraw"
 msgid "Balance"
 msgstr "Balance"
 
-#: src/components/organisms/Vault/vault.organism.tsx:515
-#~ msgid "Buy token"
-#~ msgstr "Buy token"
+#: src/shared/constants/common.constants.ts:25
+msgid "Buy token"
+msgstr "Buy token"
 
 #: src/components/organisms/Modals/ModalConnectWallet/modalConnectWallet.organism.tsx:233
 msgid "Change wallet"
