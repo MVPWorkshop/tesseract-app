@@ -6,9 +6,10 @@ import { IInfoBox } from "./infoBox.atom.types";
 import styles from "./infoBox.atom.module.scss";
 
 const InfoBox: React.FC<IInfoBox> = (props) => {
-  const {usdValue, value, footer, loading = false} = props;
+
+  const {header, value, footer, loading = false, showHeader = false} = props;
   // temp - find a better way to handle this
-  const showUsdValue = usdValue && usdValue !== "$0"; 
+  const showUsdValue = header && header !== "$0"; 
 
   return (
     <div className={styles.infoBox}>
@@ -18,7 +19,7 @@ const InfoBox: React.FC<IInfoBox> = (props) => {
           fontWeight={EFontWeight.SEMI_BOLD}
           color={EColor.RHYTM}
         >
-          {usdValue}
+          {header}
         </Typography>
       )}
       <Typography

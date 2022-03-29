@@ -1,5 +1,6 @@
 export interface IInfoBox {
-  usdValue?: string;
+  header?: string;
+  showHeader?: boolean;
   value: string;
   footer: string;
   loading: boolean;

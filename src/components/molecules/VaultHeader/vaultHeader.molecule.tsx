@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import BigDecimal from "js-big-decimal";
 import {tokenIcons, tokenTypes} from "../../../shared/constants/common.constants";
 import {buyTokenUrlByTokenAndNetwork, tokenLabels} from "../../../shared/constants/web3.constants";
-import {formatAssetDisplayValue} from "../../../shared/utils/common.util";
+import {formatAssetDisplayValue, isZero} from "../../../shared/utils/common.util";
 import InfoBox from "../../atoms/InfoBox/infoBox.atom";
 import {getShareInFormattedToken, getTokenInUSD} from "../../../shared/utils/vault.util";
 import {RootState} from "../../../redux/redux.types";
@@ -86,6 +86,13 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
     return null;
   };
 
+  const isZeroString = (value: string) => {
+    return ["0", "$0"].includes(value);
+  }
+
+  const formattedBalance = getFormattedBalance();
+  const formattedUserShares = getFormattedUserShares();
+
   return (
     <div onClick={onClick} className={styles.vaultHeader}>
       <div className={styles.tokenInfoColumn}>
@@ -98,16 +105,18 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
       </div>
       <div className={styles.tokenDataColumn}>
         <InfoBox 
-          usdValue={getFormattedBalanceInUSD()} 
-          value={getFormattedBalance()} 
+          header={getFormattedBalanceInUSD()} 
+          showHeader={!formattedBalance || !isZeroString(formattedBalance)}
+          value={formattedBalance} 
           footer="Wallet" 
           loading={loading}
         />
       </div>
       <div className={styles.tokenDataColumn}>
         <InfoBox 
-          usdValue={getDepositedValueInUSD()}
-          value={getFormattedUserShares()} 
+          header={getDepositedValueInUSD()}
+          showHeader={!formattedUserShares || !isZeroString(formattedUserShares)}
+          value={formattedUserShares} 
           footer="Deposited" 
           loading={loading}
         />
