@@ -23,7 +23,7 @@ export const supportedLocaleList: ESupportedLocales[] = [
 export const assetTypeLabel: DynamicObject<string, EAssetType, AllKeysRequired> = {
   [EAssetType.LP]: i18n._(t`Add liquidity`),
   [EAssetType.Token]: i18n._(t`Buy token`),
-}
+};
 
 export const tokenTypes: DynamicObject<EAssetType, ESupportedTokens, AllKeysRequired> = {
   [ESupportedTokens.USDC]: EAssetType.Token,
