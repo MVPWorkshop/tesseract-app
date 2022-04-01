@@ -4,7 +4,7 @@ import BigDecimal from "js-big-decimal";
 import { i18n } from "@lingui/core";
 import { t } from "@lingui/macro";
 import {tokenIcons, tokenTypes, assetTypeLabel} from "../../../shared/constants/common.constants";
-import {buyTokenUrlByTokenAndNetwork, tokenLabels} from "../../../shared/constants/web3.constants";
+import { tokenLabels } from "../../../shared/constants/web3.constants";
 import {formatAssetDisplayValue} from "../../../shared/utils/common.util";
 import InfoBox from "../../atoms/InfoBox/infoBox.atom";
 import {getShareInFormattedToken, getTokenInUSD} from "../../../shared/utils/vault.util";
@@ -25,7 +25,7 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
   } = useSelector<RootState, ITokenReduxState>(state => state.tokens[token]);
   
   const tokenLogo = tokenIcons[token];
-  const buyTokenUrl = buyTokenUrlByTokenAndNetwork[token][chainId];
+  const buyTokenUrl = Web3Util.getDexUrl(token, chainId, tokenTypes[token]);
   const vaultAPY = (vaultData && vaultData.apy) ? (new BigDecimal(vaultData.apy * 100)) : null;
   const apy = formatAssetDisplayValue(vaultAPY?.round(2).getValue());
   
