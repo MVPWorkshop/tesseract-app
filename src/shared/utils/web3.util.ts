@@ -91,7 +91,7 @@ class Web3Util {
   }
 
   public static getDexUrl(token: ESupportedTokens, network: EChainId, assetType: EAssetType): Nullable<string> {
-    if (assetType == EAssetType.Token) {    
+    if (assetType === EAssetType.Token) {
       const traderJoeUrl = "https://traderjoexyz.com/trade?outputCurrency=";
       const quickswapUrl = "https://quickswap.exchange/#/swap?outputCurrency=";
       const tokenAddress = addressByNetworkAndToken[token][network];
