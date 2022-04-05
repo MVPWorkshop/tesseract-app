@@ -1,0 +1,15 @@
+.vaultHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  height: 107px;
+
+  .tokenInfoColumn {
+    flex-grow: 1;
+  }
+
+  .tokenDataColumn {
+    width: 170px;
+  }
+}

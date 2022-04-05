@@ -5,11 +5,15 @@ const Link: React.FC<ILinkProps> = (props) => {
 
   const {
     link,
-    newTab = true
+    className,
+    onClick,
+    newTab = true,
   } = props;
 
   return (
     <a
+      onClick={onClick}
+      className={className}
       href={link}
       rel="noopener noreferrer"
       target={newTab ? "_blank" : undefined}

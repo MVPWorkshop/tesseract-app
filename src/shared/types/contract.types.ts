@@ -39,5 +39,5 @@ export enum EContractType {
 }
 
 // Every tokens needs to have an object, but doesn't have to be supported by every network
-export type ValueByTokenAndNetwork<T = string, KeysRequired = AllKeysRequired> =
+export type ValueByTokenAndNetwork<T = string | null, KeysRequired = AllKeysRequired> =
   DynamicObject<DynamicObject<T, EChainId>, ESupportedTokens, KeysRequired>;

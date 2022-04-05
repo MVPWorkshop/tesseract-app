@@ -1,0 +1,13 @@
+@import '../../../shared/styles/variables';
+
+.infoBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .infoValue {
+    width: 80px;
+    text-align: center;
+  }
+}

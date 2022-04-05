@@ -1,12 +1,10 @@
 import React, { MouseEventHandler, useEffect, useState, Fragment } from "react";
 import styles from "./vault.organism.module.scss";
 import { ISetBalanceOptions, IVaultProps } from "./vault.organism.types";
-import { tokenIcons } from "../../../shared/constants/common.constants";
-import { Col, Row, Table } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { Trans } from "@lingui/macro";
 import Typography from "../../atoms/Typography/typography.atom";
-import { EColor, EFontWeight } from "../../../shared/types/styles.types";
-import DropdownArrow from "../../atoms/DropdownArrow/dropdownArrow.atom";
+import { EColor } from "../../../shared/types/styles.types";
 import Button from "../../atoms/Button/button.atom";
 import { classes } from "../../../shared/utils/styles.util";
 import Separator from "../../atoms/Separator/separator.atom";
@@ -45,12 +43,11 @@ import {
   formattedTokenToShare,
   getMaxDepositAmount,
   getShareInFormattedToken,
-  getTokenInUSD
 } from "../../../shared/utils/vault.util";
 import BigDecimal from "js-big-decimal";
 import { BigNumber } from "ethers";
-import Skeleton from "../../atoms/Skeleton/skeleton.atom";
-import { buyTokenUrlByTokenAndNetwork, tokenLabels } from "../../../shared/constants/web3.constants";
+import { tokenLabels } from "../../../shared/constants/web3.constants";
+import VaultHeader from "../../molecules/VaultHeader/vaultHeader.molecule";
 
 const Vault: React.FC<IVaultProps> = (props) => {
   const {
@@ -69,7 +66,6 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const {
     balance,
     decimals,
-    priceUSD,
     amountApproved
   } = useSelector<RootState, ITokenReduxState>(state => state.tokens[token]);
 
@@ -138,7 +134,6 @@ const Vault: React.FC<IVaultProps> = (props) => {
     }
   };
 
-  const TokenLogo = tokenIcons[token];
   const sliderMarks = [1, 25, 50, 75, 100];
 
   const getIsEnoughTokensApproved = () => {
@@ -181,8 +176,6 @@ const Vault: React.FC<IVaultProps> = (props) => {
     }
   };
 
-  const vaultAPY = (vaultData && vaultData.apy) ? (new BigDecimal(vaultData.apy * 100)) : null;
-  const tvl = (vaultData && vaultData.tvl && priceUSD && decimals) ? getTokenInUSD(vaultData.tvl, priceUSD, decimals) : null;
   const formattedBalance = (balance && decimals) ? Web3Util.formatTokenNumber(balance, decimals, 6) : null;
   const formattedUserShares = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInFormattedToken(vaultData.userShares, vaultData.sharePrice, decimals).round(6) : null;
   const maxDepositAmount = (balance && decimals && vaultData && vaultData.depositLimit) ?
@@ -260,8 +253,6 @@ const Vault: React.FC<IVaultProps> = (props) => {
       percent: percentage
     });
   };
-
-  const buyTokenUrl = buyTokenUrlByTokenAndNetwork[token][chainId];
 
   const updateBalanceInput = (options: ISetBalanceOptions) => {
     const { value, handler } = options;
@@ -503,71 +494,13 @@ const Vault: React.FC<IVaultProps> = (props) => {
               {isVaultObsolete ? <Trans>OLD</Trans> : null}
             </div>
           }
-          <div className={styles.header} onClick={toggleDropdown}>
-            <div className={styles.tokenLogoContainer}>
-              <TokenLogo className="d-inline mr-2" />
-              <div className="d-flex flex-column">
-                <Typography
-                  fontWeight={EFontWeight.SEMI_BOLD}
-                  className="d-inline"
-                >
-                  {tokenLabel}
-                </Typography>
-                {
-                  buyTokenUrl &&
-                  <Link link={buyTokenUrl}>
-                    <Trans>Buy token</Trans>
-                  </Link>
-                }
-              </div>
-            </div>
-            <Table
-              borderless={true}
-              responsive={true}
-            >
-              <thead>
-                <tr>
-                  <th><Trans>APY</Trans></th>
-                  <th><Trans>Total value locked</Trans></th>
-                  <th><Trans>Deposited value</Trans></th>
-                  <th><Trans>Available to deposit</Trans></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <Skeleton loading={isFetchingAnyData}>
-                      {formatAssetDisplayValue(vaultAPY?.round(2).getValue())}%
-                    </Skeleton>
-                  </td>
-                  <td>
-                    <Skeleton loading={isFetchingAnyData}>
-                      {formatAssetDisplayValue(tvl?.getValue(), { humanize: true })}
-                    </Skeleton>
-                  </td>
-                  <td>
-                    <Skeleton loading={isFetchingAnyData}>
-                      {formatAssetDisplayValue(formattedUserShares?.getValue())}
-                    </Skeleton>
-                  </td>
-                  <td>
-                    <Skeleton loading={isFetchingAnyData}>
-                      {formatAssetDisplayValue(formattedBalance?.getValue())}
-                    </Skeleton>
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
-            <Button
-              theme={"flat"}
-              onClick={toggleDropdown}
-              disableLoadingText={true}
-              loading={isFetchingAnyData}
-              disabled={isFetchingAnyData}
-            >
-              <DropdownArrow isOpen={isOpen} />
-            </Button>
-          </div>
+          <VaultHeader 
+            onClick={toggleDropdown} 
+            token={token} 
+            chainId={chainId} 
+            vaultData={vaultData} 
+            loading={isFetchingAnyData}
+          />
           <div className={classes(styles.body, [isOpen, styles.open], [!isSignerAvailable, styles.noWallet])}>
             <div className={styles.content}>
               {renderDropdownBodyContent()}
@@ -576,7 +509,6 @@ const Vault: React.FC<IVaultProps> = (props) => {
         </div>
       </div>
       <div className={classes(styles.indicator, [isOpen, styles.open])} />
-      {!isOpen && <div className={styles.corner} />}
     </div>
   );
 };

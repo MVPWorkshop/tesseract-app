@@ -117,18 +117,3 @@ export const tokenLabels: ValueByTokenAndNetwork = {
     [EChainId.AVAX_MAINNET]: "ATRICRYPTO"
   }
 };
-
-// @TODO Abstract a bit more
-export const buyTokenUrlByTokenAndNetwork: ValueByTokenAndNetwork = {
-  [ESupportedTokens.USDC]: {},
-  [ESupportedTokens.USDT]: {},
-  [ESupportedTokens.DAI]: {},
-  [ESupportedTokens.WETH]: {},
-  [ESupportedTokens.WBTC]: {},
-  [ESupportedTokens.WMATIC]: {},
-  [ESupportedTokens.WAVAX]: {},
-  [ESupportedTokens.CRVTRICRYPTO]: {
-    [EChainId.POLYGON_MAINNET]: "https://polygon.curve.fi/atricrypto3/deposit",
-    [EChainId.AVAX_MAINNET]: "https://avax.curve.fi/atricrypto/deposit"
-  }
-};

@@ -1,5 +1,5 @@
 import { SUPPORTED_CHAIN_IDS } from "../constants/config.constants";
-import { Nullable } from "../types/util.types";
+import { DynamicObject, Nullable } from "../types/util.types";
 import { UnsupportedChainIdError } from "@web3-react/core";
 import {
   NoEthereumProviderError,
@@ -8,10 +8,13 @@ import {
 import { UserRejectedRequestError as WalletConnectRejectedRequestError } from "@web3-react/walletconnect-connector";
 import { EErrorTypes, WalletConnectorError } from "../types/error.types";
 import { EChainId } from "../types/web3.types";
-import { EXPLORER_URLS, arbirtrayChainDataById, supportedChainIds } from "../constants/web3.constants";
+import { EXPLORER_URLS, arbirtrayChainDataById, supportedChainIds, addressByNetworkAndToken } from "../constants/web3.constants";
+import { EAssetType } from "../types/metadata.types";
 import BigDecimal from "js-big-decimal";
 import { BigNumber } from "ethers";
 import { setMulticallAddress } from "ethers-multicall";
+import {ESupportedTokens} from "../types/vault.types";
+
 
 class Web3Util {
   public static isActiveChainSupported(chainId: Nullable<number>): boolean {
@@ -85,6 +88,32 @@ class Web3Util {
 
       setMulticallAddress(chainId, multicallAddress);
     });
+  }
+
+  public static getDexUrl(token: ESupportedTokens, network: EChainId, assetType: EAssetType): Nullable<string> {
+    if (assetType === EAssetType.Token) {
+      const traderJoeUrl = "https://traderjoexyz.com/trade?outputCurrency=";
+      const quickswapUrl = "https://quickswap.exchange/#/swap?outputCurrency=";
+      const tokenAddress = addressByNetworkAndToken[token][network];
+
+      switch (network) {
+        case EChainId.POLYGON_MAINNET:
+          return `${quickswapUrl}${tokenAddress}`;
+        case EChainId.AVAX_MAINNET:
+          return `${traderJoeUrl}${tokenAddress}`;
+        default:
+          return null;
+      }
+    } else { // EAssetType.LP
+      const liquidityTokensDex: DynamicObject<DynamicObject<string, EChainId>, ESupportedTokens> = {
+        [ESupportedTokens.CRVTRICRYPTO]: {
+          [EChainId.POLYGON_MAINNET]: "https://polygon.curve.fi/atricrypto3/deposit",
+          [EChainId.AVAX_MAINNET]: "https://avax.curve.fi/atricrypto/deposit"
+        },
+      };
+
+      return liquidityTokensDex?.[token]?.[network];
+    }
   }
 }
 
