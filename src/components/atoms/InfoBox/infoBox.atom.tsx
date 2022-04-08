@@ -15,7 +15,7 @@ const InfoBox: React.FC<IInfoBox> = (props) => {
           maximize
           textAlign="center"
           fontSize={13}
-          fontWeight={EFontWeight.SEMI_BOLD}
+          fontWeight={EFontWeight.REGULAR}
           color={EColor.RHYTM}
         >
           {header}
@@ -35,7 +35,7 @@ const InfoBox: React.FC<IInfoBox> = (props) => {
       <Typography
         maximize
         fontSize={13}
-        fontWeight={EFontWeight.SEMI_BOLD}
+        fontWeight={EFontWeight.REGULAR}
         color={EColor.RHYTM}
         textAlign="center"
       >
