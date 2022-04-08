@@ -12,6 +12,8 @@ const InfoBox: React.FC<IInfoBox> = (props) => {
     <div className={styles.infoBox}>
       { header && (
         <Typography 
+          maximize
+          textAlign="center"
           fontSize={13}
           fontWeight={EFontWeight.SEMI_BOLD}
           color={EColor.RHYTM}
@@ -23,15 +25,19 @@ const InfoBox: React.FC<IInfoBox> = (props) => {
         className={styles.infoValue}
         fontSize={19}
         fontWeight={EFontWeight.BOLD}
+        textAlign="center"
+        maximize
       >
         <Skeleton loading={loading}>
           {value}
         </Skeleton>
       </Typography>
       <Typography
+        maximize
         fontSize={13}
         fontWeight={EFontWeight.SEMI_BOLD}
         color={EColor.RHYTM}
+        textAlign="center"
       >
         {footer}
       </Typography>
