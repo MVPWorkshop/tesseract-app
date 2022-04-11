@@ -48,6 +48,7 @@ import BigDecimal from "js-big-decimal";
 import { BigNumber } from "ethers";
 import { tokenLabels } from "../../../shared/constants/web3.constants";
 import VaultHeader from "../../molecules/VaultHeader/vaultHeader.molecule";
+import DepositForm from "../../molecules/DepositForm/depositForm.molecule";
 
 const Vault: React.FC<IVaultProps> = (props) => {
   const {
@@ -264,7 +265,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     };
   };
 
-  const renderBalance = () => {
+  /*const renderBalance = () => {
     const balanceText = `${formatAssetDisplayValue(formattedBalance?.getValue())} ${tokenLabel}`;
     const value = (maxDepositAmount || new BigDecimal(0)).round(decimals);
 
@@ -283,7 +284,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     }
 
     return balanceText;
-  };
+  };*/
 
   const renderUserShares = () => {
     const value = (formattedUserShares || new BigDecimal(0)).round(decimals);
@@ -332,7 +333,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
             element={"p"}
           >
             <Trans>Deposit limit reached, stay tuned till we increase the limit again</Trans>
-          </Typography> : undefined
+          </Typography> : null
         }
         <Separator marginAfter={55} />
         <Row>
@@ -376,54 +377,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
         <br />
         <Row>
           <Col className="mb-4 mb-md-0">
-            <div className="mb-2">
-              <Typography variant={ETypographyVariant.BODY} small={true}>
-                <Trans>Balance</Trans>: &nbsp;
-                {renderBalance()}
-              </Typography>
-            </div>
-            <Input
-              type={EInputType.NUMBER}
-              onChange={onDepositValueChange}
-              value={depositValue.actual.getValue()}
-              disabled={isDepositDisabled}
-              min={"0"}
-              max={maxDepositAmount?.getValue() || "0"}
-            />
-            <Slider
-              value={depositValue.percent}
-              onChange={onDepositPercentageChange}
-              disabled={isDepositDisabled}
-              min={1}
-              max={100}
-              marks={sliderMarks}
-              markSymbol={"%"}
-              className="mt-4 mb-12"
-            />
-            <Row className="mt-6">
-              <Col className="d-flex justify-content-center">
-                <Button
-                  uppercase={true}
-                  className={styles.actionButton}
-                  disabled={isApproveAssetsDisabled || isEnoughTokensApproved}
-                  loading={isApprovingAssets || isFetchingApprovedTokenAmount}
-                  onClick={approveAssets}
-                >
-                  <Trans>Approve</Trans>
-                </Button>
-              </Col>
-              <Col className="d-flex justify-content-center mt-lg-0 mt-4">
-                <Button
-                  uppercase={true}
-                  className={styles.actionButton}
-                  onClick={depositAssets}
-                  disabled={isDepositSomeAssetsDisabled || !isEnoughTokensApproved}
-                  loading={isDepositingAssets}
-                >
-                  <Trans>Deposit</Trans>
-                </Button>
-              </Col>
-            </Row>
+            <DepositForm /> 
           </Col>
           <Col>
             <div className="mb-2">
