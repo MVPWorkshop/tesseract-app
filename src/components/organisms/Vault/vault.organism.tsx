@@ -41,7 +41,7 @@ import { EVaultReduxActions, IVaultReduxState } from "../../../redux/vaults/vaul
 import { parseUnits } from "ethers/lib/utils";
 import {
   formattedTokenToShare,
-  getMaxDepositAmount,
+  // getMaxDepositAmount,
   getShareInFormattedToken,
 } from "../../../shared/utils/vault.util";
 import BigDecimal from "js-big-decimal";
@@ -110,7 +110,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
   });
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [depositValue, setDepositValue] = useState<{ actual: BigDecimal, percent: number }>({ actual: new BigDecimal(0), percent: 0 });
+  // const [depositValue, setDepositValue] = useState<{ actual: BigDecimal, percent: number }>({ actual: new BigDecimal(0), percent: 0 });
   const [withdrawValue, setWithdrawValue] = useState<{ actual: BigDecimal, percent: number }>({ actual: new BigDecimal(0), percent: 0 });
 
   useEffect(() => {
@@ -137,7 +137,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
 
   const sliderMarks = [1, 25, 50, 75, 100];
 
-  const getIsEnoughTokensApproved = () => {
+  /* const getIsEnoughTokensApproved = () => {
     if (depositValue.actual && amountApproved && decimals) {
       const equality =
         Web3Util.formatTokenNumber(amountApproved, decimals).compareTo(depositValue.actual);
@@ -145,25 +145,25 @@ const Vault: React.FC<IVaultProps> = (props) => {
       return (equality === 1 || equality === 0);
     } else {
       return false;
-    }
-  };
-  const isEnoughTokensApproved = getIsEnoughTokensApproved();
+    } 
+  }; */
+  // const isEnoughTokensApproved = getIsEnoughTokensApproved();
 
-  const isApproveAssetsDisabled = !(depositValue.actual && !isEmptyValue(decimals) && account && vaultAddress && isSignerAvailable && chainId);
-  const approveAssets = () => {
+  // const isApproveAssetsDisabled = !(depositValue.actual && !isEmptyValue(decimals) && account && vaultAddress && isSignerAvailable && chainId);
+  /*  const approveAssets = () => {
     if (!isApproveAssetsDisabled) {
       const amountToApprove = parseUnits(depositValue.actual.getValue(), decimals);
       dispatch(approveTokenSpending(token, amountToApprove, account!, vaultAddress!, signer!, chainId));
     }
-  };
+  }; */
 
-  const isDepositSomeAssetsDisabled = !(vaultAddress && account && chainId && isSignerAvailable && depositValue.actual && decimals);
-  const depositAssets = () => {
+  // const isDepositSomeAssetsDisabled = !(vaultAddress && account && chainId && isSignerAvailable && depositValue.actual && decimals);
+  /* const depositAssets = () => {
     if (!isDepositSomeAssetsDisabled) {
       const amountToSpend = parseUnits(depositValue.actual.getValue(), decimals);
       dispatch(depositAssetsIntoVault(token, vaultAddress!, account!, amountToSpend, signer!, chainId));
     }
-  };
+  }; */
 
   const isWithdrawAllAssetsDisabled = !(vaultAddress && account && chainId && isSignerAvailable);
   const isWithdrawSomeAssetsDisabled = isWithdrawAllAssetsDisabled || !(isBigDecimalGt(withdrawValue.actual, new BigDecimal(0)) && decimals && vaultData?.sharePrice);
@@ -177,13 +177,13 @@ const Vault: React.FC<IVaultProps> = (props) => {
     }
   };
 
-  const formattedBalance = (balance && decimals) ? Web3Util.formatTokenNumber(balance, decimals, 6) : null;
+  // const formattedBalance = (balance && decimals) ? Web3Util.formatTokenNumber(balance, decimals, 6) : null;
   const formattedUserShares = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInFormattedToken(vaultData.userShares, vaultData.sharePrice, decimals).round(6) : null;
-  const maxDepositAmount = (balance && decimals && vaultData && vaultData.depositLimit) ?
-    Web3Util.formatTokenNumber(getMaxDepositAmount(balance, vaultData.depositLimit), decimals) : new BigDecimal(0);
-  const isDepositDisabled = isZero(maxDepositAmount);
+  // const maxDepositAmount = (balance && decimals && vaultData && vaultData.depositLimit) ?
+    // Web3Util.formatTokenNumber(getMaxDepositAmount(balance, vaultData.depositLimit), decimals) : new BigDecimal(0);
+  // const isDepositDisabled = isZero(maxDepositAmount);
 
-  const onDepositValueChange = (value: string) => {
+  /*const onDepositValueChange = (value: string) => {
     if (decimals && hasMoreDecimalsThan(value, decimals)) {
       return;
     }
@@ -204,9 +204,9 @@ const Vault: React.FC<IVaultProps> = (props) => {
       actual: parsedValue,
       percent: parseFloat(percent)
     });
-  };
+  };*/
 
-  const onDepositPercentageChange = (percentage: number) => {
+  /* const onDepositPercentageChange = (percentage: number) => {
     const value =
       (maxDepositAmount || new BigDecimal(0))
         .multiply(new BigDecimal(percentage))
@@ -217,7 +217,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
       actual: value,
       percent: percentage
     });
-  };
+  }; */
 
   const onWithdrawValueChange = (value: string) => {
     if (decimals && hasMoreDecimalsThan(value, decimals)) {
