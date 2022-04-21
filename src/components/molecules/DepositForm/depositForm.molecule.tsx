@@ -24,7 +24,8 @@ import { ETokenReduxActions, ITokenReduxState } from "../../../redux/tokens/toke
 import { createLoadingSelector } from "../../../redux/loading/loading.redux.reducer";
 import { Nullable } from "../../../shared/types/util.types";
 import { EVaultReduxActions, IVaultReduxState } from "../../../redux/vaults/vaults.redux.types";
-
+import styles from "./depositForm.molecule.module.scss";
+import { tokenLabels } from "../../../shared/constants/web3.constants";
 
 const DepositForm: React.FC<IDepositFormProps> = (props) => {
   const {
@@ -71,6 +72,7 @@ const DepositForm: React.FC<IDepositFormProps> = (props) => {
   const isDepositDisabled = isZero(maxDepositAmount);
   const isApproveAssetsDisabled = !(depositValue.actual && !isEmptyValue(decimals) && account && vaultAddress && !!signer && chainId);
   const isDepositSomeAssetsDisabled = !(vaultAddress && account && chainId && !!signer && depositValue.actual && decimals);
+  const tokenLabel = tokenLabels[token];
 
   const getIsEnoughTokensApproved = () => {
     if (depositValue.actual && amountApproved && decimals) {

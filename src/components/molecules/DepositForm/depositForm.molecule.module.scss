@@ -1,0 +1,17 @@
+@import "src/shared/styles/variables";
+@import "src/shared/styles/util";
+@import "src/shared/styles/mixins";
+
+.balanceLabel {
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover {
+    color: map-get($accents, "primary");
+  }
+}
+
+.actionButton {
+  min-width: 160px;
+}
+
