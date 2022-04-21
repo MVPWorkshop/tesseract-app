@@ -1,30 +1,30 @@
-import React, {useState} from "react";
-import {useDispatch} from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Trans } from "@lingui/macro";
 import { Col, Row } from "react-bootstrap";
 import BigDecimal from "js-big-decimal";
 
-
 import Typography from "../../atoms/Typography/typography.atom";
-import {ETypographyVariant} from "../../atoms/Typography/typography.atom.types";
+import { ETypographyVariant } from "../../atoms/Typography/typography.atom.types";
 import Slider from "../../atoms/Slider/slider.atom";
 import Input from "../../atoms/Input/input.atom";
-import {EInputType} from "../../atoms/Input/input.atom.types";
+import { EInputType } from "../../atoms/Input/input.atom.types";
 import Button from "../../atoms/Button/button.atom";
-import {formatAssetDisplayValue, hasMoreDecimalsThan, isEmptyValue, isZero} from "../../../shared/utils/common.util";
-import {classes} from "../../../shared/utils/styles.util";
+import { formatAssetDisplayValue, hasMoreDecimalsThan, isEmptyValue, isZero } from "../../../shared/utils/common.util";
+import { classes } from "../../../shared/utils/styles.util";
 import Web3Util from "../../../shared/utils/web3.util";
-import {getMaxDepositAmount} from "../../../shared/utils/vault.util";
-import {depositAssetsIntoVault} from "../../../redux/vaults/vaults.redux.actions";
-import {parseUnits} from "ethers/lib/utils";
-import {approveTokenSpending} from "../../../redux/tokens/tokens.redux.actions";
+import { getMaxDepositAmount } from "../../../shared/utils/vault.util";
+import { depositAssetsIntoVault } from "../../../redux/vaults/vaults.redux.actions";
+import { parseUnits } from "ethers/lib/utils";
+import { approveTokenSpending } from "../../../redux/tokens/tokens.redux.actions";
+import { IDepositFormProps } from "./depositForm.molecule.types";
 
 
-const DepositForm: React.FC = (props) => {
-  const {balance, amountApproved, decimals } = props;
+const DepositForm: React.FC<IDepositFormProps> = (props) => {
+  const { balance, amountApproved, decimals } = props;
   const dispatch = useDispatch();
-  const [depositValue, setDepositValue] = useState<{ actual: BigDecimal, percent: number }>({ 
-    actual: new BigDecimal(0), percent: 0 
+  const [depositValue, setDepositValue] = useState<{ actual: BigDecimal, percent: number }>({
+    actual: new BigDecimal(0), percent: 0
   });
   const sliderMarks = [1, 25, 50, 75, 100];
 
@@ -34,8 +34,8 @@ const DepositForm: React.FC = (props) => {
   const isDepositDisabled = isZero(maxDepositAmount);
   const isApproveAssetsDisabled = !(depositValue.actual && !isEmptyValue(decimals) && account && vaultAddress && isSignerAvailable && chainId);
   const isDepositSomeAssetsDisabled = !(vaultAddress && account && chainId && isSignerAvailable && depositValue.actual && decimals);
-  
-  
+
+
   const getIsEnoughTokensApproved = () => {
     if (depositValue.actual && amountApproved && decimals) {
       const equality =
@@ -86,7 +86,7 @@ const DepositForm: React.FC = (props) => {
     });
   };
 
-const onDepositPercentageChange = (percentage: number) => {
+  const onDepositPercentageChange = (percentage: number) => {
     const value =
       (maxDepositAmount || new BigDecimal(0))
         .multiply(new BigDecimal(percentage))
@@ -171,7 +171,7 @@ const onDepositPercentageChange = (percentage: number) => {
         </Col>
       </Row>
     </>
-  ) 
+  )
 };
 
 export default DepositForm;
