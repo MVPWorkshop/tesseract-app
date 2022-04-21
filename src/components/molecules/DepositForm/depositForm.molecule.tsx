@@ -18,10 +18,15 @@ import { depositAssetsIntoVault } from "../../../redux/vaults/vaults.redux.actio
 import { parseUnits } from "ethers/lib/utils";
 import { approveTokenSpending } from "../../../redux/tokens/tokens.redux.actions";
 import { IDepositFormProps } from "./depositForm.molecule.types";
+import { RootState } from "../../../redux/redux.types";
+import ActionUtil from "../../../shared/utils/action.util";
+import { ETokenReduxActions } from "../../../redux/tokens/tokens.redux.types";
+import { createLoadingSelector } from "../../../redux/loading/loading.redux.reducer";
+import { Nullable } from "../../../shared/types/util.types";
 
 
 const DepositForm: React.FC<IDepositFormProps> = (props) => {
-  const { balance, amountApproved, decimals } = props;
+  const { balance, amountApproved, decimals, token } = props;
   const dispatch = useDispatch();
   const [depositValue, setDepositValue] = useState<{ actual: BigDecimal, percent: number }>({
     actual: new BigDecimal(0), percent: 0
@@ -110,6 +115,12 @@ const DepositForm: React.FC<IDepositFormProps> = (props) => {
     });
   };
 
+  const updateBalanceInput = (value: Nullable<string>) => {
+    if (value) {
+      onDepositValueChange(value);
+    }
+  };
+
   const renderBalance = () => {
     const balanceText = `${formatAssetDisplayValue(formattedBalance?.getValue())} ${tokenLabel}`;
     const value = (maxDepositAmount || new BigDecimal(0)).round(decimals);
@@ -118,10 +129,7 @@ const DepositForm: React.FC<IDepositFormProps> = (props) => {
       return (
         <span
           className={classes(styles.balanceLabel)}
-          onClick={updateBalanceInput({
-            value: value.getValue(),
-            handler: onDepositValueChange
-          })}
+          onClick={() => updateBalanceInput(value.getValue())}
         >
           {balanceText}
         </span>
@@ -182,7 +190,7 @@ const DepositForm: React.FC<IDepositFormProps> = (props) => {
         </Col>
       </Row>
     </>
-  )
+  );
 };
 
 export default DepositForm;
