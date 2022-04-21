@@ -72,7 +72,10 @@ const DepositForm: React.FC<IDepositFormProps> = (props) => {
   const isDepositDisabled = isZero(maxDepositAmount);
   const isApproveAssetsDisabled = !(depositValue.actual && !isEmptyValue(decimals) && account && vaultAddress && !!signer && chainId);
   const isDepositSomeAssetsDisabled = !(vaultAddress && account && chainId && !!signer && depositValue.actual && decimals);
-  const tokenLabel = tokenLabels[token];
+
+  // TODO: convert to selector
+  const tokenLabel = (tokenLabels[token] && tokenLabels[token][chainId]) ? tokenLabels[token][chainId] : token;
+
 
   const getIsEnoughTokensApproved = () => {
     if (depositValue.actual && amountApproved && decimals) {
