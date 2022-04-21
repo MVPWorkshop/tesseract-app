@@ -101,11 +101,11 @@ const Vault: React.FC<IVaultProps> = (props) => {
     createLoadingSelector([ActionUtil.actionName(EVaultReduxActions.WITHDRAW_ALL_ASSETS, vaultAddress)])
   );
 
-  const vaultData: IVaultReduxState | undefined = useSelector<RootState, IVaultReduxState | undefined>(state => {
+  const vaultData: IVaultReduxState | null = useSelector<RootState, IVaultReduxState | null>(state => {
     if (vaultAddress) {
       return state.vaults[vaultAddress];
     } else {
-      return undefined;
+      return null;
     }
   });
 
@@ -377,7 +377,9 @@ const Vault: React.FC<IVaultProps> = (props) => {
         <br />
         <Row>
           <Col className="mb-4 mb-md-0">
-            <DepositForm />
+            <DepositForm
+              token={token}
+            />
           </Col>
           <Col>
             <div className="mb-2">
