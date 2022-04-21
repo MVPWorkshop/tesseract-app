@@ -49,6 +49,7 @@ import { BigNumber } from "ethers";
 import { tokenLabels } from "../../../shared/constants/web3.constants";
 import VaultHeader from "../../molecules/VaultHeader/vaultHeader.molecule";
 import DepositForm from "../../molecules/DepositForm/depositForm.molecule";
+import { Nullable } from "../../../shared/types/util.types";
 
 const Vault: React.FC<IVaultProps> = (props) => {
   const {
@@ -101,7 +102,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     createLoadingSelector([ActionUtil.actionName(EVaultReduxActions.WITHDRAW_ALL_ASSETS, vaultAddress)])
   );
 
-  const vaultData: IVaultReduxState | null = useSelector<RootState, IVaultReduxState | null>(state => {
+  const vaultData: Nullable<IVaultReduxState> = useSelector<RootState, IVaultReduxState | null>(state => {
     if (vaultAddress) {
       return state.vaults[vaultAddress];
     } else {
@@ -378,6 +379,10 @@ const Vault: React.FC<IVaultProps> = (props) => {
         <Row>
           <Col className="mb-4 mb-md-0">
             <DepositForm
+              account={account}
+              chainId={chainId}
+              signer={signer}
+              vaultAddress={vaultAddress}
               token={token}
             />
           </Col>
