@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Trans } from "@lingui/macro";
 import { Col, Row } from "react-bootstrap";
 import BigDecimal from "js-big-decimal";
@@ -62,6 +62,17 @@ const DepositForm: React.FC<IDepositFormProps> = (props) => {
       dispatch(approveTokenSpending(token, amountToApprove, account!, vaultAddress!, signer!, chainId));
     }
   };
+
+  const isFetchingApprovedTokenAmount = useSelector<RootState, boolean>(
+    createLoadingSelector([ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_APPROVED_AMOUNT, token)])
+  );
+  const isApprovingAssets = useSelector<RootState, boolean>(
+    createLoadingSelector([ActionUtil.actionName(ETokenReduxActions.APPROVE_TOKEN_SPENDING, token)])
+  );
+
+  const isDepositingAssets = useSelector<RootState, boolean>(
+    createLoadingSelector([ActionUtil.actionName(EVaultReduxActions.DEPOSIT_ASSETS, vaultAddress)])
+  );
 
   const onDepositValueChange = (value: string) => {
     if (decimals && hasMoreDecimalsThan(value, decimals)) {

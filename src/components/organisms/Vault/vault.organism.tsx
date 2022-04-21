@@ -16,7 +16,7 @@ import Slider from "../../atoms/Slider/slider.atom";
 import Web3Util from "../../../shared/utils/web3.util";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  approveTokenSpending,
+  // approveTokenSpending,
   fetchTokenApprovedAmount
 } from "../../../redux/tokens/tokens.redux.actions";
 import { RootState } from "../../../redux/redux.types";
@@ -24,21 +24,21 @@ import { createLoadingSelector } from "../../../redux/loading/loading.redux.redu
 import ActionUtil from "../../../shared/utils/action.util";
 import { ETokenReduxActions, ITokenReduxState } from "../../../redux/tokens/tokens.redux.types";
 import {
-  depositAssetsIntoVault,
+  // depositAssetsIntoVault,
   fetchUserVaultShares,
   fetchVaultDetails,
   fetchVaultTvl,
   withdrawAssetsFromVault
 } from "../../../redux/vaults/vaults.redux.actions";
 import {
-  formatAssetDisplayValue,
+  // formatAssetDisplayValue,
   hasMoreDecimalsThan,
   isBigDecimalGt,
-  isEmptyValue,
+  // isEmptyValue,
   isZero
 } from "../../../shared/utils/common.util";
 import { EVaultReduxActions, IVaultReduxState } from "../../../redux/vaults/vaults.redux.types";
-import { parseUnits } from "ethers/lib/utils";
+// import { parseUnits } from "ethers/lib/utils";
 import {
   formattedTokenToShare,
   // getMaxDepositAmount,
@@ -65,9 +65,9 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const dispatch = useDispatch();
 
   const {
-    balance,
+    // balance,
     decimals,
-    amountApproved
+    // amountApproved
   } = useSelector<RootState, ITokenReduxState>(state => state.tokens[token]);
 
   const isVaultObsolete = flag === "obsolete";
@@ -85,12 +85,12 @@ const Vault: React.FC<IVaultProps> = (props) => {
     ])
   );
 
-  const isFetchingApprovedTokenAmount = useSelector<RootState, boolean>(
+  /* const isFetchingApprovedTokenAmount = useSelector<RootState, boolean>(
     createLoadingSelector([ActionUtil.actionName(ETokenReduxActions.FETCH_TOKEN_APPROVED_AMOUNT, token)])
   );
   const isApprovingAssets = useSelector<RootState, boolean>(
     createLoadingSelector([ActionUtil.actionName(ETokenReduxActions.APPROVE_TOKEN_SPENDING, token)])
-  );
+  ); */
   const isDepositingAssets = useSelector<RootState, boolean>(
     createLoadingSelector([ActionUtil.actionName(EVaultReduxActions.DEPOSIT_ASSETS, vaultAddress)])
   );
@@ -180,7 +180,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
   // const formattedBalance = (balance && decimals) ? Web3Util.formatTokenNumber(balance, decimals, 6) : null;
   const formattedUserShares = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInFormattedToken(vaultData.userShares, vaultData.sharePrice, decimals).round(6) : null;
   // const maxDepositAmount = (balance && decimals && vaultData && vaultData.depositLimit) ?
-    // Web3Util.formatTokenNumber(getMaxDepositAmount(balance, vaultData.depositLimit), decimals) : new BigDecimal(0);
+  // Web3Util.formatTokenNumber(getMaxDepositAmount(balance, vaultData.depositLimit), decimals) : new BigDecimal(0);
   // const isDepositDisabled = isZero(maxDepositAmount);
 
   /*const onDepositValueChange = (value: string) => {
@@ -377,7 +377,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
         <br />
         <Row>
           <Col className="mb-4 mb-md-0">
-            <DepositForm /> 
+            <DepositForm />
           </Col>
           <Col>
             <div className="mb-2">
@@ -448,11 +448,11 @@ const Vault: React.FC<IVaultProps> = (props) => {
               {isVaultObsolete ? <Trans>OLD</Trans> : null}
             </div>
           }
-          <VaultHeader 
-            onClick={toggleDropdown} 
-            token={token} 
-            chainId={chainId} 
-            vaultData={vaultData} 
+          <VaultHeader
+            onClick={toggleDropdown}
+            token={token}
+            chainId={chainId}
+            vaultData={vaultData}
             loading={isFetchingAnyData}
           />
           <div className={classes(styles.body, [isOpen, styles.open], [!isSignerAvailable, styles.noWallet])}>
