@@ -49,6 +49,7 @@ import { BigNumber } from "ethers";
 import { tokenLabels } from "../../../shared/constants/web3.constants";
 import VaultHeader from "../../molecules/VaultHeader/vaultHeader.molecule";
 import DepositForm from "../../molecules/DepositForm/depositForm.molecule";
+import WithdrawForm from "../../molecules/WithdrawForm/withdrawForm.molecule";
 import { Nullable } from "../../../shared/types/util.types";
 
 const Vault: React.FC<IVaultProps> = (props) => {
@@ -387,7 +388,12 @@ const Vault: React.FC<IVaultProps> = (props) => {
             />
           </Col>
           <Col>
-
+            <WithdrawForm
+              account={account}
+              chainId={chainId}
+              vaultAddress={vaultAddress}
+              token={token}
+            />
           </Col>
         </Row>
       </Fragment>
