@@ -190,7 +190,7 @@ const WithdrawForm: React.FC<IWithdrawFormProps> = (props) => {
         </Col>
       </Row>
     </>
-  )
-}
+  );
+};
 
 export default WithdrawForm;
