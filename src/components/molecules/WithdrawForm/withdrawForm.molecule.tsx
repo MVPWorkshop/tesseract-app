@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Trans } from "@lingui/macro";
 import { Col, Row } from "react-bootstrap";
+import BigDecimal from "js-big-decimal";
 
 import Typography from "../../atoms/Typography/typography.atom";
 import Button from "../../atoms/Button/button.atom";
@@ -9,10 +10,14 @@ import Input from "../../atoms/Input/input.atom";
 import { ETypographyVariant } from "../../atoms/Typography/typography.atom.types";
 import { EInputType } from "../../atoms/Input/input.atom.types";
 import Slider from "../../atoms/Slider/slider.atom";
-import { IVaultReduxState } from "../../../redux/vaults/vaults.redux.types";
+import { EVaultReduxActions, IVaultReduxState } from "../../../redux/vaults/vaults.redux.types";
 import { RootState } from "../../../redux/redux.types";
 import { ITokenReduxState } from "../../../redux/tokens/tokens.redux.types";
 import { classes } from "../../../shared/utils/styles.util";
+import { getShareInFormattedToken } from "../../../shared/utils/vault.util";
+import { tokenLabels } from "../../../shared/constants/web3.constants";
+import { createLoadingSelector } from "../../../redux/loading/loading.redux.reducer";
+import ActionUtil from "../../../shared/utils/action.util";
 
 const WithdrawForm: React.FC = (props) => {
   const {
@@ -22,6 +27,9 @@ const WithdrawForm: React.FC = (props) => {
     signer,
     vaultAddress,
   } = props;
+  const [withdrawValue, setWithdrawValue] = useState<{ actual: BigDecimal, percent: number }>({ actual: new BigDecimal(0), percent: 0 });
+
+  // Selectors
   const {
     decimals,
   } = useSelector<RootState, ITokenReduxState>(state => state.tokens[token]);
@@ -32,8 +40,22 @@ const WithdrawForm: React.FC = (props) => {
       return null;
     }
   });
+  const isDepositingAssets = useSelector<RootState, boolean>(
+    createLoadingSelector([ActionUtil.actionName(EVaultReduxActions.DEPOSIT_ASSETS, vaultAddress)])
+  );
+  const isWithdrawingAssets = useSelector<RootState, boolean>(
+    createLoadingSelector([ActionUtil.actionName(EVaultReduxActions.WITHDRAW_ASSETS, vaultAddress)])
+  );
+  const isWithdrawingAllAssets = useSelector<RootState, boolean>(
+    createLoadingSelector([ActionUtil.actionName(EVaultReduxActions.WITHDRAW_ALL_ASSETS, vaultAddress)])
+  );
 
+
+
+  // TODO - move to a common function
+  const tokenLabel = (tokenLabels[token] && tokenLabels[token][chainId]) ? tokenLabels[token][chainId] : token;
   const sliderMarks = [1, 25, 50, 75, 100];
+  const formattedUserShares = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInFormattedToken(vaultData.userShares, vaultData.sharePrice, decimals).round(6) : null;
 
   const renderUserShares = () => {
     const value = (formattedUserShares || new BigDecimal(0)).round(decimals);
