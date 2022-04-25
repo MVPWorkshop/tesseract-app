@@ -391,6 +391,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
             <WithdrawForm
               account={account}
               chainId={chainId}
+              signer={signer}
               vaultAddress={vaultAddress}
               token={token}
             />

@@ -22,8 +22,10 @@ import { hasMoreDecimalsThan, isBigDecimalGt, isZero } from "../../../shared/uti
 import { Nullable } from "../../../shared/types/util.types";
 import { withdrawAssetsFromVault } from "../../../redux/vaults/vaults.redux.actions";
 import { BigNumber } from "ethers";
+import styles from "./withdrawFrom.molecule.module.scss";
+import { IWithdrawFormProps } from "./withdrawForm.molecule.types";
 
-const WithdrawForm: React.FC = (props) => {
+const WithdrawForm: React.FC<IWithdrawFormProps> = (props) => {
   const {
     token,
     account,
