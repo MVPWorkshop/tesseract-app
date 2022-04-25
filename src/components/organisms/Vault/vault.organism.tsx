@@ -387,55 +387,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
             />
           </Col>
           <Col>
-            <div className="mb-2">
-              <Typography variant={ETypographyVariant.BODY} small={true}>
-                <Trans>Available to withdraw</Trans>:
-                &nbsp;
-                {renderUserShares()}
-              </Typography>
-            </div>
-            <Input
-              type={EInputType.NUMBER}
-              onChange={onWithdrawValueChange}
-              value={withdrawValue.actual.getValue()}
-              min={"0"}
-              max={formattedUserShares?.getValue() || "0"}
-            />
-            <Slider
-              value={withdrawValue.percent}
-              onChange={onWithdrawPercentageChange}
-              min={0}
-              max={100}
-              marks={sliderMarks}
-              markSymbol={"%"}
-              className="mt-4 mb-12"
-            />
-            <Row className="mt-6">
-              <Col className="d-flex justify-content-center">
-                <Button
-                  uppercase={true}
-                  theme={"secondary"}
-                  className={styles.actionButton}
-                  disabled={isWithdrawSomeAssetsDisabled || isDepositingAssets || isWithdrawingAllAssets}
-                  loading={isWithdrawingAssets}
-                  onClick={withdrawAssets(false)}
-                >
-                  <Trans>Withdraw</Trans>
-                </Button>
-              </Col>
-              <Col className="d-flex justify-content-center mt-lg-0 mt-4">
-                <Button
-                  uppercase={true}
-                  theme={"secondary"}
-                  className={styles.actionButton}
-                  disabled={isWithdrawAllAssetsDisabled || isDepositingAssets || isWithdrawingAssets}
-                  onClick={withdrawAssets(true)}
-                  loading={isWithdrawingAllAssets}
-                >
-                  <Trans>Withdraw all</Trans>
-                </Button>
-              </Col>
-            </Row>
+
           </Col>
         </Row>
       </Fragment>
