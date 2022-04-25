@@ -1,18 +1,18 @@
 import React, { MouseEventHandler, useEffect, useState, Fragment } from "react";
 import styles from "./vault.organism.module.scss";
-import { ISetBalanceOptions, IVaultProps } from "./vault.organism.types";
+import { IVaultProps } from "./vault.organism.types";
 import { Col, Row } from "react-bootstrap";
 import { Trans } from "@lingui/macro";
 import Typography from "../../atoms/Typography/typography.atom";
 import { EColor } from "../../../shared/types/styles.types";
-import Button from "../../atoms/Button/button.atom";
+// import Button from "../../atoms/Button/button.atom";
 import { classes } from "../../../shared/utils/styles.util";
 import Separator from "../../atoms/Separator/separator.atom";
 import Link from "../../atoms/Link/link.atom";
 import { ETypographyVariant } from "../../atoms/Typography/typography.atom.types";
-import Input from "../../atoms/Input/input.atom";
-import { EInputType } from "../../atoms/Input/input.atom.types";
-import Slider from "../../atoms/Slider/slider.atom";
+// import Input from "../../atoms/Input/input.atom";
+// import Slider from "../../atoms/Slider/slider.atom";
+// import { EInputType } from "../../atoms/Input/input.atom.types";
 import Web3Util from "../../../shared/utils/web3.util";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -22,30 +22,30 @@ import {
 import { RootState } from "../../../redux/redux.types";
 import { createLoadingSelector } from "../../../redux/loading/loading.redux.reducer";
 import ActionUtil from "../../../shared/utils/action.util";
-import { ETokenReduxActions, ITokenReduxState } from "../../../redux/tokens/tokens.redux.types";
+import { ETokenReduxActions } from "../../../redux/tokens/tokens.redux.types";
 import {
   // depositAssetsIntoVault,
   fetchUserVaultShares,
   fetchVaultDetails,
   fetchVaultTvl,
-  withdrawAssetsFromVault
+  // withdrawAssetsFromVault
 } from "../../../redux/vaults/vaults.redux.actions";
 import {
   // formatAssetDisplayValue,
-  hasMoreDecimalsThan,
-  isBigDecimalGt,
+  // hasMoreDecimalsThan,
+  // isBigDecimalGt,
   // isEmptyValue,
   isZero
 } from "../../../shared/utils/common.util";
 import { EVaultReduxActions, IVaultReduxState } from "../../../redux/vaults/vaults.redux.types";
 // import { parseUnits } from "ethers/lib/utils";
-import {
-  formattedTokenToShare,
-  // getMaxDepositAmount,
-  getShareInFormattedToken,
-} from "../../../shared/utils/vault.util";
-import BigDecimal from "js-big-decimal";
-import { BigNumber } from "ethers";
+// import {
+// formattedTokenToShare,
+// getMaxDepositAmount,
+// getShareInFormattedToken,
+// } from "../../../shared/utils/vault.util";
+// import BigDecimal from "js-big-decimal";
+// import { BigNumber } from "ethers";
 import { tokenLabels } from "../../../shared/constants/web3.constants";
 import VaultHeader from "../../molecules/VaultHeader/vaultHeader.molecule";
 import DepositForm from "../../molecules/DepositForm/depositForm.molecule";
@@ -66,11 +66,11 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const tokenLabel = (tokenLabels[token] && tokenLabels[token][chainId]) ? tokenLabels[token][chainId] : token;
   const dispatch = useDispatch();
 
-  const {
+  /* const {
     // balance,
-    decimals,
+    // decimals,
     // amountApproved
-  } = useSelector<RootState, ITokenReduxState>(state => state.tokens[token]);
+  } = useSelector<RootState, ITokenReduxState>(state => state.tokens[token]); */
 
   const isVaultObsolete = flag === "obsolete";
   const isVaultNew = flag === "new";
@@ -93,7 +93,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
   const isApprovingAssets = useSelector<RootState, boolean>(
     createLoadingSelector([ActionUtil.actionName(ETokenReduxActions.APPROVE_TOKEN_SPENDING, token)])
   ); */
-  const isDepositingAssets = useSelector<RootState, boolean>(
+  /* const isDepositingAssets = useSelector<RootState, boolean>(
     createLoadingSelector([ActionUtil.actionName(EVaultReduxActions.DEPOSIT_ASSETS, vaultAddress)])
   );
   const isWithdrawingAssets = useSelector<RootState, boolean>(
@@ -101,7 +101,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
   );
   const isWithdrawingAllAssets = useSelector<RootState, boolean>(
     createLoadingSelector([ActionUtil.actionName(EVaultReduxActions.WITHDRAW_ALL_ASSETS, vaultAddress)])
-  );
+  ); */
 
   const vaultData: Nullable<IVaultReduxState> = useSelector<RootState, IVaultReduxState | null>(state => {
     if (vaultAddress) {
@@ -113,7 +113,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   // const [depositValue, setDepositValue] = useState<{ actual: BigDecimal, percent: number }>({ actual: new BigDecimal(0), percent: 0 });
-  const [withdrawValue, setWithdrawValue] = useState<{ actual: BigDecimal, percent: number }>({ actual: new BigDecimal(0), percent: 0 });
+  // const [withdrawValue, setWithdrawValue] = useState<{ actual: BigDecimal, percent: number }>({ actual: new BigDecimal(0), percent: 0 });
 
   useEffect(() => {
     if (account && vaultAddress) {
@@ -137,7 +137,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     }
   };
 
-  const sliderMarks = [1, 25, 50, 75, 100];
+  // const sliderMarks = [1, 25, 50, 75, 100];
 
   /* const getIsEnoughTokensApproved = () => {
     if (depositValue.actual && amountApproved && decimals) {
@@ -167,9 +167,9 @@ const Vault: React.FC<IVaultProps> = (props) => {
     }
   }; */
 
-  const isWithdrawAllAssetsDisabled = !(vaultAddress && account && chainId && isSignerAvailable);
-  const isWithdrawSomeAssetsDisabled = isWithdrawAllAssetsDisabled || !(isBigDecimalGt(withdrawValue.actual, new BigDecimal(0)) && decimals && vaultData?.sharePrice);
-  const withdrawAssets = (withdrawAll: boolean) => () => {
+  // const isWithdrawAllAssetsDisabled = !(vaultAddress && account && chainId && isSignerAvailable);
+  // const isWithdrawSomeAssetsDisabled = isWithdrawAllAssetsDisabled || !(isBigDecimalGt(withdrawValue.actual, new BigDecimal(0)) && decimals && vaultData?.sharePrice);
+  /*const withdrawAssets = (withdrawAll: boolean) => () => {
     if (withdrawAll && !isWithdrawAllAssetsDisabled) {
       const amountToWithdraw = -1; // Deposit all
       dispatch(withdrawAssetsFromVault(token, vaultAddress!, account!, amountToWithdraw, signer!, chainId));
@@ -177,10 +177,10 @@ const Vault: React.FC<IVaultProps> = (props) => {
       const amountToWithdraw = formattedTokenToShare(withdrawValue.actual.getValue(), vaultData!.sharePrice!, decimals!);
       dispatch(withdrawAssetsFromVault(token, vaultAddress!, account!, BigNumber.from(amountToWithdraw.getValue()), signer!, chainId));
     }
-  };
+  };*/
 
   // const formattedBalance = (balance && decimals) ? Web3Util.formatTokenNumber(balance, decimals, 6) : null;
-  const formattedUserShares = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInFormattedToken(vaultData.userShares, vaultData.sharePrice, decimals).round(6) : null;
+  // const formattedUserShares = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInFormattedToken(vaultData.userShares, vaultData.sharePrice, decimals).round(6) : null;
   // const maxDepositAmount = (balance && decimals && vaultData && vaultData.depositLimit) ?
   // Web3Util.formatTokenNumber(getMaxDepositAmount(balance, vaultData.depositLimit), decimals) : new BigDecimal(0);
   // const isDepositDisabled = isZero(maxDepositAmount);
@@ -221,7 +221,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     });
   }; */
 
-  const onWithdrawValueChange = (value: string) => {
+  /* const onWithdrawValueChange = (value: string) => {
     if (decimals && hasMoreDecimalsThan(value, decimals)) {
       return;
     }
@@ -242,9 +242,9 @@ const Vault: React.FC<IVaultProps> = (props) => {
       actual: parsedValue,
       percent: parseFloat(percent)
     });
-  };
+  }; */
 
-  const onWithdrawPercentageChange = (percentage: number) => {
+  /* const onWithdrawPercentageChange = (percentage: number) => {
     const value =
       (formattedUserShares || new BigDecimal(0))
         .multiply(new BigDecimal(percentage))
@@ -255,7 +255,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
       actual: value,
       percent: percentage
     });
-  };
+  }; */
 
   /* const updateBalanceInput = (options: ISetBalanceOptions) => {
     const { value, handler } = options;
