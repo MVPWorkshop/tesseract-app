@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Trans } from "@lingui/macro";
 import { Col, Row } from "react-bootstrap";
 import BigDecimal from "js-big-decimal";
@@ -14,10 +14,14 @@ import { EVaultReduxActions, IVaultReduxState } from "../../../redux/vaults/vaul
 import { RootState } from "../../../redux/redux.types";
 import { ITokenReduxState } from "../../../redux/tokens/tokens.redux.types";
 import { classes } from "../../../shared/utils/styles.util";
-import { getShareInFormattedToken } from "../../../shared/utils/vault.util";
+import { formattedTokenToShare, getShareInFormattedToken } from "../../../shared/utils/vault.util";
 import { tokenLabels } from "../../../shared/constants/web3.constants";
 import { createLoadingSelector } from "../../../redux/loading/loading.redux.reducer";
 import ActionUtil from "../../../shared/utils/action.util";
+import { hasMoreDecimalsThan, isBigDecimalGt, isZero } from "../../../shared/utils/common.util";
+import { Nullable } from "../../../shared/types/util.types";
+import { withdrawAssetsFromVault } from "../../../redux/vaults/vaults.redux.actions";
+import { BigNumber } from "ethers";
 
 const WithdrawForm: React.FC = (props) => {
   const {
@@ -27,6 +31,7 @@ const WithdrawForm: React.FC = (props) => {
     signer,
     vaultAddress,
   } = props;
+  const dispatch = useDispatch();
   const [withdrawValue, setWithdrawValue] = useState<{ actual: BigDecimal, percent: number }>({ actual: new BigDecimal(0), percent: 0 });
 
   // Selectors
@@ -50,12 +55,13 @@ const WithdrawForm: React.FC = (props) => {
     createLoadingSelector([ActionUtil.actionName(EVaultReduxActions.WITHDRAW_ALL_ASSETS, vaultAddress)])
   );
 
-
-
   // TODO - move to a common function
   const tokenLabel = (tokenLabels[token] && tokenLabels[token][chainId]) ? tokenLabels[token][chainId] : token;
   const sliderMarks = [1, 25, 50, 75, 100];
   const formattedUserShares = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInFormattedToken(vaultData.userShares, vaultData.sharePrice, decimals).round(6) : null;
+  const isWithdrawAllAssetsDisabled = !(vaultAddress && account && chainId && !!signer);
+  const isWithdrawSomeAssetsDisabled = isWithdrawAllAssetsDisabled || !(isBigDecimalGt(withdrawValue.actual, new BigDecimal(0)) && decimals && vaultData?.sharePrice);
+
 
   const renderUserShares = () => {
     const value = (formattedUserShares || new BigDecimal(0)).round(decimals);
@@ -67,10 +73,7 @@ const WithdrawForm: React.FC = (props) => {
       return (
         <span
           className={classes(styles.balanceLabel)}
-          onClick={updateBalanceInput({
-            value: value.getValue(),
-            handler: onWithdrawValueChange,
-          })}
+          onClick={() => updateBalanceInput(value.getValue())}
         >
           {userShareText}
         </span>
@@ -80,6 +83,58 @@ const WithdrawForm: React.FC = (props) => {
     return userShareText;
   };
 
+  const updateBalanceInput = (value: Nullable<string>) => {
+    if (value) {
+      onWithdrawValueChange(value);
+    }
+  };
+
+  const onWithdrawPercentageChange = (percentage: number) => {
+    const value =
+      (formattedUserShares || new BigDecimal(0))
+        .multiply(new BigDecimal(percentage))
+        .divide(new BigDecimal(100), 64)
+        .round(decimals);
+
+    setWithdrawValue({
+      actual: value,
+      percent: percentage
+    });
+  };
+
+  const withdrawAssets = (withdrawAll: boolean) => () => {
+    if (withdrawAll && !isWithdrawAllAssetsDisabled) {
+      const amountToWithdraw = -1; // Deposit all
+      dispatch(withdrawAssetsFromVault(token, vaultAddress!, account!, amountToWithdraw, signer!, chainId));
+    } else if (!isWithdrawSomeAssetsDisabled) {
+      const amountToWithdraw = formattedTokenToShare(withdrawValue.actual.getValue(), vaultData!.sharePrice!, decimals!);
+      dispatch(withdrawAssetsFromVault(token, vaultAddress!, account!, BigNumber.from(amountToWithdraw.getValue()), signer!, chainId));
+    }
+  };
+
+
+  const onWithdrawValueChange = (value: string) => {
+    if (decimals && hasMoreDecimalsThan(value, decimals)) {
+      return;
+    }
+
+    let percent = "0";
+    const parsedValue = new BigDecimal(value);
+
+    if (formattedUserShares && !isZero(formattedUserShares) && value) {
+      percent =
+        parsedValue
+          .divide(formattedUserShares, 64)
+          .multiply(new BigDecimal(100))
+          .round(2)
+          .getValue();
+    }
+
+    setWithdrawValue({
+      actual: parsedValue,
+      percent: parseFloat(percent)
+    });
+  };
 
   return (
     <>

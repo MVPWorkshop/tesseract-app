@@ -257,7 +257,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     });
   };
 
-  const updateBalanceInput = (options: ISetBalanceOptions) => {
+  /* const updateBalanceInput = (options: ISetBalanceOptions) => {
     const { value, handler } = options;
 
     return () => {
@@ -265,7 +265,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
         handler(value);
       }
     };
-  };
+  }; */
 
   /*const renderBalance = () => {
     const balanceText = `${formatAssetDisplayValue(formattedBalance?.getValue())} ${tokenLabel}`;
@@ -288,7 +288,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     return balanceText;
   };*/
 
-  const renderUserShares = () => {
+  /*const renderUserShares = () => {
     const value = (formattedUserShares || new BigDecimal(0)).round(decimals);
 
     const userShareValue = formattedUserShares?.getValue();
@@ -309,7 +309,7 @@ const Vault: React.FC<IVaultProps> = (props) => {
     }
 
     return userShareText;
-  };
+  };*/
 
   const renderDropdownBodyContent = () => {
     if (!isSignerAvailable) {
