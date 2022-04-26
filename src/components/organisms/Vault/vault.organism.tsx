@@ -5,18 +5,13 @@ import { Col, Row } from "react-bootstrap";
 import { Trans } from "@lingui/macro";
 import Typography from "../../atoms/Typography/typography.atom";
 import { EColor } from "../../../shared/types/styles.types";
-// import Button from "../../atoms/Button/button.atom";
 import { classes } from "../../../shared/utils/styles.util";
 import Separator from "../../atoms/Separator/separator.atom";
 import Link from "../../atoms/Link/link.atom";
 import { ETypographyVariant } from "../../atoms/Typography/typography.atom.types";
-// import Input from "../../atoms/Input/input.atom";
-// import Slider from "../../atoms/Slider/slider.atom";
-// import { EInputType } from "../../atoms/Input/input.atom.types";
 import Web3Util from "../../../shared/utils/web3.util";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  // approveTokenSpending,
   fetchTokenApprovedAmount
 } from "../../../redux/tokens/tokens.redux.actions";
 import { RootState } from "../../../redux/redux.types";
@@ -24,28 +19,16 @@ import { createLoadingSelector } from "../../../redux/loading/loading.redux.redu
 import ActionUtil from "../../../shared/utils/action.util";
 import { ETokenReduxActions } from "../../../redux/tokens/tokens.redux.types";
 import {
-  // depositAssetsIntoVault,
   fetchUserVaultShares,
   fetchVaultDetails,
   fetchVaultTvl,
-  // withdrawAssetsFromVault
 } from "../../../redux/vaults/vaults.redux.actions";
 import {
-  // formatAssetDisplayValue,
-  // hasMoreDecimalsThan,
-  // isBigDecimalGt,
-  // isEmptyValue,
+
   isZero
 } from "../../../shared/utils/common.util";
 import { EVaultReduxActions, IVaultReduxState } from "../../../redux/vaults/vaults.redux.types";
-// import { parseUnits } from "ethers/lib/utils";
-// import {
-// formattedTokenToShare,
-// getMaxDepositAmount,
-// getShareInFormattedToken,
-// } from "../../../shared/utils/vault.util";
-// import BigDecimal from "js-big-decimal";
-// import { BigNumber } from "ethers";
+
 import { tokenLabels } from "../../../shared/constants/web3.constants";
 import VaultHeader from "../../molecules/VaultHeader/vaultHeader.molecule";
 import DepositForm from "../../molecules/DepositForm/depositForm.molecule";
@@ -136,8 +119,6 @@ const Vault: React.FC<IVaultProps> = (props) => {
       setIsOpen(prevState => !prevState);
     }
   };
-
-  // const sliderMarks = [1, 25, 50, 75, 100];
 
   /* const getIsEnoughTokensApproved = () => {
     if (depositValue.actual && amountApproved && decimals) {
