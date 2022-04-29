@@ -17,7 +17,6 @@ import { getMaxDepositAmount } from "../../../shared/utils/vault.util";
 import { depositAssetsIntoVault } from "../../../redux/vaults/vaults.redux.actions";
 import { parseUnits } from "ethers/lib/utils";
 import { approveTokenSpending } from "../../../redux/tokens/tokens.redux.actions";
-import { IDepositFormProps } from "./depositForm.molecule.types";
 import { RootState } from "../../../redux/redux.types";
 import ActionUtil from "../../../shared/utils/action.util";
 import { ETokenReduxActions, ITokenReduxState } from "../../../redux/tokens/tokens.redux.types";
@@ -26,8 +25,9 @@ import { Nullable } from "../../../shared/types/util.types";
 import { EVaultReduxActions, IVaultReduxState } from "../../../redux/vaults/vaults.redux.types";
 import styles from "./depositForm.molecule.module.scss";
 import { tokenLabels } from "../../../shared/constants/web3.constants";
+import { IVaultForm } from "../../../shared/types/vault.types";
 
-const DepositForm: React.FC<IDepositFormProps> = (props) => {
+const DepositForm: React.FC<IVaultForm> = (props) => {
   const {
     token,
     account,

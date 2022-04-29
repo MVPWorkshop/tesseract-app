@@ -23,9 +23,9 @@ import { Nullable } from "../../../shared/types/util.types";
 import { withdrawAssetsFromVault } from "../../../redux/vaults/vaults.redux.actions";
 import { BigNumber } from "ethers";
 import styles from "./withdrawFrom.molecule.module.scss";
-import { IWithdrawFormProps } from "./withdrawForm.molecule.types";
+import { IVaultForm } from "../../../shared/types/vault.types";
 
-const WithdrawForm: React.FC<IWithdrawFormProps> = (props) => {
+const WithdrawForm: React.FC<IVaultForm> = (props) => {
   const {
     token,
     account,
