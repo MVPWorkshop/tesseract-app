@@ -145,15 +145,6 @@
 
       .content {
         padding-bottom: 45px;
-
-        .balanceLabel { // TODO: check if this needs to be moved
-          cursor: pointer;
-          text-decoration: underline;
-
-          &:hover {
-            color: map-get($accents, "primary");
-          }
-        }
       }
     }
   }
