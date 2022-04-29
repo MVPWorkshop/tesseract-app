@@ -25,7 +25,7 @@ msgstr "APY"
 msgid "Add liquidity"
 msgstr "Add liquidity"
 
-#: src/components/organisms/Vault/vault.organism.tsx:412
+#: src/components/molecules/DepositForm/depositForm.molecule.tsx:202
 msgid "Approve"
 msgstr "Approve"
 
@@ -41,12 +41,12 @@ msgstr "Approve connecting with {0}"
 #~ msgid "Available to stake"
 #~ msgstr "Available to stake"
 
-#: src/components/organisms/Vault/vault.organism.tsx:431
+#: src/components/molecules/WithdrawForm/withdrawForm.molecule.tsx:145
 msgid "Available to withdraw"
 msgstr "Available to withdraw"
 
+#: src/components/molecules/DepositForm/depositForm.molecule.tsx:171
 #: src/components/molecules/VaultHeader/vaultHeader.molecule.tsx:116
-#: src/components/organisms/Vault/vault.organism.tsx:381
 msgid "Balance"
 msgstr "Balance"
 
@@ -74,15 +74,15 @@ msgstr "Copied!"
 msgid "Copy address"
 msgstr "Copy address"
 
-#: src/components/organisms/Vault/vault.organism.tsx:423
+#: src/components/molecules/DepositForm/depositForm.molecule.tsx:213
 msgid "Deposit"
 msgstr "Deposit"
 
-#: src/components/organisms/Vault/vault.organism.tsx:334
+#: src/components/organisms/Vault/vault.organism.tsx:122
 msgid "Deposit limit reached, stay tuned till we increase the limit again"
 msgstr "Deposit limit reached, stay tuned till we increase the limit again"
 
-#: src/components/organisms/Vault/vault.organism.tsx:345
+#: src/components/organisms/Vault/vault.organism.tsx:133
 msgid "Deposit {tokenLabel} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield."
 msgstr "Deposit {tokenLabel} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield."
 
@@ -150,7 +150,7 @@ msgstr "Join the community"
 msgid "Launch app"
 msgstr "Launch app"
 
-#: src/components/organisms/Vault/vault.organism.tsx:355
+#: src/components/organisms/Vault/vault.organism.tsx:143
 msgid "Link to contract"
 msgstr "Link to contract"
 
@@ -162,7 +162,7 @@ msgstr "Loading"
 msgid "Loading Vaults, this will take some time, please don't refresh..."
 msgstr "Loading Vaults, this will take some time, please don't refresh..."
 
-#: src/components/organisms/Vault/vault.organism.tsx:493
+#: src/components/organisms/Vault/vault.organism.tsx:198
 msgid "NEW"
 msgstr "NEW"
 
@@ -174,7 +174,7 @@ msgstr "No ethereum provider found, please install it"
 msgid "No provider"
 msgstr "No provider"
 
-#: src/components/organisms/Vault/vault.organism.tsx:494
+#: src/components/organisms/Vault/vault.organism.tsx:199
 msgid "OLD"
 msgstr "OLD"
 
@@ -236,7 +236,7 @@ msgstr "This app supports {wantedNetworkLabel}. Your wallet is currently on"
 #~ msgid "This app supports{0}. You are currently on unsupported network"
 #~ msgstr "This app supports{0}. You are currently on unsupported network"
 
-#: src/components/organisms/Vault/vault.organism.tsx:366
+#: src/components/organisms/Vault/vault.organism.tsx:154
 msgid "This vault is being retired. A new, better, more optimised vault is coming in its place. Please withdraw your assets below by clicking \"withdraw all\" and deposit them to the <0>new</0> vault."
 msgstr "This vault is being retired. A new, better, more optimised vault is coming in its place. Please withdraw your assets below by clicking \"withdraw all\" and deposit them to the <0>new</0> vault."
 
@@ -288,7 +288,7 @@ msgstr "Waiting for confirmations"
 msgid "Wallet"
 msgstr "Wallet"
 
-#: src/components/organisms/Vault/vault.organism.tsx:321
+#: src/components/organisms/Vault/vault.organism.tsx:109
 msgid "Wallet connection required"
 msgstr "Wallet connection required"
 
@@ -296,11 +296,11 @@ msgstr "Wallet connection required"
 msgid "Wallet connection to {0} required"
 msgstr "Wallet connection to {0} required"
 
-#: src/components/organisms/Vault/vault.organism.tsx:462
+#: src/components/molecules/WithdrawForm/withdrawForm.molecule.tsx:176
 msgid "Withdraw"
 msgstr "Withdraw"
 
-#: src/components/organisms/Vault/vault.organism.tsx:474
+#: src/components/molecules/WithdrawForm/withdrawForm.molecule.tsx:188
 msgid "Withdraw all"
 msgstr "Withdraw all"
 
