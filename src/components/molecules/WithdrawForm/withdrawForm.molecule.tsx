@@ -106,7 +106,7 @@ const WithdrawForm: React.FC<IVaultForm> = (props) => {
 
   const withdrawAssets = (withdrawAll: boolean) => () => {
     if (withdrawAll && !isWithdrawAllAssetsDisabled) {
-      const amountToWithdraw = -1; // Deposit all
+      const amountToWithdraw = -1; // Withdraw all
       dispatch(withdrawAssetsFromVault(token, vaultAddress!, account!, amountToWithdraw, signer!, chainId));
     } else if (!isWithdrawSomeAssetsDisabled) {
       const amountToWithdraw = formattedTokenToShare(withdrawValue.actual.getValue(), vaultData!.sharePrice!, decimals!);
