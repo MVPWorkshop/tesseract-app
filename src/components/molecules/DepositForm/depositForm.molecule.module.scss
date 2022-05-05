@@ -1,0 +1,17 @@
+@import "src/shared/styles/variables";
+
+// TODO: since this is similar to withdraw form balance label
+// this can be extracted as an atom component
+.balanceLabel {
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover {
+    color: map-get($accents, "primary");
+  }
+}
+
+.actionButton {
+  min-width: 160px;
+}
+

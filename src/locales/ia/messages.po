@@ -25,7 +25,7 @@ msgstr "APY"
 msgid "Add liquidity"
 msgstr ""
 
-#: src/components/organisms/Vault/vault.organism.tsx:412
+#: src/components/molecules/DepositForm/depositForm.molecule.tsx:202
 msgid "Approve"
 msgstr "Utvrdi"
 
@@ -41,12 +41,12 @@ msgstr "Utvrditi sjedinjenje sò {0}"
 #~ msgid "Available to stake"
 #~ msgstr "Možeš stavjati na"
 
-#: src/components/organisms/Vault/vault.organism.tsx:431
+#: src/components/molecules/WithdrawForm/withdrawForm.molecule.tsx:145
 msgid "Available to withdraw"
 msgstr "Dostųpno k zabranju"
 
+#: src/components/molecules/DepositForm/depositForm.molecule.tsx:171
 #: src/components/molecules/VaultHeader/vaultHeader.molecule.tsx:116
-#: src/components/organisms/Vault/vault.organism.tsx:381
 msgid "Balance"
 msgstr "Saldo"
 
@@ -74,15 +74,15 @@ msgstr "Kopija stvorjena!"
 msgid "Copy address"
 msgstr "Kopiovati adresų"
 
-#: src/components/organisms/Vault/vault.organism.tsx:423
+#: src/components/molecules/DepositForm/depositForm.molecule.tsx:213
 msgid "Deposit"
 msgstr "Depozit"
 
-#: src/components/organisms/Vault/vault.organism.tsx:334
+#: src/components/organisms/Vault/vault.organism.tsx:122
 msgid "Deposit limit reached, stay tuned till we increase the limit again"
 msgstr ""
 
-#: src/components/organisms/Vault/vault.organism.tsx:345
+#: src/components/organisms/Vault/vault.organism.tsx:133
 msgid "Deposit {tokenLabel} token into this vault and we will put it to good use. Lay back and watch it compound while we deploy the best strategies to generate yield."
 msgstr "Stvori depozit s {tokenLabel} vò tutoj valutě a my bųdemo njejų dobro vladati. Odpočivaj i ględaj kako jej cěnnosť råste - my bųdemo aplikovati najdobre strategije daby tvoriti dohod."
 
@@ -150,7 +150,7 @@ msgstr "Prihodite do našej grupy"
 msgid "Launch app"
 msgstr "Aktivovati aplikacijų"
 
-#: src/components/organisms/Vault/vault.organism.tsx:355
+#: src/components/organisms/Vault/vault.organism.tsx:143
 msgid "Link to contract"
 msgstr "Link do kontrakta"
 
@@ -162,7 +162,7 @@ msgstr "Čitanje"
 msgid "Loading Vaults, this will take some time, please don't refresh..."
 msgstr ""
 
-#: src/components/organisms/Vault/vault.organism.tsx:493
+#: src/components/organisms/Vault/vault.organism.tsx:198
 msgid "NEW"
 msgstr ""
 
@@ -174,7 +174,7 @@ msgstr "My ne našli jesmo podavatelja ethereum, prosimo, instalujte jego"
 msgid "No provider"
 msgstr "Nedostatòk podavatelja"
 
-#: src/components/organisms/Vault/vault.organism.tsx:494
+#: src/components/organisms/Vault/vault.organism.tsx:199
 msgid "OLD"
 msgstr ""
 
@@ -236,7 +236,7 @@ msgstr "Ta aplikacija poddrživa{wantedNetworkLabel}.  Aktualno ty jesi na nepod
 #~ msgid "This app supports{0}. You are currently on unsupported network"
 #~ msgstr "Ta aplikacija poddrživa{0}.  Aktualno ty jesi na nepoddrživanoj mrěži."
 
-#: src/components/organisms/Vault/vault.organism.tsx:366
+#: src/components/organisms/Vault/vault.organism.tsx:154
 msgid "This vault is being retired. A new, better, more optimised vault is coming in its place. Please withdraw your assets below by clicking \"withdraw all\" and deposit them to the <0>new</0> vault."
 msgstr ""
 
@@ -288,7 +288,7 @@ msgstr "Čěkanje na potvrdženja"
 msgid "Wallet"
 msgstr "Portmone"
 
-#: src/components/organisms/Vault/vault.organism.tsx:321
+#: src/components/organisms/Vault/vault.organism.tsx:109
 msgid "Wallet connection required"
 msgstr "Potrěbno jest sjedinjenje portmone"
 
@@ -296,11 +296,11 @@ msgstr "Potrěbno jest sjedinjenje portmone"
 msgid "Wallet connection to {0} required"
 msgstr "Potrěbno jest sjedinjenje portmone s {0}"
 
-#: src/components/organisms/Vault/vault.organism.tsx:462
+#: src/components/molecules/WithdrawForm/withdrawForm.molecule.tsx:176
 msgid "Withdraw"
 msgstr "Zabrati"
 
-#: src/components/organisms/Vault/vault.organism.tsx:474
+#: src/components/molecules/WithdrawForm/withdrawForm.molecule.tsx:188
 msgid "Withdraw all"
 msgstr "Zabrati vsečto"
 

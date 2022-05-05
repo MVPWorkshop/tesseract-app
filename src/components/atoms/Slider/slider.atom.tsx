@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { ISliderProps } from "./slider.atom.types";
 import RcSlider, { SliderProps as RcSliderProps } from "rc-slider";
-import styles from "./slider.atom.module.scss";
 import "rc-slider/assets/index.css";
+import styles from "./slider.atom.module.scss";
 import { classes } from "../../../shared/utils/styles.util";
 
 const Slider: FC<ISliderProps> = (props) => {
@@ -28,7 +28,7 @@ const Slider: FC<ISliderProps> = (props) => {
     return formattedMarks;
   };
 
-  return(
+  return (
     <div className={classes(styles.slider, className)}>
       <RcSlider
         marks={formatMarks()}
