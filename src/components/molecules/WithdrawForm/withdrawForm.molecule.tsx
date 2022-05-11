@@ -171,7 +171,7 @@ const WithdrawForm: React.FC<IVaultForm> = (props) => {
             className={styles.actionButton}
             disabled={isWithdrawSomeAssetsDisabled || isDepositingAssets || isWithdrawingAllAssets}
             loading={isWithdrawingAssets}
-            onClick={withdrawAssets(false)}
+            onClick={withdrawAssets(withdrawValue.percent === 100)}
           >
             <Trans>Withdraw</Trans>
           </Button>
