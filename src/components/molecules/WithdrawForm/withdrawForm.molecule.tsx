@@ -68,7 +68,7 @@ const WithdrawForm: React.FC<IVaultForm> = (props) => {
 
 
   const renderUserShares = () => {
-    const value = (depositedValue || new BigDecimal(0)).round(decimals);
+    const value = (depositedValue || new BigDecimal(0)).round(decimals, BigDecimal.RoundingModes.DOWN);
 
     const userShareValue = formattedUserShares?.getValue();
     const userShareText = `${userShareValue} ${tokenLabel}`;
@@ -98,7 +98,7 @@ const WithdrawForm: React.FC<IVaultForm> = (props) => {
       (depositedValue || new BigDecimal(0))
         .multiply(new BigDecimal(percentage))
         .divide(new BigDecimal(100), 64)
-        .round(decimals);
+        .round(decimals, BigDecimal.RoundingModes.DOWN);
 
     setWithdrawValue({
       actual: value,
