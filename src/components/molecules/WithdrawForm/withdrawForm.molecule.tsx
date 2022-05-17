@@ -60,13 +60,15 @@ const WithdrawForm: React.FC<IVaultForm> = (props) => {
   // TODO - move to a common function
   const tokenLabel = (tokenLabels[token] && tokenLabels[token][chainId]) ? tokenLabels[token][chainId] : token;
   const sliderMarks = [1, 25, 50, 75, 100];
-  const formattedUserShares = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInFormattedToken(vaultData.userShares, vaultData.sharePrice, decimals).round(6) : null;
+  const depositedValue = (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) ? getShareInFormattedToken(vaultData.userShares, vaultData.sharePrice, decimals) : null;
+  const formattedUserShares = depositedValue ? depositedValue.round(6) : null;
+
   const isWithdrawAllAssetsDisabled = !(vaultAddress && account && chainId && !!signer);
   const isWithdrawSomeAssetsDisabled = isWithdrawAllAssetsDisabled || !(isBigDecimalGt(withdrawValue.actual, new BigDecimal(0)) && decimals && vaultData?.sharePrice);
 
 
   const renderUserShares = () => {
-    const value = (formattedUserShares || new BigDecimal(0)).round(decimals);
+    const value = (depositedValue || new BigDecimal(0)).round(decimals, BigDecimal.RoundingModes.DOWN);
 
     const userShareValue = formattedUserShares?.getValue();
     const userShareText = `${userShareValue} ${tokenLabel}`;
@@ -93,10 +95,10 @@ const WithdrawForm: React.FC<IVaultForm> = (props) => {
 
   const onWithdrawPercentageChange = (percentage: number) => {
     const value =
-      (formattedUserShares || new BigDecimal(0))
+      (depositedValue || new BigDecimal(0))
         .multiply(new BigDecimal(percentage))
         .divide(new BigDecimal(100), 64)
-        .round(decimals);
+        .round(decimals, BigDecimal.RoundingModes.DOWN);
 
     setWithdrawValue({
       actual: value,

@@ -3,37 +3,37 @@ import { useSelector } from "react-redux";
 import BigDecimal from "js-big-decimal";
 import { i18n } from "@lingui/core";
 import { t } from "@lingui/macro";
-import {tokenIcons, tokenTypes, assetTypeLabel} from "../../../shared/constants/common.constants";
+import { tokenIcons, tokenTypes, assetTypeLabel } from "../../../shared/constants/common.constants";
 import { tokenLabels } from "../../../shared/constants/web3.constants";
-import {formatAssetDisplayValue} from "../../../shared/utils/common.util";
+import { formatAssetDisplayValue } from "../../../shared/utils/common.util";
 import InfoBox from "../../atoms/InfoBox/infoBox.atom";
-import {getShareInFormattedToken, getTokenInUSD} from "../../../shared/utils/vault.util";
-import {RootState} from "../../../redux/redux.types";
-import {ITokenReduxState} from "../../../redux/tokens/tokens.redux.types";
+import { getShareInFormattedToken, getShareInUSD, getTokenInUSD } from "../../../shared/utils/vault.util";
+import { RootState } from "../../../redux/redux.types";
+import { ITokenReduxState } from "../../../redux/tokens/tokens.redux.types";
 import Web3Util from "../../../shared/utils/web3.util";
 import TokenDetail from "../../atoms/TokenDetail/tokenDetail.atom";
 import styles from "./vaultHeader.molecule.module.scss";
-import {IVaultHeader} from "./vaultHeader.molecule.types";
+import { IVaultHeader } from "./vaultHeader.molecule.types";
 
 
 const VaultHeader: React.FC<IVaultHeader> = (props) => {
-  const {onClick, token, chainId, vaultData, loading} = props;
+  const { onClick, token, chainId, vaultData, loading } = props;
   const {
     decimals,
     priceUSD,
     balance,
   } = useSelector<RootState, ITokenReduxState>(state => state.tokens[token]);
-  
+
   const tokenLogo = tokenIcons[token];
   const buyTokenUrl = Web3Util.getDexUrl(token, chainId, tokenTypes[token]);
   const vaultAPY = (vaultData && vaultData.apy) ? (new BigDecimal(vaultData.apy * 100)) : null;
   const apy = formatAssetDisplayValue(vaultAPY?.round(2).getValue());
-  
+
   const getFormattedUserShares = () => {
     if (vaultData && vaultData.userShares && vaultData.sharePrice && decimals) {
       const formattedUserShares = getShareInFormattedToken(
-        vaultData.userShares, 
-        vaultData.sharePrice, 
+        vaultData.userShares,
+        vaultData.sharePrice,
         decimals
       ).round(6);
 
@@ -73,16 +73,17 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
   const getFormattedBalanceInUSD = () => {
     if (balance && priceUSD && decimals) {
       const depositValue = getTokenInUSD(balance, priceUSD, decimals);
-      return formatAssetDisplayValue(depositValue?.getValue(), {humanize: true});
+      return formatAssetDisplayValue(depositValue?.getValue(), { humanize: true });
     }
 
     return null;
   };
 
   const getDepositedValueInUSD = () => {
-    if (vaultData?.userShares && priceUSD && decimals) {
-      const depositValue = getTokenInUSD(vaultData?.userShares, priceUSD, decimals);
-      return formatAssetDisplayValue(depositValue?.getValue(), {humanize: true});
+    if (vaultData?.userShares && vaultData?.sharePrice && priceUSD && decimals) {
+      const { userShares, sharePrice } = vaultData;
+      const depositValue = getShareInUSD(userShares?.toString(), sharePrice?.toString(), priceUSD, decimals);
+      return formatAssetDisplayValue(depositValue?.getValue(), { humanize: true });
     }
 
     return null;
@@ -110,24 +111,24 @@ const VaultHeader: React.FC<IVaultHeader> = (props) => {
         />
       </div>
       <div className={styles.tokenDataColumn}>
-        <InfoBox 
+        <InfoBox
           header={getHeaderValue(formattedBalance, getFormattedBalanceInUSD())}
-          value={formattedBalance} 
+          value={formattedBalance}
           footer={i18n._(t`Balance`)}
           loading={loading}
         />
       </div>
       <div className={styles.tokenDataColumn}>
-        <InfoBox 
+        <InfoBox
           header={getHeaderValue(formattedUserShares, getDepositedValueInUSD())}
-          value={formattedUserShares} 
+          value={formattedUserShares}
           footer={i18n._(t`Deposited`)}
           loading={loading}
         />
       </div>
       <div className={styles.tokenDataColumn}>
-        <InfoBox 
-          value={`${apy}%`} 
+        <InfoBox
+          value={`${apy}%`}
           footer={i18n._(t`APY`)}
           loading={loading}
         />
