@@ -5,6 +5,8 @@ import { classes } from "../../../shared/utils/styles.util";
 import styles from "./page.organism.module.scss";
 import Header from "../Header/header.organism";
 import Footer from "../Footer/footer.organism";
+import Link from "../../atoms/Link/link.atom";
+import { ReactComponent as WarningIconSVG } from "../../../shared/assets/warning.svg";
 
 const PageOrganism: React.FC<IPageProps> = (props) => {
 
@@ -20,6 +22,16 @@ const PageOrganism: React.FC<IPageProps> = (props) => {
 
   return (
     <Fragment>
+      <div className={styles.shutdownRibbon}>
+        <WarningIconSVG/>&nbsp;
+        Tesseract Finance will be shutting down.
+        You can find more details&nbsp;
+        <Link
+          link="https://twitter.com/tesseract_fi/status/1531322228188581888"
+        >
+          here
+        </Link>
+      </div>
       {!disableHeader && <Header type={headerType}/>}
       <Container
         {...otherProps}
